@@ -1,0 +1,18 @@
+/**
+ */
+package ad2petritraceability;
+
+import org.eclipse.emf.ecore.EObject;
+
+/**
+ * <!-- begin-user-doc -->
+ * A representation of the model object '<em><b>Trace</b></em>'.
+ * <!-- end-user-doc -->
+ *
+ *
+ * @see ad2petritraceability.Ad2petritraceabilityPackage#getTrace()
+ * @model abstract="true"
+ * @generated
+ */
+public interface Trace extends EObject {
+} // Trace

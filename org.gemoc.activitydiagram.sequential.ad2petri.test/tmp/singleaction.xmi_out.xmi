@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="ASCII"?>
+<petrinetv1:Net xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:petrinetv1="petrinetv1">
+  <places name="init_initial" initialTokens="1"/>
+  <places name="singleaction_action"/>
+  <transitions input="//@places.1" name="final_final"/>
+  <transitions input="//@places.0" output="//@places.1" name="control1_controlflow"/>
+</petrinetv1:Net>

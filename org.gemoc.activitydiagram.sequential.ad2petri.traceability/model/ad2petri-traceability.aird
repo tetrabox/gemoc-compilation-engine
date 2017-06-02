@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:description="http://www.eclipse.org/sirius/description/1.1.0" xmlns:description_1="http://www.eclipse.org/sirius/diagram/description/1.1.0" xmlns:diagram="http://www.eclipse.org/sirius/diagram/1.1.0" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmlns:style="http://www.eclipse.org/sirius/diagram/description/style/1.1.0" xmlns:viewpoint="http://www.eclipse.org/sirius/1.1.0" xsi:schemaLocation="http://www.eclipse.org/sirius/description/1.1.0 http://www.eclipse.org/sirius/1.1.0#//description http://www.eclipse.org/sirius/diagram/description/1.1.0 http://www.eclipse.org/sirius/diagram/1.1.0#//description http://www.eclipse.org/sirius/diagram/description/style/1.1.0 http://www.eclipse.org/sirius/diagram/1.1.0#//description/style">
+  <viewpoint:DAnalysis xmi:id="_km7qEEbKEeeILPLnDgxCcQ" selectedViews="_lA_v4EbKEeeILPLnDgxCcQ _lBPngEbKEeeILPLnDgxCcQ _lBRcsEbKEeeILPLnDgxCcQ _lBXjUEbKEeeILPLnDgxCcQ" version="11.1.0.201608251200">
+    <semanticResources>ad2petri-traceability.ecore</semanticResources>
+    <semanticResources>platform:/resource/fr.inria.diverse.sample.petrinetv1.model/model/petrinetv1.ecore</semanticResources>
+    <semanticResources>http://www.eclipse.org/emf/2002/Ecore</semanticResources>
+    <semanticResources>platform:/resource/org.gemoc.activitydiagram.sequential.model/ad/activitydiagram.ecore</semanticResources>
+    <ownedViews xmi:type="viewpoint:DView" xmi:id="_lA_v4EbKEeeILPLnDgxCcQ">
+      <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']"/>
+      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" xmi:id="_lrp2cEbKEeeILPLnDgxCcQ" name=" class diagram" representation="_lrqdgEbKEeeILPLnDgxCcQ">
+        <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']"/>
+        <target xmi:type="ecore:EPackage" href="ad2petri-traceability.ecore#/"/>
+      </ownedRepresentationDescriptors>
+    </ownedViews>
+    <ownedViews xmi:type="viewpoint:DView" xmi:id="_lBPngEbKEeeILPLnDgxCcQ">
+      <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Review']"/>
+    </ownedViews>
+    <ownedViews xmi:type="viewpoint:DView" xmi:id="_lBRcsEbKEeeILPLnDgxCcQ">
+      <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Archetype']"/>
+    </ownedViews>
+    <ownedViews xmi:type="viewpoint:DView" xmi:id="_lBXjUEbKEeeILPLnDgxCcQ">
+      <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Generation']"/>
+    </ownedViews>
+  </viewpoint:DAnalysis>
+  <diagram:DSemanticDiagram xmi:id="_lrqdgEbKEeeILPLnDgxCcQ" name=" class diagram">
+    <ownedAnnotationEntries xmi:type="description:AnnotationEntry" xmi:id="_lrqdgUbKEeeILPLnDgxCcQ" source="DANNOTATION_CUSTOMIZATION_KEY">
+      <data xmi:type="diagram:ComputedStyleDescriptionRegistry" xmi:id="_lrqdgkbKEeeILPLnDgxCcQ"/>
+    </ownedAnnotationEntries>
+    <ownedAnnotationEntries xmi:type="description:AnnotationEntry" xmi:id="_lsKMwEbKEeeILPLnDgxCcQ" source="GMF_DIAGRAMS">
+      <data xmi:type="notation:Diagram" xmi:id="_lsKMwUbKEeeILPLnDgxCcQ" type="Sirius" element="_lrqdgEbKEeeILPLnDgxCcQ" measurementUnit="Pixel">
+        <children xmi:type="notation:Node" xmi:id="_rXhNEEbKEeeILPLnDgxCcQ" type="2003" element="_rW9zcEbKEeeILPLnDgxCcQ">
+          <children xmi:type="notation:Node" xmi:id="_rXmsoEbKEeeILPLnDgxCcQ" type="5007"/>
+          <children xmi:type="notation:Node" xmi:id="_rXpI4EbKEeeILPLnDgxCcQ" type="7004">
+            <styles xmi:type="notation:SortingStyle" xmi:id="_rXpI4UbKEeeILPLnDgxCcQ"/>
+            <styles xmi:type="notation:FilteringStyle" xmi:id="_rXpv8EbKEeeILPLnDgxCcQ"/>
+          </children>
+          <styles xmi:type="notation:ShapeStyle" xmi:id="_rXhNEUbKEeeILPLnDgxCcQ" fontName="Cantarell" fontHeight="8"/>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_rXhNEkbKEeeILPLnDgxCcQ" x="265" y="25" width="120" height="100"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_tmEvUEbKEeeILPLnDgxCcQ" type="2003" element="_tl5wMEbKEeeILPLnDgxCcQ">
+          <children xmi:type="notation:Node" xmi:id="_tmF9cEbKEeeILPLnDgxCcQ" type="5007"/>
+          <children xmi:type="notation:Node" xmi:id="_tmF9cUbKEeeILPLnDgxCcQ" type="7004">
+            <styles xmi:type="notation:SortingStyle" xmi:id="_tmF9ckbKEeeILPLnDgxCcQ"/>
+            <styles xmi:type="notation:FilteringStyle" xmi:id="_tmF9c0bKEeeILPLnDgxCcQ"/>
+          </children>
+          <styles xmi:type="notation:ShapeStyle" xmi:id="_tmEvUUbKEeeILPLnDgxCcQ" fontName="Cantarell" fontHeight="8"/>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_tmEvUkbKEeeILPLnDgxCcQ" x="95" y="155" width="120" height="100"/>
+        </children>
+        <styles xmi:type="notation:DiagramStyle" xmi:id="_lsKMwkbKEeeILPLnDgxCcQ"/>
+      </data>
+    </ownedAnnotationEntries>
+    <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_rW9zcEbKEeeILPLnDgxCcQ" name="Ad2petriTraceability" tooltipText="" width="12" height="10">
+      <target xmi:type="ecore:EClass" href="ad2petri-traceability.ecore#//Ad2petriTraceability"/>
+      <semanticElements xmi:type="ecore:EClass" href="ad2petri-traceability.ecore#//Ad2petriTraceability"/>
+      <arrangeConstraints>KEEP_LOCATION</arrangeConstraints>
+      <arrangeConstraints>KEEP_SIZE</arrangeConstraints>
+      <arrangeConstraints>KEEP_RATIO</arrangeConstraints>
+      <ownedStyle xmi:type="diagram:FlatContainerStyle" xmi:id="_rXJZoEbKEeeILPLnDgxCcQ" borderSize="1" borderSizeComputationExpression="1" backgroundStyle="Liquid" foregroundColor="255,252,216">
+        <description xmi:type="style:FlatContainerStyleDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@style"/>
+      </ownedStyle>
+      <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']"/>
+    </ownedDiagramElements>
+    <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_tl5wMEbKEeeILPLnDgxCcQ" name="ActionTrace" tooltipText="" width="12" height="10">
+      <target xmi:type="ecore:EClass" href="ad2petri-traceability.ecore#//ActionTrace"/>
+      <semanticElements xmi:type="ecore:EClass" href="ad2petri-traceability.ecore#//ActionTrace"/>
+      <arrangeConstraints>KEEP_LOCATION</arrangeConstraints>
+      <arrangeConstraints>KEEP_SIZE</arrangeConstraints>
+      <arrangeConstraints>KEEP_RATIO</arrangeConstraints>
+      <ownedStyle xmi:type="diagram:FlatContainerStyle" xmi:id="_tl6-UEbKEeeILPLnDgxCcQ" borderSize="1" borderSizeComputationExpression="1" backgroundStyle="Liquid" foregroundColor="255,252,216">
+        <description xmi:type="style:FlatContainerStyleDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@style"/>
+      </ownedStyle>
+      <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']"/>
+    </ownedDiagramElements>
+    <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']"/>
+    <filterVariableHistory xmi:type="diagram:FilterVariableHistory" xmi:id="_lrqdg0bKEeeILPLnDgxCcQ"/>
+    <activatedLayers xmi:type="description_1:Layer" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer"/>
+    <activatedLayers xmi:type="description_1:AdditionalLayer" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@additionalLayers[name='Package']"/>
+    <activatedLayers xmi:type="description_1:AdditionalLayer" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@additionalLayers[name='Validation']"/>
+    <activatedLayers xmi:type="description_1:AdditionalLayer" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Archetype']/@ownedRepresentationExtensions[name='Entities%20With%20Archetypes']/@layers[name='Archetypes']"/>
+    <target xmi:type="ecore:EPackage" href="ad2petri-traceability.ecore#/"/>
+  </diagram:DSemanticDiagram>
+</xmi:XMI>
