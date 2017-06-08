@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>org.gemoc.activitydiagram.sequential.ad2petri.feedback</name>
+	<name>org.gemoc.execution.feedbackengine</name>
 	<comment></comment>
 	<projects>
 	</projects>

@@ -14,10 +14,10 @@ import org.gemoc.xdsmlframework.api.core.IExecutionEngine
 import org.gemoc.xdsmlframework.api.core.IRunConfiguration
 import org.gemoc.xdsmlframework.api.engine_addon.DefaultEngineAddon
 import fr.inria.diverse.sample.xpetrinetv1.petrinetv1.Transition
-import org.gemoc.execution.translationalengine.TranslationalInterpreter
-import org.gemoc.execution.translationalengine.TranslationalEngine
+import org.gemoc.execution.feedbackengine.FeedbackInterpreter
+//import org.gemoc.execution.feedbackengine.FeedbackEngine
 
-class Ad2PetriTranslationalInterpreter extends DefaultEngineAddon implements TranslationalInterpreter {
+class Ad2PetriTranslationalInterpreter extends DefaultEngineAddon implements FeedbackInterpreter {
 
 	/**
 	 * Mapping between source and target models.
@@ -32,8 +32,12 @@ class Ad2PetriTranslationalInterpreter extends DefaultEngineAddon implements Tra
 	/**
 	 * This is where we send our translated steps.
 	 */
-	private var TranslationalEngine translationalEngine
+	//private var FeedbackEngine translationalEngine
 
+	/**
+	 * TODO maybe all the compilation job could be done by the engine? the interpreter could focus on translating back
+	 * TODO maybe there could be 1 kind of translational engine per target engine? eg. JavaSlaveEngine (bad name)
+	 */
 	override initialize(Resource inputModel, IExecutionEngine translationalEngine) {
 		
 		// Compiling (generic)
