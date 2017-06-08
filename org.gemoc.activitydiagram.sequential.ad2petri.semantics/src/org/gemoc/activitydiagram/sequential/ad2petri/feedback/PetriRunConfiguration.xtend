@@ -1,4 +1,4 @@
-package org.gemoc.activitydiagram.sequential.ad2petri.semantics
+package org.gemoc.activitydiagram.sequential.ad2petri.feedback
 
 import java.util.ArrayList
 import java.util.List

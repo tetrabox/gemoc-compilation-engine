@@ -1,4 +1,4 @@
-package org.gemoc.activitydiagram.sequential.ad2petri.semantics
+package org.gemoc.activitydiagram.sequential.ad2petri.feedback
 
 import activitydiagram.Activity
 import ad2petritraceability.Ad2petriTraceability
@@ -17,7 +17,7 @@ import fr.inria.diverse.sample.xpetrinetv1.petrinetv1.Transition
 import org.gemoc.execution.feedbackengine.FeedbackInterpreter
 //import org.gemoc.execution.feedbackengine.FeedbackEngine
 
-class Ad2PetriTranslationalInterpreter extends DefaultEngineAddon implements FeedbackInterpreter {
+class Ad2PetriFeedbackInterpreter extends DefaultEngineAddon implements FeedbackInterpreter {
 
 	/**
 	 * Mapping between source and target models.
