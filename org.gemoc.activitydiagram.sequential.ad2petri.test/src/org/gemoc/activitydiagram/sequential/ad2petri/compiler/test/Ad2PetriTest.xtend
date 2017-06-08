@@ -1,10 +1,10 @@
-package org.gemoc.activitydiagram.sequential.ad2petri.test
+package org.gemoc.activitydiagram.sequential.ad2petri.compiler.test
 
 import activitydiagram.Activity
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
-import org.gemoc.activitydiagram.sequential.ad2petri.Ad2Petri
+import org.gemoc.activitydiagram.sequential.ad2petri.compiler.Ad2PetriCompiler
 import org.junit.Test
 
 class Ad2PetriTest {
@@ -14,10 +14,10 @@ class Ad2PetriTest {
 		val uri = URI::createFileURI(path)
 		val Resource resource = rs.getResource(uri, true)
 		val activity = resource.contents.head as Activity
-		val transf = new Ad2Petri(activity)
-		transf.transformToNet()
+		val transf = new Ad2PetriCompiler()
+		val result = transf.compile(activity)
 		val Resource output = rs.createResource(URI::createFileURI("tmp/" + uri.lastSegment + "_out.xmi"))
-		output.contents.add(transf.output)
+		output.contents.add(result.targetModelRoot)
 		output.save(null)
 	}
 

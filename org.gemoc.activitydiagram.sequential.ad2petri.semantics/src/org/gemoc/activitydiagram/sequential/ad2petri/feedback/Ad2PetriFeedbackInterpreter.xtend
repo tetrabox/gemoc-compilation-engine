@@ -3,18 +3,19 @@ package org.gemoc.activitydiagram.sequential.ad2petri.feedback
 import activitydiagram.Activity
 import ad2petritraceability.Ad2petriTraceability
 import fr.inria.diverse.sample.xpetrinetv1.petrinetv1.Net
+import fr.inria.diverse.sample.xpetrinetv1.petrinetv1.Transition
 import fr.inria.diverse.trace.commons.model.trace.Step
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.Resource
-import org.gemoc.activitydiagram.sequential.ad2petri.Ad2Petri
+import org.gemoc.activitydiagram.sequential.ad2petri.compiler.Ad2PetriCompiler
+import org.gemoc.execution.feedbackengine.FeedbackInterpreter
 import org.gemoc.execution.sequential.javaengine.PlainK3ExecutionEngine
 import org.gemoc.execution.sequential.javaengine.SequentialModelExecutionContext
 import org.gemoc.xdsmlframework.api.core.ExecutionMode
 import org.gemoc.xdsmlframework.api.core.IExecutionEngine
 import org.gemoc.xdsmlframework.api.core.IRunConfiguration
 import org.gemoc.xdsmlframework.api.engine_addon.DefaultEngineAddon
-import fr.inria.diverse.sample.xpetrinetv1.petrinetv1.Transition
-import org.gemoc.execution.feedbackengine.FeedbackInterpreter
+
 //import org.gemoc.execution.feedbackengine.FeedbackEngine
 
 class Ad2PetriFeedbackInterpreter extends DefaultEngineAddon implements FeedbackInterpreter {
@@ -42,16 +43,16 @@ class Ad2PetriFeedbackInterpreter extends DefaultEngineAddon implements Feedback
 		
 		// Compiling (generic)
 		val activity = inputModel.contents.head as Activity
-		val transf = new Ad2Petri(activity)
-		transf.transformToNet
-		this.mapping = transf.mapping
+		val transf = new Ad2PetriCompiler()
+		val result = transf.compile(activity)
+		this.mapping = result.traceabilityModelRoot as Ad2petriTraceability
 
 		// Saving the compilation result to temporary file (generic, except file extension)
 		val exeFolder = translationalEngine.executionContext.workspace.executionPath
 		val targetURI = URI::createPlatformResourceURI(exeFolder.toString + "/target.xmi", true)
 		val rs = inputModel.resourceSet
 		val targetResource = rs.createResource(targetURI)
-		targetResource.contents.add(transf.output)
+		targetResource.contents.add(result.targetModelRoot)
 		targetResource.save(null)
 
 		// Preparing target engine to run compiled model (specific to target language)

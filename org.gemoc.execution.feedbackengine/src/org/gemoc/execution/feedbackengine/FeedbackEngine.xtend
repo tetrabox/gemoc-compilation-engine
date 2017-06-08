@@ -34,8 +34,8 @@ class FeedbackEngine extends AbstractSequentialExecutionEngine {
 		// TODO UI to declaire/choose compiler and back-interpreter
 		// TODO code to instantiate chosen back interpreter and run it
 		// Should result in something like: 
-		// backInterpreter = new org.gemoc.activitydiagram.sequential.ad2petri.semantics.Ad2PetriTranslationalInterpreter
-		backInterpreter.initialize(executionContext.resourceModel, this)
+		// backInterpreter = new org.gemoc.activitydiagram.sequential.ad2petri.compiler.semantics.Ad2PetriTranslationalInterpreter
+		//backInterpreter.initialize(executionContext.resourceModel, this)
 	}
 
 	override engineKindName() {

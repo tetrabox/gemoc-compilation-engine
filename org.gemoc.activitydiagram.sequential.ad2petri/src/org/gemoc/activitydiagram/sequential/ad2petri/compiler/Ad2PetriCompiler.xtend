@@ -1,25 +1,26 @@
-package org.gemoc.activitydiagram.sequential.ad2petri
+package org.gemoc.activitydiagram.sequential.ad2petri.compiler
 
 import activitydiagram.Action
 import activitydiagram.Activity
 import activitydiagram.ControlFlow
 import activitydiagram.FinalNode
+import activitydiagram.ForkNode
 import activitydiagram.InitialNode
+import activitydiagram.JoinNode
 import ad2petritraceability.ActivityTrace
 import ad2petritraceability.Ad2petriTraceability
 import ad2petritraceability.Ad2petritraceabilityFactory
 import ad2petritraceability.ControlFlowTrace
 import ad2petritraceability.FinalNodeTrace
 import ad2petritraceability.ForkNodeTrace
+import ad2petritraceability.JoinNodeTrace
 import ad2petritraceability.NodeToPlaceTrace
 import ad2petritraceability.Trace
 import org.eclipse.emf.ecore.EObject
-import petrinetv1.PetrinetV1Factory
-import activitydiagram.JoinNode
-import ad2petritraceability.JoinNodeTrace
-import activitydiagram.ForkNode
-import org.eclipse.xtend.lib.annotations.Accessors
 import petrinetv1.Net
+import org.gemoc.execution.feedbackengine.Compiler
+import petrinetv1.PetrinetV1Factory
+import org.gemoc.execution.feedbackengine.CompilationResult
 
 /**
  * Input: subset of AD
@@ -29,21 +30,13 @@ import petrinetv1.Net
  * 
  * Output: basic petri nets, with one place per node (except final nodes)
  */
-class Ad2Petri {
+class Ad2PetriCompiler implements Compiler {
 
-	private val Activity input
+	private var Activity input
+	private var Ad2petriTraceability mapping
+	private var Net output
 
-	@Accessors(PROTECTED_SETTER,PUBLIC_GETTER)
-	val Ad2petriTraceability mapping = Ad2petritraceabilityFactory::eINSTANCE.createAd2petriTraceability
-
-	@Accessors(PROTECTED_SETTER,PUBLIC_GETTER)
-	var Net output
-
-	new(Activity input) {
-		this.input = input
-	}
-
-	public def void transformToNet() {
+	private def void transformToNet() {
 		transform(input)
 		output = mapping.activityTraces.findFirst[t|t.originalActivity == input].net
 	}
@@ -235,6 +228,13 @@ class Ad2Petri {
 
 	private def dispatch Trace transform(EObject o) {
 		throw new Exception("Unsupported kind of object: " + o)
+	}
+
+	override compile(EObject sourceModelRoot) {
+		mapping = Ad2petritraceabilityFactory::eINSTANCE.createAd2petriTraceability
+		input = sourceModelRoot as Activity
+		transformToNet()
+		return new CompilationResult(mapping, output)
 	}
 
 }
