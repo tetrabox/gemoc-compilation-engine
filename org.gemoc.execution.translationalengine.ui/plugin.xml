@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.debug.core.launchConfigurationTypes">
+      <launchConfigurationType
+            delegate="org.gemoc.execution.translationalengine.ui.launcher.Launcher"
+            id="rg.gemoc.execution.translationalengine.ui.launcher"
+            modes="run, debug"
+            name="Gemoc Compiled Executable Model"
+            public="true">
+      </launchConfigurationType>
+   </extension>
+   <extension
+         point="org.eclipse.debug.ui.launchConfigurationTabGroups">
+      <launchConfigurationTabGroup
+            class="org.gemoc.execution.translationalengine.ui.launcher.LauncherTabGroup"
+            id="org.gemoc.execution.translationalengine.ui.launchConfigurationTabGroup1"
+            type="rg.gemoc.execution.translationalengine.ui.launcher">
+      </launchConfigurationTabGroup>
+   </extension>
+
+</plugin>
