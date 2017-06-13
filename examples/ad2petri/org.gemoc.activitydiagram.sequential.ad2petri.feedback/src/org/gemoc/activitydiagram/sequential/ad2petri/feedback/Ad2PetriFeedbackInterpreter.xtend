@@ -1,6 +1,10 @@
 package org.gemoc.activitydiagram.sequential.ad2petri.feedback
 
 import ad2petritraceability.Ad2petriTraceability
+import ad2petritraceability.ControlFlowTrace
+import ad2petritraceability.FinalNodeTrace
+import ad2petritraceability.ForkNodeTrace
+import ad2petritraceability.JoinNodeTrace
 import fr.inria.diverse.sample.petrinetv1.xdsml.xpetrinetv1.petrinetv1.Net
 import fr.inria.diverse.sample.petrinetv1.xdsml.xpetrinetv1.petrinetv1.Transition
 import fr.inria.diverse.trace.commons.model.trace.Step
@@ -39,6 +43,7 @@ class Ad2PetriFeedbackInterpreter implements FeedbackInterpreter {
 	}
 
 	private def void feedbackModelState() {
+		// TODO map all tokens back!
 	}
 
 	private def Activity findDynamicActivity(Net net) {
@@ -57,11 +62,6 @@ class Ad2PetriFeedbackInterpreter implements FeedbackInterpreter {
 			val Net runnedNet = targetStep.mseoccurrence.mse.caller as Net
 			val dynamicActivity = findDynamicActivity(runnedNet)
 
-			val it = ""
-			charAt(1)
-			val it = 1
-			shortValue
-
 			// Feedback the model state (ie. modify the AD state)
 			feedbackModelState()
 
@@ -72,28 +72,26 @@ class Ad2PetriFeedbackInterpreter implements FeedbackInterpreter {
 			val Transition firedTransition = targetStep.mseoccurrence.mse.caller as Transition
 			val staticTransition = staticTarget2dynamicTarget.entrySet.findFirst[it.value == firedTransition].key
 
-			// Trying all possibilities
-			val controlFlowTrace = mapping.controlFlowTraces.findFirst[it.transition == staticTransition]
-			if (controlFlowTrace != null) {
+			// Preparing mapped variables, to abuse xtend assignment expressions
+			var ControlFlowTrace controlFlowTrace = null
+			var FinalNodeTrace finalNodeTrace = null
+			var ForkNodeTrace forkNodeTrace = null
+			var JoinNodeTrace joinNodeTrace = null
+
+			// Trying all mapping possibilities
+			if ((controlFlowTrace = mapping.controlFlowTraces.findFirst[it.transition == staticTransition]) != null) {
 				println("Mapped! " + controlFlowTrace)
+			} else if ((finalNodeTrace = mapping.finalNodeTraces.findFirst[it.transition == staticTransition]) !=
+				null) {
+				println("Mapped! " + finalNodeTrace)
+			} else if ((forkNodeTrace = mapping.forkNodeTraces.findFirst[it.transition == staticTransition]) != null) {
+				println("Mapped! " + forkNodeTrace)
+			} else if ((joinNodeTrace = mapping.joinNodeTraces.findFirst[it.transition == staticTransition]) != null) {
+				println("Mapped! " + joinNodeTrace)
 			} else {
-				val finalNodeTrace = mapping.finalNodeTraces.findFirst[it.transition == staticTransition]
-				if (finalNodeTrace != null) {
-					println("Mapped! " + finalNodeTrace)
-				} else {
-					val forkNodeTrace = mapping.forkNodeTraces.findFirst[it.transition == staticTransition]
-					if (forkNodeTrace != null) {
-						println("Mapped! " + forkNodeTrace)
-					} else {
-						val joinNodeTrace = mapping.joinNodeTraces.findFirst[it.transition == staticTransition]
-						if (joinNodeTrace != null) {
-							println("Mapped! " + joinNodeTrace)
-						} else {
-							println("WARNING: the transition does not match anything? " + staticTransition)
-						}
-					}
-				}
+				println("WARNING: the transition does not match anything? " + staticTransition)
 			}
+
 		}
 	}
 
