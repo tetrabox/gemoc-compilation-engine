@@ -32,8 +32,8 @@ class FeedbackEngine extends AbstractSequentialExecutionEngine implements IEngin
 	var FeedbackInterpreter feedbackInterpreter
 	var AbstractExecutionEngine targetEngine
 
-	public def void feedbackStartStep(Step<?> step) {
-		beforeExecutionStep(step);
+	public def void feedbackStartStep(EObject caller, String className, String operationName) {
+		beforeExecutionStep(caller,className,operationName);
 	}
 
 	public def void feedbackEndStep() {
