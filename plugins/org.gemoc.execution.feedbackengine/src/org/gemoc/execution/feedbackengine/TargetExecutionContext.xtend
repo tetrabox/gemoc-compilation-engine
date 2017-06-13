@@ -25,14 +25,13 @@ class TargetExecutionContext implements IExecutionContext {
 	val Resource targetDynamicModel
 	val IExecutionWorkspace executionWorkspace;
 
-	new(Resource targetStaticModel, FeedbackInterpreterConfiguration conf) {
+	new(Resource targetStaticModel, FeedbackInterpreter conf) {
 		this.executionPlatform = new TargetExecutionPlatform()
 		this.runConfiguration = new TargetRunConfiguration(targetStaticModel.URI, conf.getMelangeQuery(),
 			conf.getEntryPoint(), conf.getLanguageName(), conf.getInitializationMethod())
 		this.targetStaticModel = targetStaticModel
 		this.melangeBundle = MelangeHelper.getMelangeBundle(conf.getLanguageName())
 		executionWorkspace = new ExecutionWorkspace(runConfiguration.getExecutedModelURI());
-		executionWorkspace.copyFileToExecutionFolder(executionWorkspace.getModelPath());
 		val String melangeURIString = targetStaticModel.URI.toString().replace("platform:/", "melange:/") + conf.melangeQuery;
 		val melangeURI = URI::createURI(melangeURIString);
 		targetDynamicModel = new MelangeResourceImpl(targetStaticModel.resourceSet, melangeURI) 

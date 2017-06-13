@@ -7,11 +7,11 @@ import fr.inria.diverse.trace.commons.model.trace.Step
 import java.util.Map
 import org.eclipse.emf.ecore.EObject
 import org.gemoc.execution.feedbackengine.FeedbackEngine
-import org.gemoc.execution.feedbackengine.FeedbackInterpreterConfiguration
 import org.gemoc.execution.sequential.javaengine.PlainK3ExecutionEngine
+import org.gemoc.execution.feedbackengine.FeedbackInterpreter
 
 // TODO rename feedbackconfiguration
-class Ad2PetriFeedbackInterpreterConfiguration implements FeedbackInterpreterConfiguration {
+class Ad2PetriFeedbackInterpreter implements FeedbackInterpreter {
 
 	/**
 	 * Mapping between source and target models.

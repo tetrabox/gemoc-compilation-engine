@@ -5,6 +5,8 @@ import fr.inria.diverse.melange.metamodel.melange.Language
 import fr.inria.diverse.melange.metamodel.melange.ModelTypingSpace
 import fr.inria.diverse.melange.resource.MelangeResource
 import fr.inria.diverse.trace.commons.model.trace.Step
+import java.util.Collection
+import java.util.List
 import org.eclipse.core.runtime.Platform
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EObject
@@ -13,15 +15,20 @@ import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.emf.edit.command.AddCommand
 import org.eclipse.emf.transaction.util.TransactionUtil
+import org.gemoc.executionframework.engine.core.AbstractExecutionEngine
 import org.gemoc.executionframework.engine.core.AbstractSequentialExecutionEngine
+import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus
 import org.gemoc.xdsmlframework.api.core.IExecutionContext
+import org.gemoc.xdsmlframework.api.core.IExecutionEngine
+import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon
 
-class FeedbackEngine extends AbstractSequentialExecutionEngine {
+class FeedbackEngine extends AbstractSequentialExecutionEngine implements IEngineAddon {
 
 	public static val String annotationCompilerKey = "compiler"
 	public static val String annotationFeedbackKey = "feedback"
 
 	var FeedbackInterpreter feedbackInterpreter
+	var AbstractExecutionEngine targetEngine
 
 	public def void callbackStartStep(Step<?> step) {
 		this.beforeExecutionStep(step);
@@ -32,7 +39,10 @@ class FeedbackEngine extends AbstractSequentialExecutionEngine {
 	}
 
 	override protected executeEntryPoint() {
-		feedbackInterpreter.start
+		targetEngine.start();
+		targetEngine.joinThread
+		if (targetEngine.error != null)
+			throw targetEngine.error
 	}
 
 	/**
@@ -71,10 +81,16 @@ class FeedbackEngine extends AbstractSequentialExecutionEngine {
 		rs.URIConverter = tmp
 
 		// Configuring feedback interpreter
-		val conf = getExtension("org.gemoc.execution.feedbackengine.feedbackinterpreterconfiguration",
-			feedbackInterpreterID) as FeedbackInterpreterConfiguration
-		conf.initialize(result.traceabilityModelRoot, this, dynamicSourceModel.modelsMapping)
-		this.feedbackInterpreter = new FeedbackInterpreter(conf, targetResource)
+		feedbackInterpreter = getExtension("org.gemoc.execution.feedbackengine.feedbackinterpreter",
+			feedbackInterpreterID) as FeedbackInterpreter
+		feedbackInterpreter.initialize(result.traceabilityModelRoot, this, dynamicSourceModel.modelsMapping)
+
+		val exeContext = new TargetExecutionContext(targetResource, feedbackInterpreter)
+		targetEngine = feedbackInterpreter.createTargetEngine() as AbstractExecutionEngine
+		targetEngine.initialize(exeContext);
+		targetEngine.stopOnAddonError = true;
+		targetEngine.executionContext.executionPlatform.addEngineAddon(this)
+		feedbackInterpreter.targetMapping = (targetEngine.executionContext.resourceModel as MelangeResource).modelsMapping
 
 	}
 
@@ -87,14 +103,6 @@ class FeedbackEngine extends AbstractSequentialExecutionEngine {
 
 	override engineKindName() {
 		"FeedbackEngine"
-	}
-
-	override protected initializeModel() {
-		// Nothing to do
-	}
-
-	override protected prepareInitializeModel(IExecutionContext executionContext) {
-		// Nothing to do
 	}
 
 	private static def Language getMelangeLanguage(IExecutionContext executionContext) {
@@ -111,6 +119,52 @@ class FeedbackEngine extends AbstractSequentialExecutionEngine {
 				}
 			}
 		}
+	}
+
+	override aboutToExecuteStep(IExecutionEngine engine, Step<?> step) {
+		feedbackInterpreter.processTargetStepStart(step)
+	}
+
+	override stepExecuted(IExecutionEngine engine, Step<?> step) {
+		feedbackInterpreter.processTargetStepEnd(step)
+	}
+
+	override protected initializeModel() {
+		// Nothing to do
+	}
+
+	override protected prepareInitializeModel(IExecutionContext executionContext) {
+		// Nothing to do
+	}
+
+	override aboutToSelectStep(IExecutionEngine engine, Collection<Step<?>> steps) {
+	}
+
+	override engineAboutToDispose(IExecutionEngine engine) {
+	}
+
+	override engineAboutToStart(IExecutionEngine engine) {
+	}
+
+	override engineAboutToStop(IExecutionEngine engine) {
+	}
+
+	override engineStarted(IExecutionEngine executionEngine) {
+	}
+
+	override engineStatusChanged(IExecutionEngine engine, RunStatus newStatus) {
+	}
+
+	override engineStopped(IExecutionEngine engine) {
+	}
+
+	override proposedStepsChanged(IExecutionEngine engine, Collection<Step<?>> steps) {
+	}
+
+	override stepSelected(IExecutionEngine engine, Step<?> selectedStep) {
+	}
+
+	override validate(List<IEngineAddon> otherAddons) {
 	}
 
 }
