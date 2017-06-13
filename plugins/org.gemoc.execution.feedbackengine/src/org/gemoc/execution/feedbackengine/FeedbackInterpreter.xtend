@@ -7,21 +7,19 @@ import org.gemoc.xdsmlframework.api.core.IExecutionEngine
 
 interface FeedbackInterpreter {
 
-	def void initialize(EObject traceability, FeedbackEngine feedbackEngine,  Map<EObject,EObject> staticSource2dynamicSource)
+	def void initialize(EObject traceability, FeedbackEngine feedbackEngine,
+		Map<EObject, EObject> staticSource2dynamicSource, Map<EObject, EObject> staticTarget2dynamicTarget)
 
 	def IExecutionEngine createTargetEngine()
 
 	def void processTargetStepStart(Step<?> targetStep)
 
 	def void processTargetStepEnd(Step<?> targetStep)
-	
-	def void setTargetMapping(Map<EObject, EObject> mapping)
-	
+
 	def String getTargetEntryPoint()
-	
+
 	def String getTargetLanguageName()
-	
+
 	def String getTargetInitializationMethod()
-	
+
 }
-	

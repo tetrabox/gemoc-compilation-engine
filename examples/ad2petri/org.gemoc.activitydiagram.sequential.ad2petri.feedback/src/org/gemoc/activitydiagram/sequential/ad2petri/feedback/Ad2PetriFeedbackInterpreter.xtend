@@ -10,7 +10,6 @@ import org.gemoc.execution.feedbackengine.FeedbackEngine
 import org.gemoc.execution.sequential.javaengine.PlainK3ExecutionEngine
 import org.gemoc.execution.feedbackengine.FeedbackInterpreter
 
-// TODO rename feedbackconfiguration
 class Ad2PetriFeedbackInterpreter implements FeedbackInterpreter {
 
 	/**
@@ -31,10 +30,11 @@ class Ad2PetriFeedbackInterpreter implements FeedbackInterpreter {
 	}
 
 	override initialize(EObject staticSource2staticTarget, FeedbackEngine feedbackEngine,
-		Map<EObject, EObject> staticSource2dynamicSource) {
+		Map<EObject, EObject> staticSource2dynamicSource, Map<EObject, EObject> staticTarget2dynamicTarget) {
 		this.mapping = staticSource2staticTarget as Ad2petriTraceability
 		this.feedbackEngine = feedbackEngine
 		this.staticSource2dynamicSource = staticSource2dynamicSource
+		this.staticTarget2dynamicTarget = staticTarget2dynamicTarget
 	}
 
 	override processTargetStepStart(Step<?> targetStep) {
@@ -67,11 +67,6 @@ class Ad2PetriFeedbackInterpreter implements FeedbackInterpreter {
 
 	override processTargetStepEnd(Step<?> targetStep) {
 		// TODO
-	}
-
-	override setTargetMapping(
-		Map<EObject, EObject> mapping) {
-		this.staticTarget2dynamicTarget = mapping
 	}
 
 	override getTargetLanguageName() {

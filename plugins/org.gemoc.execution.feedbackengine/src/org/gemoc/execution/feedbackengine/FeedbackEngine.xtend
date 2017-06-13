@@ -30,12 +30,12 @@ class FeedbackEngine extends AbstractSequentialExecutionEngine implements IEngin
 	var FeedbackInterpreter feedbackInterpreter
 	var AbstractExecutionEngine targetEngine
 
-	public def void callbackStartStep(Step<?> step) {
-		this.beforeExecutionStep(step);
+	public def void feedbackStartStep(Step<?> step) {
+		beforeExecutionStep(step);
 	}
 
-	public def void callbackEndStep() {
-		this.afterExecutionStep
+	public def void feedbackEndStep() {
+		afterExecutionStep
 	}
 
 	override protected executeEntryPoint() {
@@ -83,14 +83,16 @@ class FeedbackEngine extends AbstractSequentialExecutionEngine implements IEngin
 		// Configuring feedback interpreter
 		feedbackInterpreter = getExtension("org.gemoc.execution.feedbackengine.feedbackinterpreter",
 			feedbackInterpreterID) as FeedbackInterpreter
-		feedbackInterpreter.initialize(result.traceabilityModelRoot, this, dynamicSourceModel.modelsMapping)
+		val targetMapping = (targetEngine.executionContext.resourceModel as MelangeResource).modelsMapping
+		feedbackInterpreter.initialize(result.traceabilityModelRoot, this, dynamicSourceModel.modelsMapping,
+			targetMapping)
 
+		// Creating the target engine
 		val exeContext = new TargetExecutionContext(targetResource, feedbackInterpreter)
 		targetEngine = feedbackInterpreter.createTargetEngine() as AbstractExecutionEngine
 		targetEngine.initialize(exeContext);
 		targetEngine.stopOnAddonError = true;
 		targetEngine.executionContext.executionPlatform.addEngineAddon(this)
-		feedbackInterpreter.targetMapping = (targetEngine.executionContext.resourceModel as MelangeResource).modelsMapping
 
 	}
 
