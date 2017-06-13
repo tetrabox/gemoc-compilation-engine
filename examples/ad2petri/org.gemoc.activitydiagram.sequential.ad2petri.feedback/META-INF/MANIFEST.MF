@@ -19,5 +19,6 @@ Require-Bundle: com.google.guava,
  fr.inria.diverse.k3.al.annotationprocessor.plugin;bundle-version="3.2.1",
  org.eclipse.emf.transaction;bundle-version="1.9.0",
  org.gemoc.execution.feedbackengine;bundle-version="1.0.0",
- fr.inria.diverse.sample.petrinetv1.xdsml.xpetrinetv1;bundle-version="0.1.0"
+ fr.inria.diverse.sample.petrinetv1.xdsml.xpetrinetv1;bundle-version="0.1.0",
+ org.gemoc.activitydiagram.sequential.ad2petri.activitydiagramtopetrinet;bundle-version="0.1.0"
 
