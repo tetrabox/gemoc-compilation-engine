@@ -26,6 +26,8 @@ class FeedbackEngine extends AbstractSequentialExecutionEngine implements IEngin
 
 	public static val String annotationCompilerKey = "compiler"
 	public static val String annotationFeedbackKey = "feedback"
+	public static val String compilerExtensionPoint = "org.gemoc.execution.feedbackengine.compiler"
+	public static val String feedbackExtensionPoint = "org.gemoc.execution.feedbackengine.feedbackinterpreter"
 
 	var FeedbackInterpreter feedbackInterpreter
 	var AbstractExecutionEngine targetEngine
@@ -45,12 +47,6 @@ class FeedbackEngine extends AbstractSequentialExecutionEngine implements IEngin
 			throw targetEngine.error
 	}
 
-	/**
-	 * WARNING: with the GEMOC loading process, we could either obtain a static or dynamic model (ie. with or without melange)
-	 * We would actually need both: the static to compile, and the dynamic to mirror back.
-	 * BUT it means we would need the traceability links to point to the dynamic model, which melange should manage I think?
-	 * 
-	 */
 	override protected prepareEntryPoint(IExecutionContext executionContext) {
 
 		// Reading melange model 
@@ -59,7 +55,7 @@ class FeedbackEngine extends AbstractSequentialExecutionEngine implements IEngin
 		val String feedbackInterpreterID = language.annotations.findFirst[key.equals(annotationFeedbackKey)].value
 
 		// Compiling
-		val Compiler compiler = getExtension("org.gemoc.execution.feedbackengine.compiler", compilerID) as Compiler
+		val Compiler compiler = getExtension(compilerExtensionPoint, compilerID) as Compiler
 		val MelangeResource dynamicSourceModel = executionContext.resourceModel as MelangeResource
 		val EObject modelroot = dynamicSourceModel.wrappedResource.contents.head
 		val result = compiler.compile(modelroot)
@@ -81,8 +77,7 @@ class FeedbackEngine extends AbstractSequentialExecutionEngine implements IEngin
 		rs.URIConverter = tmp
 
 		// Creating the feedback interpreter
-		feedbackInterpreter = getExtension("org.gemoc.execution.feedbackengine.feedbackinterpreter",
-			feedbackInterpreterID) as FeedbackInterpreter
+		feedbackInterpreter = getExtension(feedbackExtensionPoint, feedbackInterpreterID) as FeedbackInterpreter
 
 		// Creating the target engine
 		val exeContext = new TargetExecutionContext(targetResource, feedbackInterpreter)
