@@ -5,8 +5,6 @@ import fr.inria.diverse.melange.metamodel.melange.Language
 import fr.inria.diverse.melange.metamodel.melange.ModelTypingSpace
 import fr.inria.diverse.melange.resource.MelangeResource
 import fr.inria.diverse.trace.commons.model.trace.Step
-import java.util.Collection
-import java.util.List
 import org.eclipse.core.runtime.Platform
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EObject
@@ -17,7 +15,6 @@ import org.eclipse.emf.edit.command.AddCommand
 import org.eclipse.emf.transaction.util.TransactionUtil
 import org.gemoc.executionframework.engine.core.AbstractExecutionEngine
 import org.gemoc.executionframework.engine.core.AbstractSequentialExecutionEngine
-import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus
 import org.gemoc.xdsmlframework.api.core.IExecutionContext
 import org.gemoc.xdsmlframework.api.core.IExecutionEngine
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon
@@ -33,7 +30,7 @@ class FeedbackEngine extends AbstractSequentialExecutionEngine implements IEngin
 	var AbstractExecutionEngine targetEngine
 
 	public def void feedbackStartStep(EObject caller, String className, String operationName) {
-		beforeExecutionStep(caller,className,operationName);
+		beforeExecutionStep(caller, className, operationName);
 	}
 
 	public def void feedbackEndStep() {
@@ -134,36 +131,6 @@ class FeedbackEngine extends AbstractSequentialExecutionEngine implements IEngin
 
 	override protected prepareInitializeModel(IExecutionContext executionContext) {
 		// Nothing to do
-	}
-
-	override aboutToSelectStep(IExecutionEngine engine, Collection<Step<?>> steps) {
-	}
-
-	override engineAboutToDispose(IExecutionEngine engine) {
-	}
-
-	override engineAboutToStart(IExecutionEngine engine) {
-	}
-
-	override engineAboutToStop(IExecutionEngine engine) {
-	}
-
-	override engineStarted(IExecutionEngine executionEngine) {
-	}
-
-	override engineStatusChanged(IExecutionEngine engine, RunStatus newStatus) {
-	}
-
-	override engineStopped(IExecutionEngine engine) {
-	}
-
-	override proposedStepsChanged(IExecutionEngine engine, Collection<Step<?>> steps) {
-	}
-
-	override stepSelected(IExecutionEngine engine, Step<?> selectedStep) {
-	}
-
-	override validate(List<IEngineAddon> otherAddons) {
 	}
 
 }
