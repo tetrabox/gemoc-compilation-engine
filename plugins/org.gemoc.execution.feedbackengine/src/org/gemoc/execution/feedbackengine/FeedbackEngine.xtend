@@ -80,12 +80,9 @@ class FeedbackEngine extends AbstractSequentialExecutionEngine implements IEngin
 		targetResource.save(null)
 		rs.URIConverter = tmp
 
-		// Configuring feedback interpreter
+		// Creating the feedback interpreter
 		feedbackInterpreter = getExtension("org.gemoc.execution.feedbackengine.feedbackinterpreter",
 			feedbackInterpreterID) as FeedbackInterpreter
-		val targetMapping = (targetEngine.executionContext.resourceModel as MelangeResource).modelsMapping
-		feedbackInterpreter.initialize(result.traceabilityModelRoot, this, dynamicSourceModel.modelsMapping,
-			targetMapping)
 
 		// Creating the target engine
 		val exeContext = new TargetExecutionContext(targetResource, feedbackInterpreter)
@@ -93,6 +90,11 @@ class FeedbackEngine extends AbstractSequentialExecutionEngine implements IEngin
 		targetEngine.initialize(exeContext);
 		targetEngine.stopOnAddonError = true;
 		targetEngine.executionContext.executionPlatform.addEngineAddon(this)
+		val targetMapping = (targetEngine.executionContext.resourceModel as MelangeResource).modelsMapping
+
+		// Configuring the feedback interpreter
+		feedbackInterpreter.initialize(result.traceabilityModelRoot, this, dynamicSourceModel.modelsMapping,
+			targetMapping)
 
 	}
 
