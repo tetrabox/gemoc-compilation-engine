@@ -14,9 +14,9 @@ class TargetRunConfiguration implements IRunConfiguration {
 	val String languageName
 	val String initMethod
 
-	new(URI staticModelURI, String melangeQuery, String entryPoint, String languageName, String initMethod) {
+	new(URI staticModelURI, String entryPoint, String languageName, String initMethod) {
 		this.staticModelURI = staticModelURI
-		this.melangeQuery = melangeQuery
+		this.melangeQuery = "?lang=" + languageName
 		this.entryPoint = entryPoint
 		this.languageName = languageName
 		this.initMethod = initMethod

@@ -26,7 +26,6 @@ class Ad2PetriFeedbackInterpreter implements FeedbackInterpreter {
 	var Map<EObject, EObject> staticSource2dynamicSource
 	var Map<EObject, EObject> staticTarget2dynamicTarget
 
-
 	override createTargetEngine() {
 		return new PlainK3ExecutionEngine()
 	}
@@ -70,23 +69,20 @@ class Ad2PetriFeedbackInterpreter implements FeedbackInterpreter {
 		// TODO
 	}
 
-	override setTargetMapping(Map<EObject, EObject> mapping) {
+	override setTargetMapping(
+		Map<EObject, EObject> mapping) {
 		this.staticTarget2dynamicTarget = mapping
 	}
-	
-	override getMelangeQuery() {
-		"?lang=fr.inria.diverse.sample.petrinetv1.xdsml.XPetrinetv1"
-	}
-	
-	override getEntryPoint() {
-		"public static void fr.inria.diverse.sample.petrinetv1.xdsml.xpetrinetv1.aspects.NetAspect.run(fr.inria.diverse.sample.petrinetv1.xdsml.xpetrinetv1.petrinetv1.Net)"
-	}
-	
-	override getLanguageName() {
+
+	override getTargetLanguageName() {
 		"fr.inria.diverse.sample.petrinetv1.xdsml.XPetrinetv1"
 	}
-	
-	override getInitializationMethod() {
+
+	override getTargetEntryPoint() {
+		"public static void fr.inria.diverse.sample.petrinetv1.xdsml.xpetrinetv1.aspects.NetAspect.run(fr.inria.diverse.sample.petrinetv1.xdsml.xpetrinetv1.petrinetv1.Net)"
+	}
+
+	override getTargetInitializationMethod() {
 		"fr.inria.diverse.sample.petrinetv1.xdsml.xpetrinetv1.aspects.NetAspect.initialize"
 	}
 

@@ -17,13 +17,11 @@ interface FeedbackInterpreter {
 	
 	def void setTargetMapping(Map<EObject, EObject> mapping)
 	
-	def String getMelangeQuery()
+	def String getTargetEntryPoint()
 	
-	def String getEntryPoint()
+	def String getTargetLanguageName()
 	
-	def String getLanguageName()
-	
-	def String getInitializationMethod()
+	def String getTargetInitializationMethod()
 	
 }
 	
