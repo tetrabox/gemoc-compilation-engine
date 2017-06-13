@@ -12,4 +12,5 @@ import org.eclipse.xtend.lib.annotations.Data
 
 interface Compiler {
 	def CompilationResult compile (EObject sourceModelRoot)
+	def String getTargetFileExtension()
 }

@@ -30,4 +30,8 @@ Require-Bundle: org.eclipse.swt;bundle-version="3.105.3",
  org.gemoc.executionframework.debugger;bundle-version="2.3.0",
  fr.inria.diverse.trace.gemoc.api;bundle-version="2.3.0",
  fr.obeo.dsl.debug.ide.ui;bundle-version="2.3.0",
- org.gemoc.execution.sequential.javaengine.ui
+ org.gemoc.execution.sequential.javaengine.ui,
+ org.gemoc.execution.feedbackengine;bundle-version="1.0.0",
+ org.gemoc.execution.sequential.javaengine
+Bundle-Activator: org.gemoc.execution.feedbackengine.ui.Activator
+Bundle-ActivationPolicy: lazy
