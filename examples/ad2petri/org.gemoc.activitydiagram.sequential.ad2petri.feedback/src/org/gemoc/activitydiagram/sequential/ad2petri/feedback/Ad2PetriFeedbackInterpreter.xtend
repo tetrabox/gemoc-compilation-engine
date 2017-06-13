@@ -4,16 +4,30 @@ import ad2petritraceability.Ad2petriTraceability
 import ad2petritraceability.ControlFlowTrace
 import ad2petritraceability.FinalNodeTrace
 import ad2petritraceability.ForkNodeTrace
+import ad2petritraceability.ForkOrJoinNodeTrace
 import ad2petritraceability.JoinNodeTrace
 import fr.inria.diverse.sample.petrinetv1.xdsml.xpetrinetv1.petrinetv1.Net
+import fr.inria.diverse.sample.petrinetv1.xdsml.xpetrinetv1.petrinetv1.Place
 import fr.inria.diverse.sample.petrinetv1.xdsml.xpetrinetv1.petrinetv1.Transition
 import fr.inria.diverse.trace.commons.model.trace.Step
+import java.util.HashMap
+import java.util.HashSet
 import java.util.Map
+import java.util.Set
+import org.eclipse.emf.common.util.BasicEList
+import org.eclipse.emf.common.util.EList
 import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.transaction.RecordingCommand
+import org.eclipse.emf.transaction.TransactionalEditingDomain
+import org.eclipse.emf.transaction.util.TransactionUtil
 import org.gemoc.activitydiagram.sequential.ad2petri.activitydiagramtopetrinet.activitydiagram.Activity
+import org.gemoc.activitydiagram.sequential.ad2petri.activitydiagramtopetrinet.activitydiagram.ActivityNode
+import org.gemoc.activitydiagram.sequential.ad2petri.activitydiagramtopetrinet.activitydiagram.ActivitydiagramFactory
+import org.gemoc.activitydiagram.sequential.ad2petri.activitydiagramtopetrinet.activitydiagram.Token
 import org.gemoc.execution.feedbackengine.FeedbackEngine
 import org.gemoc.execution.feedbackengine.FeedbackInterpreter
 import org.gemoc.execution.sequential.javaengine.PlainK3ExecutionEngine
+import org.gemoc.executionframework.engine.core.CommandExecution
 
 class Ad2PetriFeedbackInterpreter implements FeedbackInterpreter {
 
@@ -26,6 +40,8 @@ class Ad2PetriFeedbackInterpreter implements FeedbackInterpreter {
 	 * This is where we send our translated steps.
 	 */
 	private var FeedbackEngine feedbackEngine
+
+	private var TransactionalEditingDomain ed
 
 	var Map<EObject, EObject> staticSource2dynamicSource
 	var Map<EObject, EObject> staticTarget2dynamicTarget
@@ -40,10 +56,51 @@ class Ad2PetriFeedbackInterpreter implements FeedbackInterpreter {
 		this.feedbackEngine = feedbackEngine
 		this.staticSource2dynamicSource = staticSource2dynamicSource
 		this.staticTarget2dynamicTarget = staticTarget2dynamicTarget
+		ed = TransactionUtil.getEditingDomain(staticSource2dynamicSource.entrySet.get(0).value)
 	}
 
+	/**
+	 * TODO manage fork tokens
+	 * TODO put in transaction
+	 */
 	private def void feedbackModelState() {
-		// TODO map all tokens back!
+
+		val Map<Place, ActivityNode> merge = new HashMap
+
+		// case init/action
+		for (node2placeTrace : mapping.nonFinalNodeTraces) {
+			val Place dynamicPlace = staticTarget2dynamicTarget.get(node2placeTrace.place) as Place
+			val ActivityNode dynamicNode = staticSource2dynamicSource.get(node2placeTrace.originalNode) as ActivityNode
+			merge.put(dynamicPlace, dynamicNode)
+		}
+		// case ForkOrJoinNodeTrace
+		val Iterable<ForkOrJoinNodeTrace> forkOrJoinTraces = (mapping.forkNodeTraces + mapping.joinNodeTraces)
+		for (forkOrJoinTrace : forkOrJoinTraces) {
+			val Place dynamicPlace = staticTarget2dynamicTarget.get(forkOrJoinTrace.place) as Place
+			val ActivityNode dynamicNode = staticSource2dynamicSource.get(forkOrJoinTrace.originalNode) as ActivityNode
+			merge.put(dynamicPlace, dynamicNode)
+		}
+
+		// For all mappings
+		for (a : merge.entrySet) {
+			val diff = a.key.tokens - a.value.heldTokens.size
+			// Add tokens
+			if (diff > 0) {
+				val EList<Token> newTokens = new BasicEList<Token>
+				for (_ : 1 .. diff) {
+					newTokens.add(ActivitydiagramFactory::eINSTANCE.createToken)
+				}
+				modifyModel[a.value.heldTokens.addAll(newTokens)]
+
+			} // Remove tokens
+			else if (diff < 0) {
+				for (_ : 1 .. Math::abs(diff)) {
+					val token = a.value.heldTokens.get(0)
+					modifyModel[a.value.heldTokens.remove(token)]
+				}
+			}
+		}
+
 	}
 
 	private def Activity findDynamicActivity(Net net) {
@@ -55,15 +112,15 @@ class Ad2PetriFeedbackInterpreter implements FeedbackInterpreter {
 
 	override processTargetStepStart(Step<?> targetStep) {
 
+		// Feedback the model state (ie. modify the AD state)
+		feedbackModelState()
+
 		// There are only two possible steps: run and fire
 		if (targetStep.mseoccurrence.mse.action.name.endsWith("run")) {
 
 			// Follow traceability links
 			val Net runnedNet = targetStep.mseoccurrence.mse.caller as Net
 			val dynamicActivity = findDynamicActivity(runnedNet)
-
-			// Feedback the model state (ie. modify the AD state)
-			feedbackModelState()
 
 			// Feedback the step
 			feedbackEngine.feedbackStartStep(dynamicActivity, dynamicActivity.eClass.name, "execute")
@@ -97,12 +154,12 @@ class Ad2PetriFeedbackInterpreter implements FeedbackInterpreter {
 
 	override processTargetStepEnd(Step<?> targetStep) {
 		if (targetStep.mseoccurrence.mse.action.name.endsWith("run")) {
-			feedbackModelState()
+
 			feedbackEngine.feedbackEndStep
 		} else if (targetStep.mseoccurrence.mse.action.name.endsWith(
 			"fire")) {
 		}
-	// TODO
+		feedbackModelState()
 	}
 
 	override getTargetLanguageName() {
@@ -115,6 +172,33 @@ class Ad2PetriFeedbackInterpreter implements FeedbackInterpreter {
 
 	override getTargetInitializationMethod() {
 		"fr.inria.diverse.sample.petrinetv1.xdsml.xpetrinetv1.aspects.NetAspect.initialize"
+	}
+
+	/**
+	 * Wrapper using lambda to always use a RecordingCommand when modifying the model
+	 */
+	private def void modifyModel(Runnable r, String message) {
+
+		val Set<Throwable> catchedException = new HashSet
+		var RecordingCommand command = new RecordingCommand(ed, message) {
+			protected override void doExecute() {
+				try {
+					r.run
+				} catch (Throwable t) {
+					catchedException.add(t)
+				}
+			}
+		}
+		CommandExecution::execute(ed, command)
+		if (!catchedException.empty)
+			throw catchedException.head
+	}
+
+	/**
+	 * Same as above, but without message.
+	 */
+	private def void modifyModel(Runnable r) {
+		modifyModel(r, "")
 	}
 
 }
