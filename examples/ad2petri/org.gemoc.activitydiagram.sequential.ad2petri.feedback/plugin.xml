@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         id="ad2petri-feedback"
+         point="org.gemoc.execution.feedbackengine.feedbackinterpreter">
+      <feedbackinterpreter
+            class="org.gemoc.activitydiagram.sequential.ad2petri.feedback.Ad2PetriFeedbackInterpreter"
+            id="ad2petri-feedback">
+      </feedbackinterpreter>
+   </extension>
+
+</plugin>

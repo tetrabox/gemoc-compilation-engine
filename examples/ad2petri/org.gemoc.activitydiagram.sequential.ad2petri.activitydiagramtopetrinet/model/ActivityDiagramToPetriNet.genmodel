@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="ASCII"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.gemoc.activitydiagram.sequential.ad2petri.activitydiagramtopetrinet/src/" modelPluginID="org.gemoc.activitydiagram.sequential.ad2petri.activitydiagramtopetrinet" modelName="ActivityDiagramToPetriNet" complianceLevel="7.0" copyrightFields="false">
+  <foreignModel>platform:/resource/org.gemoc.activitydiagram.sequential.ad2petri.activitydiagramtopetrinet/model/ActivityDiagramToPetriNet.ecore</foreignModel>
+  <genPackages prefix="Activitydiagram" basePackage="org.gemoc.activitydiagram.sequential.ad2petri.activitydiagramtopetrinet" disposableProviderFactory="true" fileExtensions="activitydiagramtopetrinet">
+    <ecorePackage href="ActivityDiagramToPetriNet.ecore#/"/>
+    <genEnums typeSafeEnumCompatible="false">
+      <ecoreEnum href="ActivityDiagramToPetriNet.ecore#//IntegerCalculationOperator"/>
+      <genEnumLiterals>
+        <ecoreEnumLiteral href="ActivityDiagramToPetriNet.ecore#//IntegerCalculationOperator/ADD"/>
+      </genEnumLiterals>
+      <genEnumLiterals>
+        <ecoreEnumLiteral href="ActivityDiagramToPetriNet.ecore#//IntegerCalculationOperator/SUBRACT"/>
+      </genEnumLiterals>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false">
+      <ecoreEnum href="ActivityDiagramToPetriNet.ecore#//IntegerComparisonOperator"/>
+      <genEnumLiterals>
+        <ecoreEnumLiteral href="ActivityDiagramToPetriNet.ecore#//IntegerComparisonOperator/SMALLER"/>
+      </genEnumLiterals>
+      <genEnumLiterals>
+        <ecoreEnumLiteral href="ActivityDiagramToPetriNet.ecore#//IntegerComparisonOperator/SMALLER_EQUALS"/>
+      </genEnumLiterals>
+      <genEnumLiterals>
+        <ecoreEnumLiteral href="ActivityDiagramToPetriNet.ecore#//IntegerComparisonOperator/EQUALS"/>
+      </genEnumLiterals>
+      <genEnumLiterals>
+        <ecoreEnumLiteral href="ActivityDiagramToPetriNet.ecore#//IntegerComparisonOperator/GREATER_EQUALS"/>
+      </genEnumLiterals>
+      <genEnumLiterals>
+        <ecoreEnumLiteral href="ActivityDiagramToPetriNet.ecore#//IntegerComparisonOperator/GREATER"/>
+      </genEnumLiterals>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false">
+      <ecoreEnum href="ActivityDiagramToPetriNet.ecore#//BooleanUnaryOperator"/>
+      <genEnumLiterals>
+        <ecoreEnumLiteral href="ActivityDiagramToPetriNet.ecore#//BooleanUnaryOperator/NOT"/>
+      </genEnumLiterals>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false">
+      <ecoreEnum href="ActivityDiagramToPetriNet.ecore#//BooleanBinaryOperator"/>
+      <genEnumLiterals>
+        <ecoreEnumLiteral href="ActivityDiagramToPetriNet.ecore#//BooleanBinaryOperator/AND"/>
+      </genEnumLiterals>
+      <genEnumLiterals>
+        <ecoreEnumLiteral href="ActivityDiagramToPetriNet.ecore#//BooleanBinaryOperator/OR"/>
+      </genEnumLiterals>
+    </genEnums>
+    <genClasses>
+      <ecoreClass href="ActivityDiagramToPetriNet.ecore#//Activity"/>
+      <genFeatures property="None" children="true" createChild="true">
+        <ecoreFeature xsi:type="ecore:EReference" href="ActivityDiagramToPetriNet.ecore#//Activity/nodes"/>
+      </genFeatures>
+      <genFeatures property="None" children="true" createChild="true">
+        <ecoreFeature xsi:type="ecore:EReference" href="ActivityDiagramToPetriNet.ecore#//Activity/edges"/>
+      </genFeatures>
+      <genFeatures property="None" children="true" createChild="true">
+        <ecoreFeature xsi:type="ecore:EReference" href="ActivityDiagramToPetriNet.ecore#//Activity/locals"/>
+      </genFeatures>
+      <genFeatures property="None" children="true" createChild="true">
+        <ecoreFeature xsi:type="ecore:EReference" href="ActivityDiagramToPetriNet.ecore#//Activity/inputs"/>
+      </genFeatures>
+      <genOperations>
+        <ecoreOperation href="ActivityDiagramToPetriNet.ecore#//Activity/main"/>
+      </genOperations>
+      <genOperations>
+        <ecoreOperation href="ActivityDiagramToPetriNet.ecore#//Activity/execute"/>
+      </genOperations>
+    </genClasses>
+    <genClasses image="false">
+      <ecoreClass href="ActivityDiagramToPetriNet.ecore#//ActivityNode"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true">
+        <ecoreFeature xsi:type="ecore:EReference" href="ActivityDiagramToPetriNet.ecore#//ActivityNode/outgoing"/>
+      </genFeatures>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true">
+        <ecoreFeature xsi:type="ecore:EReference" href="ActivityDiagramToPetriNet.ecore#//ActivityNode/incoming"/>
+      </genFeatures>
+      <genFeatures property="None" notify="false" createChild="false">
+        <ecoreFeature xsi:type="ecore:EReference" href="ActivityDiagramToPetriNet.ecore#//ActivityNode/activity"/>
+      </genFeatures>
+      <genFeatures createChild="false">
+        <ecoreFeature xsi:type="ecore:EAttribute" href="ActivityDiagramToPetriNet.ecore#//ActivityNode/running"/>
+      </genFeatures>
+      <genFeatures property="None" children="true" createChild="true">
+        <ecoreFeature xsi:type="ecore:EReference" href="ActivityDiagramToPetriNet.ecore#//ActivityNode/heldTokens"/>
+      </genFeatures>
+      <genOperations>
+        <ecoreOperation href="ActivityDiagramToPetriNet.ecore#//ActivityNode/execute"/>
+      </genOperations>
+      <genOperations>
+        <ecoreOperation href="ActivityDiagramToPetriNet.ecore#//ActivityNode/terminate"/>
+      </genOperations>
+      <genOperations>
+        <ecoreOperation href="ActivityDiagramToPetriNet.ecore#//ActivityNode/sendOffers"/>
+        <genParameters>
+          <ecoreParameter href="ActivityDiagramToPetriNet.ecore#//ActivityNode/sendOffers/tokens"/>
+        </genParameters>
+      </genOperations>
+      <genOperations>
+        <ecoreOperation href="ActivityDiagramToPetriNet.ecore#//ActivityNode/takeOfferdTokens"/>
+      </genOperations>
+      <genOperations>
+        <ecoreOperation href="ActivityDiagramToPetriNet.ecore#//ActivityNode/addTokens"/>
+        <genParameters>
+          <ecoreParameter href="ActivityDiagramToPetriNet.ecore#//ActivityNode/addTokens/tokens"/>
+        </genParameters>
+      </genOperations>
+      <genOperations>
+        <ecoreOperation href="ActivityDiagramToPetriNet.ecore#//ActivityNode/removeToken"/>
+        <genParameters>
+          <ecoreParameter href="ActivityDiagramToPetriNet.ecore#//ActivityNode/removeToken/token"/>
+        </genParameters>
+      </genOperations>
+    </genClasses>
+    <genClasses image="false">
+      <ecoreClass href="ActivityDiagramToPetriNet.ecore#//ActivityEdge"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true">
+        <ecoreFeature xsi:type="ecore:EReference" href="ActivityDiagramToPetriNet.ecore#//ActivityEdge/source"/>
+      </genFeatures>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true">
+        <ecoreFeature xsi:type="ecore:EReference" href="ActivityDiagramToPetriNet.ecore#//ActivityEdge/target"/>
+      </genFeatures>
+      <genFeatures property="None" children="true" createChild="true">
+        <ecoreFeature xsi:type="ecore:EReference" href="ActivityDiagramToPetriNet.ecore#//ActivityEdge/offers"/>
+      </genFeatures>
+    </genClasses>
+    <genClasses>
+      <ecoreClass href="ActivityDiagramToPetriNet.ecore#//ControlFlow"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true">
+        <ecoreFeature xsi:type="ecore:EReference" href="ActivityDiagramToPetriNet.ecore#//ControlFlow/guard"/>
+      </genFeatures>
+    </genClasses>
+    <genClasses image="false">
+      <ecoreClass href="ActivityDiagramToPetriNet.ecore#//ControlNode"/>
+    </genClasses>
+    <genClasses image="false">
+      <ecoreClass href="ActivityDiagramToPetriNet.ecore#//ExecutableNode"/>
+    </genClasses>
+    <genClasses image="false">
+      <ecoreClass href="ActivityDiagramToPetriNet.ecore#//Action"/>
+    </genClasses>
+    <genClasses>
+      <ecoreClass href="ActivityDiagramToPetriNet.ecore#//OpaqueAction"/>
+      <genFeatures property="None" children="true" createChild="true">
+        <ecoreFeature xsi:type="ecore:EReference" href="ActivityDiagramToPetriNet.ecore#//OpaqueAction/expressions"/>
+      </genFeatures>
+      <genOperations>
+        <ecoreOperation href="ActivityDiagramToPetriNet.ecore#//OpaqueAction/execute"/>
+      </genOperations>
+    </genClasses>
+    <genClasses image="false">
+      <ecoreClass href="ActivityDiagramToPetriNet.ecore#//NamedElement"/>
+      <genFeatures createChild="false">
+        <ecoreFeature xsi:type="ecore:EAttribute" href="ActivityDiagramToPetriNet.ecore#//NamedElement/name"/>
+      </genFeatures>
+      <genOperations>
+        <ecoreOperation href="ActivityDiagramToPetriNet.ecore#//NamedElement/execute"/>
+      </genOperations>
+    </genClasses>
+    <genClasses>
+      <ecoreClass href="ActivityDiagramToPetriNet.ecore#//InitialNode"/>
+      <genOperations>
+        <ecoreOperation href="ActivityDiagramToPetriNet.ecore#//InitialNode/execute"/>
+      </genOperations>
+    </genClasses>
+    <genClasses image="false">
+      <ecoreClass href="ActivityDiagramToPetriNet.ecore#//FinalNode"/>
+    </genClasses>
+    <genClasses>
+      <ecoreClass href="ActivityDiagramToPetriNet.ecore#//ActivityFinalNode"/>
+      <genOperations>
+        <ecoreOperation href="ActivityDiagramToPetriNet.ecore#//ActivityFinalNode/execute"/>
+      </genOperations>
+    </genClasses>
+    <genClasses>
+      <ecoreClass href="ActivityDiagramToPetriNet.ecore#//ForkNode"/>
+      <genOperations>
+        <ecoreOperation href="ActivityDiagramToPetriNet.ecore#//ForkNode/execute"/>
+      </genOperations>
+    </genClasses>
+    <genClasses>
+      <ecoreClass href="ActivityDiagramToPetriNet.ecore#//JoinNode"/>
+      <genOperations>
+        <ecoreOperation href="ActivityDiagramToPetriNet.ecore#//JoinNode/execute"/>
+      </genOperations>
+    </genClasses>
+    <genClasses>
+      <ecoreClass href="ActivityDiagramToPetriNet.ecore#//MergeNode"/>
+      <genOperations>
+        <ecoreOperation href="ActivityDiagramToPetriNet.ecore#//MergeNode/execute"/>
+      </genOperations>
+    </genClasses>
+    <genClasses>
+      <ecoreClass href="ActivityDiagramToPetriNet.ecore#//DecisionNode"/>
+      <genOperations>
+        <ecoreOperation href="ActivityDiagramToPetriNet.ecore#//DecisionNode/execute"/>
+      </genOperations>
+    </genClasses>
+    <genClasses>
+      <ecoreClass href="ActivityDiagramToPetriNet.ecore#//Variable"/>
+      <genFeatures property="None" children="true" createChild="true">
+        <ecoreFeature xsi:type="ecore:EReference" href="ActivityDiagramToPetriNet.ecore#//Variable/initialValue"/>
+      </genFeatures>
+      <genFeatures createChild="false">
+        <ecoreFeature xsi:type="ecore:EAttribute" href="ActivityDiagramToPetriNet.ecore#//Variable/name"/>
+      </genFeatures>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true">
+        <ecoreFeature xsi:type="ecore:EReference" href="ActivityDiagramToPetriNet.ecore#//Variable/currentValue"/>
+      </genFeatures>
+      <genOperations>
+        <ecoreOperation href="ActivityDiagramToPetriNet.ecore#//Variable/execute"/>
+      </genOperations>
+      <genOperations>
+        <ecoreOperation href="ActivityDiagramToPetriNet.ecore#//Variable/init"/>
+      </genOperations>
+    </genClasses>
+    <genClasses>
+      <ecoreClass href="ActivityDiagramToPetriNet.ecore#//IntegerVariable"/>
+      <genOperations>
+        <ecoreOperation href="ActivityDiagramToPetriNet.ecore#//IntegerVariable/execute"/>
+      </genOperations>
+    </genClasses>
+    <genClasses>
+      <ecoreClass href="ActivityDiagramToPetriNet.ecore#//BooleanVariable"/>
+      <genOperations>
+        <ecoreOperation href="ActivityDiagramToPetriNet.ecore#//BooleanVariable/execute"/>
+      </genOperations>
+    </genClasses>
+    <genClasses>
+      <ecoreClass href="ActivityDiagramToPetriNet.ecore#//Value"/>
+    </genClasses>
+    <genClasses>
+      <ecoreClass href="ActivityDiagramToPetriNet.ecore#//BooleanValue"/>
+      <genFeatures createChild="false">
+        <ecoreFeature xsi:type="ecore:EAttribute" href="ActivityDiagramToPetriNet.ecore#//BooleanValue/value"/>
+      </genFeatures>
+    </genClasses>
+    <genClasses>
+      <ecoreClass href="ActivityDiagramToPetriNet.ecore#//IntegerValue"/>
+      <genFeatures createChild="false">
+        <ecoreFeature xsi:type="ecore:EAttribute" href="ActivityDiagramToPetriNet.ecore#//IntegerValue/value"/>
+      </genFeatures>
+    </genClasses>
+    <genClasses image="false">
+      <ecoreClass href="ActivityDiagramToPetriNet.ecore#//Expression"/>
+      <genOperations>
+        <ecoreOperation href="ActivityDiagramToPetriNet.ecore#//Expression/execute"/>
+      </genOperations>
+    </genClasses>
+    <genClasses image="false">
+      <ecoreClass href="ActivityDiagramToPetriNet.ecore#//IntegerExpression"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true">
+        <ecoreFeature xsi:type="ecore:EReference" href="ActivityDiagramToPetriNet.ecore#//IntegerExpression/operand2"/>
+      </genFeatures>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true">
+        <ecoreFeature xsi:type="ecore:EReference" href="ActivityDiagramToPetriNet.ecore#//IntegerExpression/operand1"/>
+      </genFeatures>
+    </genClasses>
+    <genClasses image="false">
+      <ecoreClass href="ActivityDiagramToPetriNet.ecore#//BooleanExpression"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true">
+        <ecoreFeature xsi:type="ecore:EReference" href="ActivityDiagramToPetriNet.ecore#//BooleanExpression/assignee"/>
+      </genFeatures>
+    </genClasses>
+    <genClasses>
+      <ecoreClass href="ActivityDiagramToPetriNet.ecore#//IntegerCalculationExpression"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true">
+        <ecoreFeature xsi:type="ecore:EReference" href="ActivityDiagramToPetriNet.ecore#//IntegerCalculationExpression/assignee"/>
+      </genFeatures>
+      <genFeatures createChild="false">
+        <ecoreFeature xsi:type="ecore:EAttribute" href="ActivityDiagramToPetriNet.ecore#//IntegerCalculationExpression/operator"/>
+      </genFeatures>
+      <genOperations>
+        <ecoreOperation href="ActivityDiagramToPetriNet.ecore#//IntegerCalculationExpression/execute"/>
+      </genOperations>
+    </genClasses>
+    <genClasses>
+      <ecoreClass href="ActivityDiagramToPetriNet.ecore#//IntegerComparisonExpression"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true">
+        <ecoreFeature xsi:type="ecore:EReference" href="ActivityDiagramToPetriNet.ecore#//IntegerComparisonExpression/assignee"/>
+      </genFeatures>
+      <genFeatures createChild="false">
+        <ecoreFeature xsi:type="ecore:EAttribute" href="ActivityDiagramToPetriNet.ecore#//IntegerComparisonExpression/operator"/>
+      </genFeatures>
+      <genOperations>
+        <ecoreOperation href="ActivityDiagramToPetriNet.ecore#//IntegerComparisonExpression/execute"/>
+      </genOperations>
+    </genClasses>
+    <genClasses>
+      <ecoreClass href="ActivityDiagramToPetriNet.ecore#//BooleanUnaryExpression"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true">
+        <ecoreFeature xsi:type="ecore:EReference" href="ActivityDiagramToPetriNet.ecore#//BooleanUnaryExpression/operand"/>
+      </genFeatures>
+      <genFeatures createChild="false">
+        <ecoreFeature xsi:type="ecore:EAttribute" href="ActivityDiagramToPetriNet.ecore#//BooleanUnaryExpression/operator"/>
+      </genFeatures>
+      <genOperations>
+        <ecoreOperation href="ActivityDiagramToPetriNet.ecore#//BooleanUnaryExpression/execute"/>
+      </genOperations>
+    </genClasses>
+    <genClasses>
+      <ecoreClass href="ActivityDiagramToPetriNet.ecore#//BooleanBinaryExpression"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true">
+        <ecoreFeature xsi:type="ecore:EReference" href="ActivityDiagramToPetriNet.ecore#//BooleanBinaryExpression/operand1"/>
+      </genFeatures>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true">
+        <ecoreFeature xsi:type="ecore:EReference" href="ActivityDiagramToPetriNet.ecore#//BooleanBinaryExpression/operand2"/>
+      </genFeatures>
+      <genFeatures createChild="false">
+        <ecoreFeature xsi:type="ecore:EAttribute" href="ActivityDiagramToPetriNet.ecore#//BooleanBinaryExpression/operator"/>
+      </genFeatures>
+      <genOperations>
+        <ecoreOperation href="ActivityDiagramToPetriNet.ecore#//BooleanBinaryExpression/execute"/>
+      </genOperations>
+    </genClasses>
+    <genClasses>
+      <ecoreClass href="ActivityDiagramToPetriNet.ecore#//Token"/>
+    </genClasses>
+    <genClasses>
+      <ecoreClass href="ActivityDiagramToPetriNet.ecore#//Offer"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true">
+        <ecoreFeature xsi:type="ecore:EReference" href="ActivityDiagramToPetriNet.ecore#//Offer/offeredTokens"/>
+      </genFeatures>
+    </genClasses>
+    <genClasses>
+      <ecoreClass href="ActivityDiagramToPetriNet.ecore#//InputValue"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true">
+        <ecoreFeature xsi:type="ecore:EReference" href="ActivityDiagramToPetriNet.ecore#//InputValue/variable"/>
+      </genFeatures>
+      <genFeatures property="None" children="true" createChild="true">
+        <ecoreFeature xsi:type="ecore:EReference" href="ActivityDiagramToPetriNet.ecore#//InputValue/value"/>
+      </genFeatures>
+    </genClasses>
+    <genClasses>
+      <ecoreClass href="ActivityDiagramToPetriNet.ecore#//Input"/>
+      <genFeatures property="None" children="true" createChild="true">
+        <ecoreFeature xsi:type="ecore:EReference" href="ActivityDiagramToPetriNet.ecore#//Input/inputValues"/>
+      </genFeatures>
+    </genClasses>
+    <genClasses>
+      <ecoreClass href="ActivityDiagramToPetriNet.ecore#//ControlToken"/>
+    </genClasses>
+    <genClasses>
+      <ecoreClass href="ActivityDiagramToPetriNet.ecore#//ForkedToken"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true">
+        <ecoreFeature xsi:type="ecore:EReference" href="ActivityDiagramToPetriNet.ecore#//ForkedToken/baseToken"/>
+      </genFeatures>
+      <genFeatures createChild="false">
+        <ecoreFeature xsi:type="ecore:EAttribute" href="ActivityDiagramToPetriNet.ecore#//ForkedToken/remainingOffersCount"/>
+      </genFeatures>
+    </genClasses>
+    <genClasses>
+      <ecoreClass href="ActivityDiagramToPetriNet.ecore#//Trace"/>
+    </genClasses>
+    <genClasses>
+      <ecoreClass href="ActivityDiagramToPetriNet.ecore#//Util"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

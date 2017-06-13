@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <!-- @generated Activitydiagram2petriMT -->
+    <package class="org.gemoc.activitydiagram.sequential.ad2petri.activitydiagram2petrimt.activitydiagram.ActivitydiagramPackage" genModel="model-gen/Activitydiagram2petriMT.genmodel" uri="http://org.gemoc.activitydiagram.sequential.ad2petri.activitydiagram2petrimt/activitydiagram/" />
+  </extension>
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <!-- @generated XActivityDiagramMT -->
+    <package class="org.gemoc.activitydiagram.sequential.ad2petri.xactivitydiagrammt.activitydiagram.ActivitydiagramPackage" genModel="model-gen/XActivityDiagramMT.genmodel" uri="http://org.gemoc.activitydiagram.sequential.ad2petri.xactivitydiagrammt/activitydiagram/" />
+  </extension>
+  <extension point="org.gemoc.gemoc_language_workbench.sequential.xdsml">
+    <XDSML_Definition modelLoader_class="org.gemoc.executionframework.extensions.sirius.modelloader.DefaultModelLoader" name="org.gemoc.activitydiagram.sequential.ad2petri.ActivityDiagramToPetriNet" xdsmlFilePath="/org.gemoc.activitydiagram.sequential.ad2petri.xdsml/bin/org/gemoc/activitydiagram/sequential/ad2petri/ad2petri.melange" />
+  </extension>
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <!-- @generated ActivityDiagramToPetriNetMT -->
+    <package class="org.gemoc.activitydiagram.sequential.ad2petri.activitydiagramtopetrinetmt.activitydiagram.ActivitydiagramPackage" genModel="model-gen/ActivityDiagramToPetriNetMT.genmodel" uri="http://org.gemoc.activitydiagram.sequential.ad2petri.activitydiagramtopetrinetmt/activitydiagram/" />
+  </extension>
+  <extension point="fr.inria.diverse.melange.modeltype">
+    <modeltype id="org.gemoc.activitydiagram.sequential.ad2petri.ActivityDiagramMT" uri="http://org.gemoc.activitydiagram.sequential.ad2petri.activitydiagrammt/" />
+    <modeltype id="org.gemoc.activitydiagram.sequential.ad2petri.ActivityDiagramToPetriNetMT" uri="http://org.gemoc.activitydiagram.sequential.ad2petri.activitydiagramtopetrinetmt/">
+      <subtyping modeltypeId="org.gemoc.activitydiagram.sequential.ad2petri.ActivityDiagramMT" />
+    </modeltype>
+  </extension>
+  <extension point="fr.inria.diverse.melange.language">
+    <language aspects="" entryPoints="" exactType="org.gemoc.activitydiagram.sequential.ad2petri.ActivityDiagramMT" id="org.gemoc.activitydiagram.sequential.ad2petri.ActivityDiagram" uri="http://activitydiagram/1.0" />
+    <language aspects="IntegerCalculationExpression:org.gemoc.activitydiagram.sequential.ad2petri.activitydiagramtopetrinet.aspects.IntegerCalculationExpressionAspect;Variable:org.gemoc.activitydiagram.sequential.ad2petri.activitydiagramtopetrinet.aspects.VariableAspect;JoinNode:org.gemoc.activitydiagram.sequential.ad2petri.activitydiagramtopetrinet.aspects.JoinNodeAspect;BooleanBinaryExpression:org.gemoc.activitydiagram.sequential.ad2petri.activitydiagramtopetrinet.aspects.BooleanBinaryExpressionAspect;Activity:org.gemoc.activitydiagram.sequential.ad2petri.activitydiagramtopetrinet.aspects.ActivityAspect;ActivityFinalNode:org.gemoc.activitydiagram.sequential.ad2petri.activitydiagramtopetrinet.aspects.ActivityFinalNodeAspect;DecisionNode:org.gemoc.activitydiagram.sequential.ad2petri.activitydiagramtopetrinet.aspects.DecisionNodeAspect;OpaqueAction:org.gemoc.activitydiagram.sequential.ad2petri.activitydiagramtopetrinet.aspects.OpaqueActionAspect;InitialNode:org.gemoc.activitydiagram.sequential.ad2petri.activitydiagramtopetrinet.aspects.InitialNodeAspect;ControlFlow:org.gemoc.activitydiagram.sequential.ad2petri.activitydiagramtopetrinet.aspects.ControlFlowAspect;ActivityNode:org.gemoc.activitydiagram.sequential.ad2petri.activitydiagramtopetrinet.aspects.ActivityNodeAspect;MergeNode:org.gemoc.activitydiagram.sequential.ad2petri.activitydiagramtopetrinet.aspects.MergeNodeAspect;Input:org.gemoc.activitydiagram.sequential.ad2petri.activitydiagramtopetrinet.aspects.InputAspect;ForkNode:org.gemoc.activitydiagram.sequential.ad2petri.activitydiagramtopetrinet.aspects.ForkNodeAspect;IntegerVariable:org.gemoc.activitydiagram.sequential.ad2petri.activitydiagramtopetrinet.aspects.IntegerVariableAspect;Expression:org.gemoc.activitydiagram.sequential.ad2petri.activitydiagramtopetrinet.aspects.ExpressionAspect;Offer:org.gemoc.activitydiagram.sequential.ad2petri.activitydiagramtopetrinet.aspects.OfferAspect;InputValue:org.gemoc.activitydiagram.sequential.ad2petri.activitydiagramtopetrinet.aspects.InputValueAspect;BooleanVariable:org.gemoc.activitydiagram.sequential.ad2petri.activitydiagramtopetrinet.aspects.BooleanVariableAspect;ActivityEdge:org.gemoc.activitydiagram.sequential.ad2petri.activitydiagramtopetrinet.aspects.ActivityEdgeAspect;IntegerComparisonExpression:org.gemoc.activitydiagram.sequential.ad2petri.activitydiagramtopetrinet.aspects.IntegerComparisonExpressionAspect;NamedElement:org.gemoc.activitydiagram.sequential.ad2petri.activitydiagramtopetrinet.aspects.NamedElementAspect;ForkedToken:org.gemoc.activitydiagram.sequential.ad2petri.activitydiagramtopetrinet.aspects.ForkedTokenAspect;BooleanUnaryExpression:org.gemoc.activitydiagram.sequential.ad2petri.activitydiagramtopetrinet.aspects.BooleanUnaryExpressionAspect" entryPoints="org.gemoc.activitydiagram.sequential.ad2petri.activitydiagramtopetrinet.aspects.ActivityAspect.main(org.gemoc.activitydiagram.sequential.ad2petri.activitydiagramtopetrinet.activitydiagram.Activity)" exactType="org.gemoc.activitydiagram.sequential.ad2petri.ActivityDiagramToPetriNetMT" id="org.gemoc.activitydiagram.sequential.ad2petri.ActivityDiagramToPetriNet" uri="http://org.gemoc.activitydiagram.sequential.ad2petri.activitydiagramtopetrinet/activitydiagram/">
+      <adapter class="org.gemoc.activitydiagram.sequential.ad2petri.activitydiagramtopetrinet.adapters.activitydiagrammt.ActivityDiagramToPetriNetAdapter" modeltypeId="org.gemoc.activitydiagram.sequential.ad2petri.ActivityDiagramMT" />
+      <adapter class="org.gemoc.activitydiagram.sequential.ad2petri.activitydiagramtopetrinet.adapters.activitydiagramtopetrinetmt.ActivityDiagramToPetriNetAdapter" modeltypeId="org.gemoc.activitydiagram.sequential.ad2petri.ActivityDiagramToPetriNetMT" />
+    </language>
+  </extension>
+</plugin>
