@@ -3,7 +3,7 @@
 <schema targetNamespace="org.gemoc.execution.feedbackengine" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="org.gemoc.execution.feedbackengine" id="org.gemoc.execution.feedbackengine.feedbackinterpreter" name="org.gemoc.execution.feedbackengine.feedbackinterpreter"/>
+         <meta.schema plugin="org.gemoc.execution.feedbackengine" id="org.gemoc.execution.feedbackengine.feedbackinterpreterconfiguration" name="org.gemoc.execution.feedbackengine.feedbackinterpreterconfiguration"/>
       </appinfo>
       <documentation>
          [Enter description of this extension point.]
@@ -18,7 +18,7 @@
       </annotation>
       <complexType>
          <sequence minOccurs="0" maxOccurs="unbounded">
-            <element ref="feedbackinterpreter"/>
+            <element ref="feedbackinterpreterconfiguration"/>
          </sequence>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -47,7 +47,7 @@
       </complexType>
    </element>
 
-   <element name="feedbackinterpreter">
+   <element name="feedbackinterpreterconfiguration">
       <complexType>
          <attribute name="id" type="string">
             <annotation>
@@ -62,7 +62,7 @@
                   
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":org.gemoc.execution.feedbackengine.FeedbackInterpreter"/>
+                  <meta.attribute kind="java" basedOn=":org.gemoc.execution.feedbackengine.FeedbackInterpreterConfiguration"/>
                </appinfo>
             </annotation>
          </attribute>

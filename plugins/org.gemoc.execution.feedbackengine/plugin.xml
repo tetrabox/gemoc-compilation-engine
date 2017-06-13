@@ -2,6 +2,6 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension-point id="org.gemoc.execution.feedbackengine.compiler" name="org.gemoc.execution.feedbackengine.compiler" schema="schema/org.gemoc.execution.feedbackengine.compiler.exsd"/>
-   <extension-point id="org.gemoc.execution.feedbackengine.feedbackinterpreter" name="org.gemoc.execution.feedbackengine.feedbackinterpreter" schema="schema/org.gemoc.execution.feedbackengine.feedbackinterpreter.exsd"/>
+   <extension-point id="org.gemoc.execution.feedbackengine.feedbackinterpreterconfiguration" name="org.gemoc.execution.feedbackengine.feedbackinterpreterconfiguration" schema="schema/org.gemoc.execution.feedbackengine.feedbackinterpreterconfiguration.exsd"/>
 
 </plugin>
