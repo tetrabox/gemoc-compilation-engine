@@ -16,7 +16,6 @@ import org.gemoc.xdsmlframework.api.core.IExecutionEngine
 import org.gemoc.xdsmlframework.api.core.IRunConfiguration
 import org.gemoc.xdsmlframework.api.engine_addon.DefaultEngineAddon
 
-//import org.gemoc.execution.feedbackengine.FeedbackEngine
 class Ad2PetriFeedbackInterpreter extends DefaultEngineAddon implements FeedbackInterpreter {
 
 	/**
@@ -57,9 +56,7 @@ class Ad2PetriFeedbackInterpreter extends DefaultEngineAddon implements Feedback
 	}
 
 	override start() {
-
 		// Start target engine
-		// TODO dispose it later?
 		targetEngine.start();
 	}
 
@@ -88,21 +85,16 @@ class Ad2PetriFeedbackInterpreter extends DefaultEngineAddon implements Feedback
 	}
 
 	override engineStopped(IExecutionEngine engine) {
+		
+		// We re-throw any error occurring in the target engine
 		if (targetEngine.error != null)
 			throw targetEngine.error
 
 	}
 
-//	override engineAboutToDispose(IExecutionEngine engine) {
-//		targetEngine.dispose
-//	}
-//	override engineAboutToStart(IExecutionEngine engine) {
-//	}
-//
-//	override engineAboutToStop(IExecutionEngine engine) {
-//	}
-//	override engineStarted(IExecutionEngine executionEngine) {
-//		throw new UnsupportedOperationException("TODO: auto-generated method stub")
-//	}
-//
+	override engineAboutToStop(IExecutionEngine engine) {
+		// We don't need the target engine anymore as soon as the execution is over
+		targetEngine.dispose
+	}
+	
 }
