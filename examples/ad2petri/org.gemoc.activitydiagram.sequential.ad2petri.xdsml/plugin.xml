@@ -10,7 +10,7 @@
     <package class="org.gemoc.activitydiagram.sequential.ad2petri.xactivitydiagrammt.activitydiagram.ActivitydiagramPackage" genModel="model-gen/XActivityDiagramMT.genmodel" uri="http://org.gemoc.activitydiagram.sequential.ad2petri.xactivitydiagrammt/activitydiagram/" />
   </extension>
   <extension point="org.gemoc.gemoc_language_workbench.sequential.xdsml">
-    <XDSML_Definition modelLoader_class="org.gemoc.executionframework.extensions.sirius.modelloader.DefaultModelLoader" name="org.gemoc.activitydiagram.sequential.ad2petri.ActivityDiagramToPetriNet" xdsmlFilePath="/org.gemoc.activitydiagram.sequential.ad2petri.xdsml/bin/org/gemoc/activitydiagram/sequential/ad2petri/ad2petri.melange" />
+    <XDSML_Definition modelLoader_class="org.gemoc.executionframework.extensions.sirius.modelloader.DefaultModelLoader" name="org.gemoc.activitydiagram.sequential.ad2petri.ActivityDiagramToPetriNet" xdsmlFilePath="/org.gemoc.activitydiagram.sequential.ad2petri.xdsml/src/org/gemoc/activitydiagram/sequential/ad2petri/ad2petri.melange" />
   </extension>
   <extension point="org.eclipse.emf.ecore.generated_package">
     <!-- @generated ActivityDiagramToPetriNetMT -->

@@ -9,7 +9,7 @@ language ActivityDiagramToPetriNet inherits ActivityDiagram {
 	syntax "platform:/resource/org.gemoc.activitydiagram.sequential.model.dynamic/model/dynamic.ecore"
 	with org.gemoc.activitydiagram.sequential.ad2petri.partialsemantics.*
 	
-	annotation "compiler":"ad2petri"
+	annotation "compiler": "ad2petri"
 	annotation "feedback": "ad2petri-feedback"
 
 }
