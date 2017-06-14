@@ -93,6 +93,14 @@ public interface Activity extends NamedElement {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @model argsMany="true"
+	 * @generated
+	 */
+	void initialize(EList<String> args);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @model
 	 * @generated
 	 */

@@ -150,6 +150,17 @@ public class ActivityImpl extends NamedElementImpl implements Activity {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public void initialize(EList<String> args) {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public void main() {
 		// TODO: implement this method
 		// Ensure that you remove @generated or mark it @generated NOT

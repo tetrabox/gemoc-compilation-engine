@@ -27,10 +27,12 @@ import dynamic.activitydiagram.InputValue
 import dynamic.activitydiagram.Offer
 import dynamic.activitydiagram.Token
 import fr.inria.diverse.k3.al.annotationprocessor.Aspect
+import fr.inria.diverse.k3.al.annotationprocessor.InitializeModel
 import fr.inria.diverse.k3.al.annotationprocessor.Main
 import fr.inria.diverse.k3.al.annotationprocessor.OverrideAspectMethod
 import fr.inria.diverse.k3.al.annotationprocessor.Step
 import fr.inria.diverse.melange.annotation.Containment
+import java.util.List
 import org.eclipse.emf.common.util.EList
 
 class Util {
@@ -40,6 +42,10 @@ class Util {
 
 @Aspect(className=Activity)
 class ActivityAspect extends NamedElementAspect {
+
+	@InitializeModel
+	def void initialize(List<String> args) {
+	}
 
 	@Main
 	def void main() {

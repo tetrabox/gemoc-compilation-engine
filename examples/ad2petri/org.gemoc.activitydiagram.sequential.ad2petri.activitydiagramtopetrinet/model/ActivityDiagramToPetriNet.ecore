@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="ASCII"?>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="activitydiagram" nsURI="http://org.gemoc.activitydiagram.sequential.ad2petri.activitydiagramtopetrinet/activitydiagram/" nsPrefix="activitydiagram">
   <eClassifiers xsi:type="ecore:EClass" name="Activity" eSuperTypes="//NamedElement">
+    <eOperations name="initialize">
+      <eAnnotations source="aspect"/>
+      <eParameters name="args" upperBound="-1">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eParameters>
+    </eOperations>
     <eOperations name="main">
       <eAnnotations source="aspect"/>
     </eOperations>

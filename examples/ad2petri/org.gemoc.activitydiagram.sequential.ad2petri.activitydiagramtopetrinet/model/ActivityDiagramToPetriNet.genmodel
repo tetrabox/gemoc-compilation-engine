@@ -60,6 +60,12 @@
         <ecoreFeature xsi:type="ecore:EReference" href="ActivityDiagramToPetriNet.ecore#//Activity/inputs"/>
       </genFeatures>
       <genOperations>
+        <ecoreOperation href="ActivityDiagramToPetriNet.ecore#//Activity/initialize"/>
+        <genParameters>
+          <ecoreParameter href="ActivityDiagramToPetriNet.ecore#//Activity/initialize/args"/>
+        </genParameters>
+      </genOperations>
+      <genOperations>
         <ecoreOperation href="ActivityDiagramToPetriNet.ecore#//Activity/main"/>
       </genOperations>
       <genOperations>

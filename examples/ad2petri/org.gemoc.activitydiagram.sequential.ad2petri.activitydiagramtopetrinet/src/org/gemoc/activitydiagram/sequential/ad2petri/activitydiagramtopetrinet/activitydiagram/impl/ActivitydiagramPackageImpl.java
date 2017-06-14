@@ -1331,6 +1331,9 @@ public class ActivitydiagramPackageImpl extends EPackageImpl implements Activity
 		initEReference(getActivity_Locals(), this.getVariable(), null, "locals", null, 0, -1, Activity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getActivity_Inputs(), this.getVariable(), null, "inputs", null, 0, -1, Activity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+		EOperation op = addEOperation(activityEClass, null, "initialize", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEString(), "args", 0, -1, IS_UNIQUE, IS_ORDERED);
+
 		addEOperation(activityEClass, null, "main", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		addEOperation(activityEClass, null, "execute", 0, 1, IS_UNIQUE, IS_ORDERED);
@@ -1346,7 +1349,7 @@ public class ActivitydiagramPackageImpl extends EPackageImpl implements Activity
 
 		addEOperation(activityNodeEClass, null, "terminate", 0, 1, IS_UNIQUE, IS_ORDERED);
 
-		EOperation op = addEOperation(activityNodeEClass, null, "sendOffers", 0, 1, IS_UNIQUE, IS_ORDERED);
+		op = addEOperation(activityNodeEClass, null, "sendOffers", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getToken(), "tokens", 0, -1, IS_UNIQUE, IS_ORDERED);
 
 		addEOperation(activityNodeEClass, this.getToken(), "takeOfferdTokens", 0, -1, IS_UNIQUE, IS_ORDERED);
@@ -1532,6 +1535,11 @@ public class ActivitydiagramPackageImpl extends EPackageImpl implements Activity
 		   });	
 		addAnnotation
 		  (activityEClass.getEOperations().get(1), 
+		   source, 
+		   new String[] {
+		   });	
+		addAnnotation
+		  (activityEClass.getEOperations().get(2), 
 		   source, 
 		   new String[] {
 		   });	
