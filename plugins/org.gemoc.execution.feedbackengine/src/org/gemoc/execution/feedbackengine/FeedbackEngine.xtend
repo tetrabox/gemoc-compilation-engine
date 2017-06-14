@@ -40,13 +40,6 @@ class FeedbackEngine extends AbstractSequentialExecutionEngine implements IEngin
 		afterExecutionStep
 	}
 
-	override protected executeEntryPoint() {
-		targetEngine.start();
-		targetEngine.joinThread
-		if (targetEngine.error != null)
-			throw targetEngine.error
-	}
-
 	override protected prepareEntryPoint(IExecutionContext executionContext) {
 
 		// Reading melange model to find compiler and feedback identifiers
@@ -75,7 +68,7 @@ class FeedbackEngine extends AbstractSequentialExecutionEngine implements IEngin
 		rs.URIConverter = null
 		targetResource.save(null)
 		rs.URIConverter = tmp
-		
+
 		// Creating the feedback configuration
 		val feedbackConfiguration = getExtension(feedbackExtensionPoint, feedbackID) as FeedbackConfiguration
 
@@ -90,7 +83,7 @@ class FeedbackEngine extends AbstractSequentialExecutionEngine implements IEngin
 		val Map<EObject, EObject> sourceMapping = dynamicSourceModel.modelsMapping
 		val Map<EObject, EObject> targetMapping = (targetEngine.executionContext.resourceModel as MelangeResource).
 			modelsMapping
-		val TraceabilityModel dynamicTraceability = tranformToDynamic(compilatioResult.traceabilityModelRoot,
+		val TraceabilityModel dynamicTraceability = transformToDynamic(compilatioResult.traceabilityModelRoot,
 			sourceMapping, targetMapping)
 
 		// Creating the feedback interpreter
@@ -98,7 +91,7 @@ class FeedbackEngine extends AbstractSequentialExecutionEngine implements IEngin
 
 	}
 
-	def tranformToDynamic(TraceabilityModel traceabilityModel, Map<EObject, EObject> sourceMapping,
+	private def static transformToDynamic(TraceabilityModel traceabilityModel, Map<EObject, EObject> sourceMapping,
 		Map<EObject, EObject> targetMapping) {
 		val dynamicTraceabilityModel = GemoctraceabilityFactory::eINSTANCE.createTraceabilityModel
 		for (link : traceabilityModel.links) {
@@ -141,6 +134,12 @@ class FeedbackEngine extends AbstractSequentialExecutionEngine implements IEngin
 		}
 	}
 
+	override protected executeEntryPoint() {
+		targetEngine.startSynchronous();
+		if (targetEngine.error != null)
+			throw targetEngine.error
+	}
+
 	override aboutToExecuteStep(IExecutionEngine engine, Step<?> step) {
 		feedbackInterpreter.processTargetStepStart(step)
 	}
@@ -148,10 +147,12 @@ class FeedbackEngine extends AbstractSequentialExecutionEngine implements IEngin
 	override stepExecuted(IExecutionEngine engine, Step<?> step) {
 		feedbackInterpreter.processTargetStepEnd(step)
 	}
-	
+
 	override engineAboutToStop(IExecutionEngine engine) {
 		feedbackInterpreter.processTargetExecutionEnd()
 	}
+
+
 
 	override protected initializeModel() {
 		// Nothing to do
