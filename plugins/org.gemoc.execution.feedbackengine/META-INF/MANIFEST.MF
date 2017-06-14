@@ -18,6 +18,7 @@ Require-Bundle: com.google.guava,
  org.eclipse.emf.transaction;bundle-version="1.9.0",
  fr.inria.diverse.melange.metamodel;bundle-version="0.2.0",
  fr.inria.diverse.melange.resource;bundle-version="0.2.0",
- org.gemoc.executionframework.extensions.sirius;bundle-version="2.3.0"
+ org.gemoc.executionframework.extensions.sirius;bundle-version="2.3.0",
+ org.gemoc.execution.traceability.model;bundle-version="1.0.0"
 Export-Package: org.gemoc.execution.feedbackengine
 

@@ -7,20 +7,16 @@ import activitydiagram.FinalNode
 import activitydiagram.ForkNode
 import activitydiagram.InitialNode
 import activitydiagram.JoinNode
-import ad2petritraceability.ActivityTrace
-import ad2petritraceability.Ad2petriTraceability
-import ad2petritraceability.Ad2petritraceabilityFactory
-import ad2petritraceability.ControlFlowTrace
-import ad2petritraceability.FinalNodeTrace
-import ad2petritraceability.ForkNodeTrace
-import ad2petritraceability.JoinNodeTrace
-import ad2petritraceability.NodeToPlaceTrace
-import ad2petritraceability.Trace
+import gemoctraceability.GemoctraceabilityFactory
+import gemoctraceability.Link
+import gemoctraceability.TraceabilityModel
 import org.eclipse.emf.ecore.EObject
-import petrinetv1.Net
-import org.gemoc.execution.feedbackengine.Compiler
-import petrinetv1.PetrinetV1Factory
 import org.gemoc.execution.feedbackengine.CompilationResult
+import org.gemoc.execution.feedbackengine.Compiler
+import petrinetv1.Net
+import petrinetv1.PetrinetV1Factory
+import petrinetv1.Place
+import petrinetv1.Transition
 
 /**
  * Input: subset of AD
@@ -33,25 +29,26 @@ import org.gemoc.execution.feedbackengine.CompilationResult
 class Ad2PetriCompiler implements Compiler {
 
 	private var Activity input
-	private var Ad2petriTraceability mapping
+	private var TraceabilityModel mapping
 	private var Net output
 
 	private def void transformToNet() {
 		transform(input)
-		output = mapping.activityTraces.findFirst[t|t.originalActivity == input].net
+		output = mapping.links.findFirst[it.sourceElements.contains(input)].targetElements.head as Net
 	}
 
-	private def dispatch ActivityTrace transform(Activity activity) {
-		var result = mapping.activityTraces.findFirst[t|t.originalActivity == activity]
+	private def dispatch Link transform(Activity activity) {
+		var result = getExistingLink(activity)
 		if (result == null) {
 
 			// Create trace
-			result = Ad2petritraceabilityFactory::eINSTANCE.createActivityTrace
-			result.originalActivity = activity
-			mapping.activityTraces.add(result)
+			result = GemoctraceabilityFactory::eINSTANCE.createLink
+			result.sourceElements.add(activity)
+			mapping.links.add(result)
 
 			// Create net
-			result.net = PetrinetV1Factory::eINSTANCE.createNet
+			val net = PetrinetV1Factory::eINSTANCE.createNet
+			result.targetElements.add(net)
 
 			// Transform all referenced stuff
 			for (node : activity.nodes) {
@@ -65,61 +62,64 @@ class Ad2PetriCompiler implements Compiler {
 		return result
 	}
 
-	private def dispatch NodeToPlaceTrace transform(Action action) {
-		var result = mapping.nonFinalNodeTraces.findFirst[t|t.originalNode == action]
+	private def dispatch Link transform(Action action) {
+		var result = getExistingLink(action)
 		if (result == null) {
 			// Create trace
-			result = Ad2petritraceabilityFactory::eINSTANCE.createNodeToPlaceTrace
-			result.originalNode = action
-			mapping.nonFinalNodeTraces.add(result)
+			result = GemoctraceabilityFactory::eINSTANCE.createLink
+			result.sourceElements.add(action)
+			mapping.links.add(result)
 
 			// Get containing net
-			val net = (transform(action.eContainer) as ActivityTrace).net
+			val net = getContainingNet(action)
 
 			// Create place
-			result.place = PetrinetV1Factory::eINSTANCE.createPlace
-			result.place.name = action.name + "_action"
-			net.places.add(result.place)
+			val place = PetrinetV1Factory::eINSTANCE.createPlace
+			result.targetElements.add(place)
+			place.name = action.name + "_action"
+			net.places.add(place)
 
 		}
 		return result
 	}
 
-	private def dispatch NodeToPlaceTrace transform(InitialNode initialNode) {
-		var result = mapping.nonFinalNodeTraces.findFirst[t|t.originalNode == initialNode]
+	private def dispatch Link transform(InitialNode initialNode) {
+		var result = getExistingLink(initialNode)
 		if (result == null) {
 			// Create trace
-			result = Ad2petritraceabilityFactory::eINSTANCE.createNodeToPlaceTrace
-			result.originalNode = initialNode
-			mapping.nonFinalNodeTraces.add(result)
+			result = GemoctraceabilityFactory::eINSTANCE.createLink
+			result.sourceElements.add(initialNode)
+			mapping.links.add(result)
 
 			// Get containing net
-			val net = (transform(initialNode.eContainer) as ActivityTrace).net
+			val net = getContainingNet(initialNode)
 
 			// Create initial place
-			result.place = PetrinetV1Factory::eINSTANCE.createPlace
-			result.place.initialTokens = 1
-			result.place.name = initialNode.name + "_initial"
-			net.places.add(result.place)
+			val place = PetrinetV1Factory::eINSTANCE.createPlace
+			result.targetElements.add(place)
+			place.initialTokens = 1
+			place.name = initialNode.name + "_initial"
+			net.places.add(place)
 		}
 		return result
 	}
 
-	private def dispatch FinalNodeTrace transform(FinalNode finalNode) {
-		var result = mapping.finalNodeTraces.findFirst[t|t.originalNode == finalNode]
+	private def dispatch Link transform(FinalNode finalNode) {
+		var result = getExistingLink(finalNode)
 		if (result == null) {
 			// Create trace
-			result = Ad2petritraceabilityFactory::eINSTANCE.createFinalNodeTrace
-			result.originalNode = finalNode
-			mapping.finalNodeTraces.add(result)
+			result = GemoctraceabilityFactory::eINSTANCE.createLink
+			result.sourceElements.add(finalNode)
+			mapping.links.add(result)
 
 			// Get containing net
-			val net = (transform(finalNode.eContainer) as ActivityTrace).net
+			val net = getContainingNet(finalNode)
 
 			// Create final transition
-			result.transition = PetrinetV1Factory::eINSTANCE.createTransition
-			result.transition.name = finalNode.name + "_final"
-			net.transitions.add(result.transition)
+			val transition = PetrinetV1Factory::eINSTANCE.createTransition
+			result.targetElements.add(transition)
+			transition.name = finalNode.name + "_final"
+			net.transitions.add(transition)
 		}
 		return result
 	}
@@ -127,43 +127,48 @@ class Ad2PetriCompiler implements Compiler {
 	/**
 	 * Two cases: before final node, or not
 	 */
-	private def dispatch ControlFlowTrace transform(ControlFlow controlFlow) {
+	private def dispatch Link transform(ControlFlow controlFlow) {
 
-		var result = mapping.controlFlowTraces.findFirst[t|t.originalControlFlow == controlFlow]
+		var result = getExistingLink(controlFlow)
 		if (result == null) {
 
 			val source = transform(controlFlow.source)
 			val target = transform(controlFlow.target)
 
 			// Finding all connection cases
-			val sourcePlace = if (source instanceof NodeToPlaceTrace)
-					source.place
-				else if(source instanceof JoinNodeTrace) source.place else null
-			val targetPlace = if (target instanceof NodeToPlaceTrace)
-					target.place
-				else if(target instanceof ForkNodeTrace) target.place else null
-			val sourceTransition = if(source instanceof ForkNodeTrace) source.transition else null
-			val targetTransition = if (target instanceof JoinNodeTrace)
-					target.transition
-				else if(target instanceof FinalNodeTrace) target.transition
+			val sourcePlace = if (source.sourceElements.exists [
+					it instanceof InitialNode || it instanceof Action || it instanceof JoinNode
+				])
+					source.targetElements.filter(Place).head
+
+			val targetPlace = if (target.sourceElements.exists [
+					it instanceof InitialNode || it instanceof Action || it instanceof ForkNode
+				])
+					target.targetElements.filter(Place).head
+
+			val sourceTransition = if (source.sourceElements.exists[it instanceof ForkNode])
+					source.targetElements.filter(Transition).head
+
+			val targetTransition = if (target.sourceElements.exists[it instanceof JoinNode || it instanceof FinalNode])
+					target.targetElements.filter(Transition).head
 
 			// Case edge -> transition
 			if (sourcePlace != null && targetPlace != null) {
 				// Get containing net
-				val net = (transform(controlFlow.eContainer) as ActivityTrace).net
+				val net = getContainingNet(controlFlow)
 
 				// Create trace
-				result = Ad2petritraceabilityFactory::eINSTANCE.createControlFlowTrace
-				result.originalControlFlow = controlFlow
-				mapping.controlFlowTraces.add(result)
+				result = GemoctraceabilityFactory::eINSTANCE.createLink
+				result.sourceElements.add(controlFlow)
+				mapping.links.add(result)
 
 				// Create transition
-				result.transition = PetrinetV1Factory::eINSTANCE.createTransition
-				mapping.controlFlowTraces.add(result)
-				net.transitions.add(result.transition)
-				result.transition.name = controlFlow.name + "_controlflow"
-				result.transition.input.add(sourcePlace)
-				result.transition.output.add(targetPlace)
+				val transition = PetrinetV1Factory::eINSTANCE.createTransition
+				result.targetElements.add(transition)
+				net.transitions.add(transition)
+				transition.name = controlFlow.name + "_controlflow"
+				transition.input.add(sourcePlace)
+				transition.output.add(targetPlace)
 			} // Cases edge -> simple link
 			else if (sourcePlace != null && targetTransition != null) {
 				targetTransition.input.add(sourcePlace)
@@ -175,70 +180,82 @@ class Ad2PetriCompiler implements Compiler {
 		return result
 	}
 
-	private def dispatch JoinNodeTrace transform(JoinNode joinNode) {
-		var result = mapping.joinNodeTraces.findFirst[t|t.originalNode == joinNode]
+	private def dispatch Link transform(JoinNode joinNode) {
+		var result = getExistingLink(joinNode)
 		if (result == null) {
 			// Create trace
-			result = Ad2petritraceabilityFactory::eINSTANCE.createJoinNodeTrace
-			result.originalNode = joinNode
-			mapping.joinNodeTraces.add(result)
+			result = GemoctraceabilityFactory::eINSTANCE.createLink
+			result.sourceElements.add(joinNode)
+			mapping.links.add(result)
 
 			// Get containing net
-			val net = (transform(joinNode.eContainer) as ActivityTrace).net
+			val net = getContainingNet(joinNode)
 
 			// Create place
-			result.place = PetrinetV1Factory::eINSTANCE.createPlace
-			result.place.name = joinNode.name + "_joinNode"
-			net.places.add(result.place)
+			val place = PetrinetV1Factory::eINSTANCE.createPlace
+			result.targetElements.add(place)
+			place.name = joinNode.name + "_joinNode"
+			net.places.add(place)
 
 			// Create transition
-			result.transition = PetrinetV1Factory::eINSTANCE.createTransition
-			result.transition.name = joinNode.name + "_joinNode"
-			net.transitions.add(result.transition)
-			result.transition.output.add(result.place)
+			val transition = PetrinetV1Factory::eINSTANCE.createTransition
+			result.targetElements.add(transition)
+			transition.name = joinNode.name + "_joinNode"
+			net.transitions.add(transition)
+			transition.output.add(place)
 
 		}
 		return result
 	}
 
-	private def dispatch ForkNodeTrace transform(ForkNode forkNode) {
-		var result = mapping.forkNodeTraces.findFirst[t|t.originalNode == forkNode]
+	private def dispatch Link transform(ForkNode forkNode) {
+		var result = getExistingLink(forkNode)
 		if (result == null) {
 			// Create trace
-			result = Ad2petritraceabilityFactory::eINSTANCE.createForkNodeTrace
-			result.originalNode = forkNode
-			mapping.forkNodeTraces.add(result)
+			result = GemoctraceabilityFactory::eINSTANCE.createLink
+			result.sourceElements.add(forkNode)
+			mapping.links.add(result)
 
 			// Get containing net
-			val net = (transform(forkNode.eContainer) as ActivityTrace).net
+			val net = getContainingNet(forkNode)
 
 			// Create place
-			result.place = PetrinetV1Factory::eINSTANCE.createPlace
-			result.place.name = forkNode.name + "_forkNode"
-			net.places.add(result.place)
+			val place = PetrinetV1Factory::eINSTANCE.createPlace
+			result.targetElements.add(place)
+			place.name = forkNode.name + "_forkNode"
+			net.places.add(place)
 
 			// Create transition
-			result.transition = PetrinetV1Factory::eINSTANCE.createTransition
-			result.transition.name = forkNode.name + "_forkNode"
-			net.transitions.add(result.transition)
-			result.transition.input.add(result.place)
+			val transition = PetrinetV1Factory::eINSTANCE.createTransition
+			result.targetElements.add(transition)
+			transition.name = forkNode.name + "_forkNode"
+			net.transitions.add(transition)
+			transition.input.add(place)
 		}
 		return result
 	}
 
-	private def dispatch Trace transform(EObject o) {
+	private def dispatch Link transform(EObject o) {
 		throw new Exception("Unsupported kind of object: " + o)
 	}
 
 	override compile(EObject sourceModelRoot) {
-		mapping = Ad2petritraceabilityFactory::eINSTANCE.createAd2petriTraceability
+		mapping = GemoctraceabilityFactory::eINSTANCE.createTraceabilityModel
 		input = sourceModelRoot as Activity
 		transformToNet()
 		return new CompilationResult(mapping, output)
 	}
-	
+
 	override getTargetFileExtension() {
 		"xmi"
+	}
+
+	private def Net getContainingNet(EObject o) {
+		(transform(o.eContainer) as Link).targetElements.head as Net
+	}
+
+	private def Link getExistingLink(EObject o) {
+		mapping.links.findFirst[it.sourceElements.contains(o)]
 	}
 
 }

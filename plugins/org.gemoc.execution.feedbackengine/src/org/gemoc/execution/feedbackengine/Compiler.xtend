@@ -1,11 +1,10 @@
 package org.gemoc.execution.feedbackengine
 
 import org.eclipse.emf.ecore.EObject
-import org.eclipse.xtend.lib.annotations.Data 
-
+import org.eclipse.xtend.lib.annotations.Data import gemoctraceability.TraceabilityModel
 
 @Data class CompilationResult {
-	EObject traceabilityModelRoot
+	TraceabilityModel traceabilityModelRoot
 	EObject targetModelRoot
 }
 

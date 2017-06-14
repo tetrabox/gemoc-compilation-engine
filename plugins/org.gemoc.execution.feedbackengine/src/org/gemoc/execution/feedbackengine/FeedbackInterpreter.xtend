@@ -1,20 +1,20 @@
 package org.gemoc.execution.feedbackengine
 
 import fr.inria.diverse.trace.commons.model.trace.Step
-import java.util.Map
-import org.eclipse.emf.ecore.EObject
+import gemoctraceability.TraceabilityModel
 import org.gemoc.xdsmlframework.api.core.IExecutionEngine
 
 interface FeedbackInterpreter {
 
-	def void initialize(EObject traceability, FeedbackEngine feedbackEngine,
-		Map<EObject, EObject> staticSource2dynamicSource, Map<EObject, EObject> staticTarget2dynamicTarget)
+	def void initialize(TraceabilityModel traceability, FeedbackEngine feedbackEngine)
 
 	def IExecutionEngine createTargetEngine()
 
 	def void processTargetStepStart(Step<?> targetStep)
 
 	def void processTargetStepEnd(Step<?> targetStep)
+	
+	def void processTargetExecutionEnd()
 
 	def String getTargetEntryPoint()
 

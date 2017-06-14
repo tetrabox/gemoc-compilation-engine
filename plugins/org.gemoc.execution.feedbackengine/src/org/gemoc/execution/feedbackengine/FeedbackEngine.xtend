@@ -5,6 +5,9 @@ import fr.inria.diverse.melange.metamodel.melange.Language
 import fr.inria.diverse.melange.metamodel.melange.ModelTypingSpace
 import fr.inria.diverse.melange.resource.MelangeResource
 import fr.inria.diverse.trace.commons.model.trace.Step
+import gemoctraceability.GemoctraceabilityFactory
+import gemoctraceability.TraceabilityModel
+import java.util.Map
 import org.eclipse.core.runtime.Platform
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EObject
@@ -46,7 +49,7 @@ class FeedbackEngine extends AbstractSequentialExecutionEngine implements IEngin
 
 	override protected prepareEntryPoint(IExecutionContext executionContext) {
 
-		// Reading melange model 
+		// Reading melange model to find compiler and feedback identifiers
 		val Language language = getMelangeLanguage(executionContext)
 		val String compilerID = language.annotations.findFirst[key.equals(annotationCompilerKey)].value
 		val String feedbackInterpreterID = language.annotations.findFirst[key.equals(annotationFeedbackKey)].value
@@ -54,17 +57,17 @@ class FeedbackEngine extends AbstractSequentialExecutionEngine implements IEngin
 		// Compiling
 		val Compiler compiler = getExtension(compilerExtensionPoint, compilerID) as Compiler
 		val MelangeResource dynamicSourceModel = executionContext.resourceModel as MelangeResource
-		val EObject modelroot = dynamicSourceModel.wrappedResource.contents.head
-		val result = compiler.compile(modelroot)
+		val EObject staticSourceModelRoot = dynamicSourceModel.wrappedResource.contents.head
+		val compilatioResult = compiler.compile(staticSourceModelRoot)
 
-		// Saving compilation result
+		// Puting target model in resource
 		val exeFolder = executionContext.workspace.executionPath
 		val targetURI = URI::createPlatformResourceURI(exeFolder.toString + "/target." + compiler.targetFileExtension,
 			true)
 		val rs = dynamicSourceModel.resourceSet
 		val targetResource = rs.createResource(targetURI)
 		val ed = TransactionUtil::getEditingDomain(rs)
-		val addCommand = new AddCommand(ed, targetResource.contents, result.targetModelRoot)
+		val addCommand = new AddCommand(ed, targetResource.contents, compilatioResult.targetModelRoot)
 		ed.commandStack.execute(addCommand)
 
 		// Saving, and temporary disable URIConverter to bypass save blocking from org.gemoc.executionframework.extensions.sirius.modelloader.DebugURIHandler
@@ -72,7 +75,7 @@ class FeedbackEngine extends AbstractSequentialExecutionEngine implements IEngin
 		rs.URIConverter = null
 		targetResource.save(null)
 		rs.URIConverter = tmp
-
+		
 		// Creating the feedback interpreter
 		feedbackInterpreter = getExtension(feedbackExtensionPoint, feedbackInterpreterID) as FeedbackInterpreter
 
@@ -82,12 +85,33 @@ class FeedbackEngine extends AbstractSequentialExecutionEngine implements IEngin
 		targetEngine.initialize(exeContext);
 		targetEngine.stopOnAddonError = true;
 		targetEngine.executionContext.executionPlatform.addEngineAddon(this)
-		val targetMapping = (targetEngine.executionContext.resourceModel as MelangeResource).modelsMapping
+
+		// Converting the traceability model to a dynamic one
+		val Map<EObject, EObject> sourceMapping = dynamicSourceModel.modelsMapping
+		val Map<EObject, EObject> targetMapping = (targetEngine.executionContext.resourceModel as MelangeResource).
+			modelsMapping
+		val TraceabilityModel dynamicTraceability = tranformToDynamic(compilatioResult.traceabilityModelRoot,
+			sourceMapping, targetMapping)
 
 		// Configuring the feedback interpreter
-		feedbackInterpreter.initialize(result.traceabilityModelRoot, this, dynamicSourceModel.modelsMapping,
-			targetMapping)
+		feedbackInterpreter.initialize(dynamicTraceability, this)
 
+	}
+
+	def tranformToDynamic(TraceabilityModel traceabilityModel, Map<EObject, EObject> sourceMapping,
+		Map<EObject, EObject> targetMapping) {
+		val dynamicTraceabilityModel = GemoctraceabilityFactory::eINSTANCE.createTraceabilityModel
+		for (link : traceabilityModel.links) {
+			val dynamicLink = GemoctraceabilityFactory::eINSTANCE.createLink
+			dynamicLink.sourceElements.addAll(
+				link.sourceElements.map[sourceMapping.get(it)]
+			)
+			dynamicLink.targetElements.addAll(
+				link.targetElements.map[targetMapping.get(it)]
+			)
+			dynamicTraceabilityModel.links.add(dynamicLink)
+		}
+		return dynamicTraceabilityModel
 	}
 
 	private static def Object getExtension(String extensionPoint, String id) {
@@ -123,6 +147,10 @@ class FeedbackEngine extends AbstractSequentialExecutionEngine implements IEngin
 
 	override stepExecuted(IExecutionEngine engine, Step<?> step) {
 		feedbackInterpreter.processTargetStepEnd(step)
+	}
+	
+	override engineAboutToStop(IExecutionEngine engine) {
+		feedbackInterpreter.processTargetExecutionEnd()
 	}
 
 	override protected initializeModel() {
