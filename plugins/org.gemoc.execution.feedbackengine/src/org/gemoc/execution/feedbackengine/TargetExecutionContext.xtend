@@ -25,7 +25,7 @@ class TargetExecutionContext implements IExecutionContext {
 	val Resource targetDynamicModel
 	val IExecutionWorkspace executionWorkspace;
 
-	new(Resource targetStaticModel, FeedbackInterpreter conf) {
+	new(Resource targetStaticModel, FeedbackConfiguration conf) {
 		this.executionPlatform = new TargetExecutionPlatform()
 		this.runConfiguration = new TargetRunConfiguration(targetStaticModel.URI,
 			conf.getTargetEntryPoint(), conf.getTargetLanguageName(), conf.getTargetInitializationMethod())

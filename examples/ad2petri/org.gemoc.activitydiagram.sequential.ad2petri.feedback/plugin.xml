@@ -2,11 +2,11 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="org.gemoc.execution.feedbackengine.feedbackinterpreter">
-      <feedbackinterpreter
-            class="org.gemoc.activitydiagram.sequential.ad2petri.feedback.Ad2PetriFeedbackInterpreter"
+         point="org.gemoc.execution.feedbackengine.feedback">
+      <feedback
+            class="org.gemoc.activitydiagram.sequential.ad2petri.feedback.Ad2PetriFeedbackConfiguration"
             id="ad2petri-feedback">
-      </feedbackinterpreter>
+      </feedback>
    </extension>
 
 </plugin>

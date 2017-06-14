@@ -18,7 +18,6 @@ import org.gemoc.activitydiagram.sequential.ad2petri.activitydiagramtopetrinet.a
 import org.gemoc.activitydiagram.sequential.ad2petri.activitydiagramtopetrinet.activitydiagram.Token
 import org.gemoc.execution.feedbackengine.FeedbackEngine
 import org.gemoc.execution.feedbackengine.FeedbackInterpreter
-import org.gemoc.execution.sequential.javaengine.PlainK3ExecutionEngine
 import org.gemoc.executionframework.engine.core.CommandExecution
 
 class Ad2PetriFeedbackInterpreter implements FeedbackInterpreter {
@@ -26,20 +25,18 @@ class Ad2PetriFeedbackInterpreter implements FeedbackInterpreter {
 	/**
 	 * Mapping between source and target models.
 	 */
-	private var TraceabilityModel mapping
+	private val TraceabilityModel mapping
 
 	/**
 	 * This is where we send our translated steps.
 	 */
-	private var FeedbackEngine feedbackEngine
+	private val FeedbackEngine feedbackEngine
 
-	private var TransactionalEditingDomain ed
+	private val TransactionalEditingDomain ed
 
-	override createTargetEngine() {
-		return new PlainK3ExecutionEngine()
-	}
+	
 
-	override initialize(TraceabilityModel traceabilityModel, FeedbackEngine feedbackEngine) {
+	new(TraceabilityModel traceabilityModel, FeedbackEngine feedbackEngine) {
 		this.mapping = traceabilityModel
 		this.feedbackEngine = feedbackEngine
 		this.ed = TransactionUtil::getEditingDomain(traceabilityModel.links.head.sourceElements.head)
@@ -120,17 +117,6 @@ class Ad2PetriFeedbackInterpreter implements FeedbackInterpreter {
 		feedbackModelState()
 	}
 
-	override getTargetLanguageName() {
-		"fr.inria.diverse.sample.petrinetv1.xdsml.XPetrinetv1"
-	}
-
-	override getTargetEntryPoint() {
-		"public static void fr.inria.diverse.sample.petrinetv1.xdsml.xpetrinetv1.aspects.NetAspect.run(fr.inria.diverse.sample.petrinetv1.xdsml.xpetrinetv1.petrinetv1.Net)"
-	}
-
-	override getTargetInitializationMethod() {
-		"fr.inria.diverse.sample.petrinetv1.xdsml.xpetrinetv1.aspects.NetAspect.initialize"
-	}
 
 	/**
 	 * Wrapper using lambda to always use a RecordingCommand when modifying the model

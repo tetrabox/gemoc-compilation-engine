@@ -27,7 +27,7 @@ class FeedbackEngine extends AbstractSequentialExecutionEngine implements IEngin
 	public static val String annotationCompilerKey = "compiler"
 	public static val String annotationFeedbackKey = "feedback"
 	public static val String compilerExtensionPoint = "org.gemoc.execution.feedbackengine.compiler"
-	public static val String feedbackExtensionPoint = "org.gemoc.execution.feedbackengine.feedbackinterpreter"
+	public static val String feedbackExtensionPoint = "org.gemoc.execution.feedbackengine.feedback"
 
 	var FeedbackInterpreter feedbackInterpreter
 	var AbstractExecutionEngine targetEngine
@@ -52,7 +52,7 @@ class FeedbackEngine extends AbstractSequentialExecutionEngine implements IEngin
 		// Reading melange model to find compiler and feedback identifiers
 		val Language language = getMelangeLanguage(executionContext)
 		val String compilerID = language.annotations.findFirst[key.equals(annotationCompilerKey)].value
-		val String feedbackInterpreterID = language.annotations.findFirst[key.equals(annotationFeedbackKey)].value
+		val String feedbackID = language.annotations.findFirst[key.equals(annotationFeedbackKey)].value
 
 		// Compiling
 		val Compiler compiler = getExtension(compilerExtensionPoint, compilerID) as Compiler
@@ -76,12 +76,12 @@ class FeedbackEngine extends AbstractSequentialExecutionEngine implements IEngin
 		targetResource.save(null)
 		rs.URIConverter = tmp
 		
-		// Creating the feedback interpreter
-		feedbackInterpreter = getExtension(feedbackExtensionPoint, feedbackInterpreterID) as FeedbackInterpreter
+		// Creating the feedback configuration
+		val feedbackConfiguration = getExtension(feedbackExtensionPoint, feedbackID) as FeedbackConfiguration
 
 		// Creating the target engine
-		val exeContext = new TargetExecutionContext(targetResource, feedbackInterpreter)
-		targetEngine = feedbackInterpreter.createTargetEngine() as AbstractExecutionEngine
+		val exeContext = new TargetExecutionContext(targetResource, feedbackConfiguration)
+		targetEngine = feedbackConfiguration.createTargetEngine() as AbstractExecutionEngine
 		targetEngine.initialize(exeContext);
 		targetEngine.stopOnAddonError = true;
 		targetEngine.executionContext.executionPlatform.addEngineAddon(this)
@@ -93,8 +93,8 @@ class FeedbackEngine extends AbstractSequentialExecutionEngine implements IEngin
 		val TraceabilityModel dynamicTraceability = tranformToDynamic(compilatioResult.traceabilityModelRoot,
 			sourceMapping, targetMapping)
 
-		// Configuring the feedback interpreter
-		feedbackInterpreter.initialize(dynamicTraceability, this)
+		// Creating the feedback interpreter
+		feedbackInterpreter = feedbackConfiguration.createFeedbackInterpreter(dynamicTraceability, this)
 
 	}
 
