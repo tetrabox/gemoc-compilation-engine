@@ -25,35 +25,35 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface Link extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Source Elements</b></em>' reference list.
-	 * The list contents are of type {@link org.eclipse.emf.ecore.EObject}.
+	 * Returns the value of the '<em><b>Source Elements</b></em>' containment reference list.
+	 * The list contents are of type {@link gemoctraceability.AnnotatedElement}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Source Elements</em>' reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Source Elements</em>' reference list.
+	 * @return the value of the '<em>Source Elements</em>' containment reference list.
 	 * @see gemoctraceability.GemoctraceabilityPackage#getLink_SourceElements()
-	 * @model
+	 * @model containment="true"
 	 * @generated
 	 */
-	EList<EObject> getSourceElements();
+	EList<AnnotatedElement> getSourceElements();
 
 	/**
-	 * Returns the value of the '<em><b>Target Elements</b></em>' reference list.
-	 * The list contents are of type {@link org.eclipse.emf.ecore.EObject}.
+	 * Returns the value of the '<em><b>Target Elements</b></em>' containment reference list.
+	 * The list contents are of type {@link gemoctraceability.AnnotatedElement}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Target Elements</em>' reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Target Elements</em>' reference list.
+	 * @return the value of the '<em>Target Elements</em>' containment reference list.
 	 * @see gemoctraceability.GemoctraceabilityPackage#getLink_TargetElements()
-	 * @model
+	 * @model containment="true"
 	 * @generated
 	 */
-	EList<EObject> getTargetElements();
+	EList<AnnotatedElement> getTargetElements();
 
 } // Link

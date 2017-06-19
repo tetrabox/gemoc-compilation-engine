@@ -2,6 +2,7 @@
  */
 package gemoctraceability;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -103,7 +104,7 @@ public interface GemoctraceabilityPackage extends EPackage {
 	int LINK = 1;
 
 	/**
-	 * The feature id for the '<em><b>Source Elements</b></em>' reference list.
+	 * The feature id for the '<em><b>Source Elements</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -112,7 +113,7 @@ public interface GemoctraceabilityPackage extends EPackage {
 	int LINK__SOURCE_ELEMENTS = 0;
 
 	/**
-	 * The feature id for the '<em><b>Target Elements</b></em>' reference list.
+	 * The feature id for the '<em><b>Target Elements</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -137,6 +138,52 @@ public interface GemoctraceabilityPackage extends EPackage {
 	 * @ordered
 	 */
 	int LINK_OPERATION_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link gemoctraceability.impl.AnnotatedElementImpl <em>Annotated Element</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see gemoctraceability.impl.AnnotatedElementImpl
+	 * @see gemoctraceability.impl.GemoctraceabilityPackageImpl#getAnnotatedElement()
+	 * @generated
+	 */
+	int ANNOTATED_ELEMENT = 2;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ANNOTATED_ELEMENT__ELEMENT = 0;
+
+	/**
+	 * The feature id for the '<em><b>Annotation</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ANNOTATED_ELEMENT__ANNOTATION = 1;
+
+	/**
+	 * The number of structural features of the '<em>Annotated Element</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ANNOTATED_ELEMENT_FEATURE_COUNT = 2;
+
+	/**
+	 * The number of operations of the '<em>Annotated Element</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ANNOTATED_ELEMENT_OPERATION_COUNT = 0;
 
 
 	/**
@@ -171,10 +218,10 @@ public interface GemoctraceabilityPackage extends EPackage {
 	EClass getLink();
 
 	/**
-	 * Returns the meta object for the reference list '{@link gemoctraceability.Link#getSourceElements <em>Source Elements</em>}'.
+	 * Returns the meta object for the containment reference list '{@link gemoctraceability.Link#getSourceElements <em>Source Elements</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Source Elements</em>'.
+	 * @return the meta object for the containment reference list '<em>Source Elements</em>'.
 	 * @see gemoctraceability.Link#getSourceElements()
 	 * @see #getLink()
 	 * @generated
@@ -182,15 +229,47 @@ public interface GemoctraceabilityPackage extends EPackage {
 	EReference getLink_SourceElements();
 
 	/**
-	 * Returns the meta object for the reference list '{@link gemoctraceability.Link#getTargetElements <em>Target Elements</em>}'.
+	 * Returns the meta object for the containment reference list '{@link gemoctraceability.Link#getTargetElements <em>Target Elements</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Target Elements</em>'.
+	 * @return the meta object for the containment reference list '<em>Target Elements</em>'.
 	 * @see gemoctraceability.Link#getTargetElements()
 	 * @see #getLink()
 	 * @generated
 	 */
 	EReference getLink_TargetElements();
+
+	/**
+	 * Returns the meta object for class '{@link gemoctraceability.AnnotatedElement <em>Annotated Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Annotated Element</em>'.
+	 * @see gemoctraceability.AnnotatedElement
+	 * @generated
+	 */
+	EClass getAnnotatedElement();
+
+	/**
+	 * Returns the meta object for the reference '{@link gemoctraceability.AnnotatedElement#getElement <em>Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Element</em>'.
+	 * @see gemoctraceability.AnnotatedElement#getElement()
+	 * @see #getAnnotatedElement()
+	 * @generated
+	 */
+	EReference getAnnotatedElement_Element();
+
+	/**
+	 * Returns the meta object for the attribute '{@link gemoctraceability.AnnotatedElement#getAnnotation <em>Annotation</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Annotation</em>'.
+	 * @see gemoctraceability.AnnotatedElement#getAnnotation()
+	 * @see #getAnnotatedElement()
+	 * @generated
+	 */
+	EAttribute getAnnotatedElement_Annotation();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -244,7 +323,7 @@ public interface GemoctraceabilityPackage extends EPackage {
 		EClass LINK = eINSTANCE.getLink();
 
 		/**
-		 * The meta object literal for the '<em><b>Source Elements</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Source Elements</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
@@ -252,12 +331,38 @@ public interface GemoctraceabilityPackage extends EPackage {
 		EReference LINK__SOURCE_ELEMENTS = eINSTANCE.getLink_SourceElements();
 
 		/**
-		 * The meta object literal for the '<em><b>Target Elements</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Target Elements</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EReference LINK__TARGET_ELEMENTS = eINSTANCE.getLink_TargetElements();
+
+		/**
+		 * The meta object literal for the '{@link gemoctraceability.impl.AnnotatedElementImpl <em>Annotated Element</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see gemoctraceability.impl.AnnotatedElementImpl
+		 * @see gemoctraceability.impl.GemoctraceabilityPackageImpl#getAnnotatedElement()
+		 * @generated
+		 */
+		EClass ANNOTATED_ELEMENT = eINSTANCE.getAnnotatedElement();
+
+		/**
+		 * The meta object literal for the '<em><b>Element</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ANNOTATED_ELEMENT__ELEMENT = eINSTANCE.getAnnotatedElement_Element();
+
+		/**
+		 * The meta object literal for the '<em><b>Annotation</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ANNOTATED_ELEMENT__ANNOTATION = eINSTANCE.getAnnotatedElement_Annotation();
 
 	}
 

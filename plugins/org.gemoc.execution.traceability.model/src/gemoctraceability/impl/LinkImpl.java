@@ -2,19 +2,22 @@
  */
 package gemoctraceability.impl;
 
+import gemoctraceability.AnnotatedElement;
 import gemoctraceability.GemoctraceabilityPackage;
 import gemoctraceability.Link;
 
 import java.util.Collection;
 
+import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
-import org.eclipse.emf.ecore.util.EObjectResolvingEList;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -32,24 +35,24 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  */
 public class LinkImpl extends MinimalEObjectImpl.Container implements Link {
 	/**
-	 * The cached value of the '{@link #getSourceElements() <em>Source Elements</em>}' reference list.
+	 * The cached value of the '{@link #getSourceElements() <em>Source Elements</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getSourceElements()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<EObject> sourceElements;
+	protected EList<AnnotatedElement> sourceElements;
 
 	/**
-	 * The cached value of the '{@link #getTargetElements() <em>Target Elements</em>}' reference list.
+	 * The cached value of the '{@link #getTargetElements() <em>Target Elements</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getTargetElements()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<EObject> targetElements;
+	protected EList<AnnotatedElement> targetElements;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -75,9 +78,9 @@ public class LinkImpl extends MinimalEObjectImpl.Container implements Link {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<EObject> getSourceElements() {
+	public EList<AnnotatedElement> getSourceElements() {
 		if (sourceElements == null) {
-			sourceElements = new EObjectResolvingEList<EObject>(EObject.class, this, GemoctraceabilityPackage.LINK__SOURCE_ELEMENTS);
+			sourceElements = new EObjectContainmentEList<AnnotatedElement>(AnnotatedElement.class, this, GemoctraceabilityPackage.LINK__SOURCE_ELEMENTS);
 		}
 		return sourceElements;
 	}
@@ -87,11 +90,27 @@ public class LinkImpl extends MinimalEObjectImpl.Container implements Link {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<EObject> getTargetElements() {
+	public EList<AnnotatedElement> getTargetElements() {
 		if (targetElements == null) {
-			targetElements = new EObjectResolvingEList<EObject>(EObject.class, this, GemoctraceabilityPackage.LINK__TARGET_ELEMENTS);
+			targetElements = new EObjectContainmentEList<AnnotatedElement>(AnnotatedElement.class, this, GemoctraceabilityPackage.LINK__TARGET_ELEMENTS);
 		}
 		return targetElements;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case GemoctraceabilityPackage.LINK__SOURCE_ELEMENTS:
+				return ((InternalEList<?>)getSourceElements()).basicRemove(otherEnd, msgs);
+			case GemoctraceabilityPackage.LINK__TARGET_ELEMENTS:
+				return ((InternalEList<?>)getTargetElements()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -121,11 +140,11 @@ public class LinkImpl extends MinimalEObjectImpl.Container implements Link {
 		switch (featureID) {
 			case GemoctraceabilityPackage.LINK__SOURCE_ELEMENTS:
 				getSourceElements().clear();
-				getSourceElements().addAll((Collection<? extends EObject>)newValue);
+				getSourceElements().addAll((Collection<? extends AnnotatedElement>)newValue);
 				return;
 			case GemoctraceabilityPackage.LINK__TARGET_ELEMENTS:
 				getTargetElements().clear();
-				getTargetElements().addAll((Collection<? extends EObject>)newValue);
+				getTargetElements().addAll((Collection<? extends AnnotatedElement>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);

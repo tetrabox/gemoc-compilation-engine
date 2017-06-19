@@ -2,11 +2,13 @@
  */
 package gemoctraceability.impl;
 
+import gemoctraceability.AnnotatedElement;
 import gemoctraceability.GemoctraceabilityFactory;
 import gemoctraceability.GemoctraceabilityPackage;
 import gemoctraceability.Link;
 import gemoctraceability.TraceabilityModel;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -33,6 +35,13 @@ public class GemoctraceabilityPackageImpl extends EPackageImpl implements Gemoct
 	 * @generated
 	 */
 	private EClass linkEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass annotatedElementEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -145,6 +154,33 @@ public class GemoctraceabilityPackageImpl extends EPackageImpl implements Gemoct
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getAnnotatedElement() {
+		return annotatedElementEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getAnnotatedElement_Element() {
+		return (EReference)annotatedElementEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getAnnotatedElement_Annotation() {
+		return (EAttribute)annotatedElementEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public GemoctraceabilityFactory getGemoctraceabilityFactory() {
 		return (GemoctraceabilityFactory)getEFactoryInstance();
 	}
@@ -174,6 +210,10 @@ public class GemoctraceabilityPackageImpl extends EPackageImpl implements Gemoct
 		linkEClass = createEClass(LINK);
 		createEReference(linkEClass, LINK__SOURCE_ELEMENTS);
 		createEReference(linkEClass, LINK__TARGET_ELEMENTS);
+
+		annotatedElementEClass = createEClass(ANNOTATED_ELEMENT);
+		createEReference(annotatedElementEClass, ANNOTATED_ELEMENT__ELEMENT);
+		createEAttribute(annotatedElementEClass, ANNOTATED_ELEMENT__ANNOTATION);
 	}
 
 	/**
@@ -210,8 +250,12 @@ public class GemoctraceabilityPackageImpl extends EPackageImpl implements Gemoct
 		initEReference(getTraceabilityModel_Links(), this.getLink(), null, "links", null, 0, -1, TraceabilityModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(linkEClass, Link.class, "Link", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getLink_SourceElements(), ecorePackage.getEObject(), null, "sourceElements", null, 0, -1, Link.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getLink_TargetElements(), ecorePackage.getEObject(), null, "targetElements", null, 0, -1, Link.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getLink_SourceElements(), this.getAnnotatedElement(), null, "sourceElements", null, 0, -1, Link.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getLink_TargetElements(), this.getAnnotatedElement(), null, "targetElements", null, 0, -1, Link.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(annotatedElementEClass, AnnotatedElement.class, "AnnotatedElement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getAnnotatedElement_Element(), ecorePackage.getEObject(), null, "element", null, 0, 1, AnnotatedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getAnnotatedElement_Annotation(), ecorePackage.getEString(), "annotation", null, 0, 1, AnnotatedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

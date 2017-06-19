@@ -58,6 +58,7 @@ public class GemoctraceabilityFactoryImpl extends EFactoryImpl implements Gemoct
 		switch (eClass.getClassifierID()) {
 			case GemoctraceabilityPackage.TRACEABILITY_MODEL: return createTraceabilityModel();
 			case GemoctraceabilityPackage.LINK: return createLink();
+			case GemoctraceabilityPackage.ANNOTATED_ELEMENT: return createAnnotatedElement();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -81,6 +82,16 @@ public class GemoctraceabilityFactoryImpl extends EFactoryImpl implements Gemoct
 	public Link createLink() {
 		LinkImpl link = new LinkImpl();
 		return link;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public AnnotatedElement createAnnotatedElement() {
+		AnnotatedElementImpl annotatedElement = new AnnotatedElementImpl();
+		return annotatedElement;
 	}
 
 	/**

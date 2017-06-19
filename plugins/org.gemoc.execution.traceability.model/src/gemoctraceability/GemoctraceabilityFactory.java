@@ -40,6 +40,15 @@ public interface GemoctraceabilityFactory extends EFactory {
 	Link createLink();
 
 	/**
+	 * Returns a new object of class '<em>Annotated Element</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Annotated Element</em>'.
+	 * @generated
+	 */
+	AnnotatedElement createAnnotatedElement();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
