@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bundle-SymbolicName: org.gemoc.activitydiagram.sequential.ad2petri.partialsemantics;singleton:=true
+Bundle-SymbolicName: org.gemoc.activitydiagram.sequential.ad2petri.interpreter;singleton:=true
 Export-Package: org.gemoc.activitydiagram.sequential.ad2petri.partialsemantics
 Bundle-Name: org.gemoc.activitydiagram.sequential.ad2petri.partialsemantics
 Bundle-Version: 1.0.0.qualifier

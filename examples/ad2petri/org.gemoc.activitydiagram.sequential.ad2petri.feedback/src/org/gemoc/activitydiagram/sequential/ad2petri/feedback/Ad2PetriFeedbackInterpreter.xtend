@@ -10,11 +10,11 @@ import org.eclipse.emf.common.util.BasicEList
 import org.eclipse.emf.common.util.EList
 import org.eclipse.emf.transaction.TransactionalEditingDomain
 import org.eclipse.emf.transaction.util.TransactionUtil
-import org.gemoc.activitydiagram.sequential.ad2petri.activitydiagramtopetrinet.activitydiagram.Activity
-import org.gemoc.activitydiagram.sequential.ad2petri.activitydiagramtopetrinet.activitydiagram.ActivityNode
-import org.gemoc.activitydiagram.sequential.ad2petri.activitydiagramtopetrinet.activitydiagram.ActivitydiagramFactory
-import org.gemoc.activitydiagram.sequential.ad2petri.activitydiagramtopetrinet.activitydiagram.ControlFlow
-import org.gemoc.activitydiagram.sequential.ad2petri.activitydiagramtopetrinet.activitydiagram.Token
+import org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.Activity
+import org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.ActivityNode
+import org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.ActivitydiagramFactory
+import org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.ControlFlow
+import org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.Token
 import org.gemoc.execution.feedbackengine.FeedbackEngine
 import org.gemoc.execution.feedbackengine.FeedbackInterpreter
 
@@ -69,30 +69,20 @@ class Ad2PetriFeedbackInterpreter implements FeedbackInterpreter {
 					}
 				} // Case edge
 				else if (edge != null) {
-					var offer = edge.offers.head
-					val offerAmount = if (offer == null) 0 else offer.offeredTokens.size   
-					val diff = place.tokens - offerAmount
-					if (diff != 0) {
-						if (offer == null) {
-							offer = ActivitydiagramFactory::eINSTANCE.createOffer
-							edge.offers.add(offer)
+					val diff = place.tokens - edge.heldTokens.size
+					// Add tokens
+					if (diff > 0) {
+						val EList<Token> newTokens = new BasicEList<Token>
+						for (_ : 1 .. diff) {
+							newTokens.add(ActivitydiagramFactory::eINSTANCE.createToken)
 						}
-						// Add tokens
-						if (diff > 0) {
-							val EList<Token> newTokens = new BasicEList<Token>
-							for (_ : 1 .. diff) {
-								newTokens.add(ActivitydiagramFactory::eINSTANCE.createToken)
-							}
-							offer.offeredTokens.addAll(newTokens)
+						edge.heldTokens.addAll(newTokens)
 
-						} // Remove tokens
-						else if (diff < 0) {
-							for (_ : 1 .. Math::abs(diff)) {
-								val token = offer.offeredTokens.get(0)
-								offer.offeredTokens.remove(token)
-							}
-							if (offer.offeredTokens.empty)
-								edge.offers.remove(offer)
+					} // Remove tokens
+					else if (diff < 0) {
+						for (_ : 1 .. Math::abs(diff)) {
+							val token = edge.heldTokens.get(0)
+							edge.heldTokens.remove(token)
 						}
 					}
 				}
@@ -100,7 +90,7 @@ class Ad2PetriFeedbackInterpreter implements FeedbackInterpreter {
 		}
 	}
 
-	private def Activity findDynamicActivity(Net net) {
+	private def Activity getActivity(Net net) {
 		return mapping.links.findFirst[it.targetElements.map[element].contains(net)].sourceElements.map[element].filter(
 			Activity).head
 	}
@@ -108,45 +98,36 @@ class Ad2PetriFeedbackInterpreter implements FeedbackInterpreter {
 	var boolean initial = true
 
 	override processTargetStepStart(Step<?> targetStep) {
-		if (targetStep.mseoccurrence.mse.action.name.endsWith("initialize")) {
-			val Net runnedNet = targetStep.mseoccurrence.mse.caller as Net
-			val dynamicActivity = findDynamicActivity(runnedNet)
-			feedbackEngine.feedbackStartStep(dynamicActivity, dynamicActivity.eClass.name, "initialize")
-		} else {
-			// At this point we are in a step/transaction
 			feedbackModelState()
 			if (targetStep.mseoccurrence.mse.action.name.endsWith("run")) {
 				val Net runnedNet = targetStep.mseoccurrence.mse.caller as Net
-				val dynamicActivity = findDynamicActivity(runnedNet)
-				feedbackEngine.feedbackStartStep(dynamicActivity, dynamicActivity.eClass.name, "execute")
+				val activity = getActivity(runnedNet)
+				feedbackEngine.feedbackStartStep(activity, activity.eClass.name, "execute")
 			} else if (targetStep.mseoccurrence.mse.action.name.endsWith("fire")) {
 				val Transition firedTransition = targetStep.mseoccurrence.mse.caller as Transition
 				val link = mapping.links.findFirst[it.targetElements.map[element].contains(firedTransition)]
 				if (link != null) {
-					println("Mapped! " + link)
 					val AnnotatedElement targetElement = link.targetElements.findFirst[e|e.element == firedTransition]
 					val AnnotatedElement sourceElement = link.sourceElements.head
 					if (targetElement.annotation.equals("take")) {
 						feedbackEngine.feedbackStartStep(sourceElement.element, ActivityNode.name, "execute")
-						feedbackEngine.feedbackStartStep(sourceElement.element, ActivityNode.name, "takeOfferedTokens")
+						feedbackEngine.feedbackStartStep(sourceElement.element, ActivityNode.name, "take")
 					} else if (targetElement.annotation.equals("offer")) {
 						// The first "offer" is for the initial node, which does not "take" any tokens
 						if (initial) {
 							feedbackEngine.feedbackStartStep(sourceElement.element, ActivityNode.name, "execute")
 							initial = false
 						}
-						feedbackEngine.feedbackStartStep(sourceElement.element, ActivityNode.name, "offerTokens")
+						feedbackEngine.feedbackStartStep(sourceElement.element, ActivityNode.name, "offer")
 					}
 				}
 			}
-		}
+		
 	}
 
 	override processTargetStepEnd(Step<?> targetStep) {
 		feedbackModelState()
-		if (targetStep.mseoccurrence.mse.action.name.endsWith("initialize")) {
-			feedbackEngine.feedbackEndStep
-		} else if (targetStep.mseoccurrence.mse.action.name.endsWith("run")) {
+		if (targetStep.mseoccurrence.mse.action.name.endsWith("run")) {
 			// We first end the final node execute 
 			feedbackEngine.feedbackEndStep
 			// Then we end the activity
@@ -155,7 +136,6 @@ class Ad2PetriFeedbackInterpreter implements FeedbackInterpreter {
 			val Transition firedTransition = targetStep.mseoccurrence.mse.caller as Transition
 			val link = mapping.links.findFirst[it.targetElements.map[element].contains(firedTransition)]
 			if (link != null) {
-				println("Mapped! " + link)
 				val AnnotatedElement targetElement = link.targetElements.findFirst[e|e.element == firedTransition]
 				if (targetElement.annotation.equals("take")) {
 					feedbackEngine.feedbackEndStep()
@@ -171,6 +151,12 @@ class Ad2PetriFeedbackInterpreter implements FeedbackInterpreter {
 
 	override processTargetExecutionEnd() {
 		feedbackModelState()
+	}
+	
+	override initialize() {
+		feedbackEngine.feedbackStartStep(mapping.links.map[sourceElements].flatten.map[element].findFirst[it instanceof Activity], "Activity", "initialize")
+		feedbackModelState()
+		feedbackEngine.feedbackEndStep
 	}
 
 }
