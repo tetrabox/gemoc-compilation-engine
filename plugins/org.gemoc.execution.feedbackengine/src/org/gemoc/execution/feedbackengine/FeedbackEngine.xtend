@@ -22,7 +22,7 @@ import org.gemoc.xdsmlframework.api.core.IExecutionContext
 import org.gemoc.xdsmlframework.api.core.IExecutionEngine
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon
 
-class FeedbackEngine extends AbstractSequentialExecutionEngine implements IEngineAddon {
+class FeedbackEngine extends AbstractSequentialExecutionEngine {
 
 	public static val String annotationCompilerKey = "compiler"
 	public static val String annotationFeedbackKey = "feedback"
@@ -53,7 +53,7 @@ class FeedbackEngine extends AbstractSequentialExecutionEngine implements IEngin
 		val EObject staticSourceModelRoot = dynamicSourceModel.wrappedResource.contents.head
 		val compilatioResult = compiler.compile(staticSourceModelRoot)
 
-		// Puting target model in resource
+		// Putting target model in resource
 		val exeFolder = executionContext.workspace.executionPath
 		val targetURI = URI::createPlatformResourceURI(exeFolder.toString + "/target." + compiler.targetFileExtension,
 			true)
@@ -77,7 +77,7 @@ class FeedbackEngine extends AbstractSequentialExecutionEngine implements IEngin
 		targetEngine = feedbackConfiguration.createTargetEngine() as AbstractExecutionEngine
 		targetEngine.initialize(exeContext);
 		targetEngine.stopOnAddonError = true;
-		targetEngine.executionContext.executionPlatform.addEngineAddon(this)
+		
 
 		// Converting the traceability model to a dynamic one
 		val Map<EObject, EObject> sourceMapping = dynamicSourceModel.modelsMapping
@@ -88,6 +88,11 @@ class FeedbackEngine extends AbstractSequentialExecutionEngine implements IEngin
 
 		// Creating the feedback interpreter
 		feedbackInterpreter = feedbackConfiguration.createFeedbackInterpreter(dynamicTraceability, this)
+		
+		// Create the feedback addon
+		val feedbackAddon = new FeedbackAddon(feedbackInterpreter)
+		targetEngine.executionContext.executionPlatform.addEngineAddon(feedbackAddon)
+		
 
 	}
 
@@ -133,7 +138,7 @@ class FeedbackEngine extends AbstractSequentialExecutionEngine implements IEngin
 		for (Element element : modelTypingSpace.getElements()) {
 			if (element instanceof Language) {
 				val Language language = element as Language;
-				if (languageFQN.endsWith(language.getName())) {
+				if (languageFQN.endsWith("."+language.getName())) {
 					return language;
 				}
 			}
@@ -145,19 +150,6 @@ class FeedbackEngine extends AbstractSequentialExecutionEngine implements IEngin
 		if (targetEngine.error != null)
 			throw targetEngine.error
 	}
-
-	override aboutToExecuteStep(IExecutionEngine engine, Step<?> step) {
-		feedbackInterpreter.processTargetStepStart(step)
-	}
-
-	override stepExecuted(IExecutionEngine engine, Step<?> step) {
-		feedbackInterpreter.processTargetStepEnd(step)
-	}
-
-	override engineAboutToStop(IExecutionEngine engine) {
-		feedbackInterpreter.processTargetExecutionEnd()
-	}
-
 
 
 	override protected initializeModel() {
