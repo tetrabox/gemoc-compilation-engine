@@ -62,18 +62,12 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 	protected Composite _parent;
 
 	protected Text _modelLocationText;
-	// protected Text _modelInitializationMethodText;
-	// protected Text _modelInitializationArgumentsText;
 	protected Text _siriusRepresentationLocationText;
 	protected Button _animateButton;
 	protected Text _delayText;
 	protected Text _melangeQueryText;
 	protected Button _animationFirstBreak;
 
-	// protected Group compiledExecutionArea;
-	// protected Text _entryPointModelElementText;
-	// protected Label _entryPointModelElementLabel;
-	// protected Text _entryPointMethodText;
 
 	protected Combo _languageCombo;
 
@@ -105,10 +99,6 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 		Group debugArea = createGroup(area, "Animation:");
 		createAnimationLayout(debugArea, null);
 
-		// compiledExecutionArea = createGroup(area, "Compiled model
-		// execution:");
-		// createCompiledExecutionLayout(compiledExecutionArea, null);
-
 	}
 
 	@Override
@@ -134,14 +124,8 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 			_delayText.setText(Integer.toString(runConfiguration.getAnimationDelay()));
 			_animationFirstBreak.setSelection(runConfiguration.getBreakStart());
 
-			// _entryPointModelElementText.setText(runConfiguration
-			// .getModelEntryPoint());
-			// _entryPointMethodText.setText(runConfiguration
-			// .getExecutionEntryPoint());
 			_languageCombo.setText(runConfiguration.getLanguageName());
-			// _modelInitializationArgumentsText.setText(runConfiguration.getModelInitializationArguments());
-			// _entryPointModelElementLabel.setText("");
-			// updateMainElementName();
+			updateLaunchConfigurationDialog();
 		} catch (CoreException e) {
 			Activator.error(e.getMessage(), e);
 		}
@@ -156,14 +140,6 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 		configuration.setAttribute(RunConfiguration.LAUNCH_DELAY, Integer.parseInt(_delayText.getText()));
 		configuration.setAttribute(RunConfiguration.LAUNCH_SELECTED_LANGUAGE, _languageCombo.getText());
 		configuration.setAttribute(RunConfiguration.LAUNCH_MELANGE_QUERY, _melangeQueryText.getText());
-		// configuration.setAttribute(RunConfiguration.LAUNCH_MODEL_ENTRY_POINT,
-		// _entryPointModelElementText.getText());
-		// configuration.setAttribute(RunConfiguration.LAUNCH_METHOD_ENTRY_POINT,
-		// _entryPointMethodText.getText());
-		// configuration.setAttribute(RunConfiguration.LAUNCH_INITIALIZATION_METHOD,
-		// _modelInitializationMethodText.getText());
-		// configuration.setAttribute(RunConfiguration.LAUNCH_INITIALIZATION_ARGUMENTS,
-		// _modelInitializationArgumentsText.getText());
 		configuration.setAttribute(RunConfiguration.LAUNCH_BREAK_START, _animationFirstBreak.getSelection());
 		// DebugModelID for sequential engine
 		configuration.setAttribute(RunConfiguration.DEBUG_MODEL_ID, Activator.DEBUG_MODEL_ID);
@@ -220,33 +196,7 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 				}
 			}
 		});
-		// createTextLabelLayout(parent, "Model initialization method");
-		// _modelInitializationMethodText = new Text(parent, SWT.SINGLE |
-		// SWT.BORDER);
-		// _modelInitializationMethodText.setLayoutData(createStandardLayout());
-		// _modelInitializationMethodText.setFont(font);
-		// _modelInitializationMethodText.setEditable(false);
-		// createTextLabelLayout(parent, "");
-		// createTextLabelLayout(parent, "Model initialization arguments");
-		// _modelInitializationArgumentsText = new Text(parent, SWT.MULTI |
-		// SWT.BORDER | SWT.WRAP | SWT.V_SCROLL);
-		// _modelInitializationArgumentsText.setToolTipText("one argument per
-		// line");
-		// GridData gridData = new GridData(GridData.FILL_BOTH);
-		// gridData.heightHint = 40;
-		// _modelInitializationArgumentsText.setLayoutData(gridData);
-		// //_modelInitializationArgumentsText.setLayoutData(createStandardLayout());
-		// _modelInitializationArgumentsText.setFont(font);
-		// _modelInitializationArgumentsText.setEditable(true);
-		// _modelInitializationArgumentsText.addModifyListener(new
-		// ModifyListener() {
-		//
-		// @Override
-		// public void modifyText(ModifyEvent e) {
-		// updateLaunchConfigurationDialog();
-		// }
-		// });
-		// createTextLabelLayout(parent, "");
+		
 		return parent;
 	}
 
@@ -325,9 +275,6 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 		_languageCombo.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				// String selection = _languageCombo.getText();
-				// List<String> modelTypeNames =
-				// MelangeHelper.getModelTypes(selection);
 				updateLaunchConfigurationDialog();
 			}
 		});
@@ -342,76 +289,11 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 
 		return parent;
 	}
-	/*
-	 * private Composite createCompiledExecutionLayout(Composite parent, Font
-	 * font) {
-	 * 
-	 * // TODO choose a translational interpreter (with extension point? which
-	 * // needs to choose source lang?)
-	 * 
-	 * // createTextLabelLayout(parent, "Main method"); // _entryPointMethodText
-	 * = new Text(parent, SWT.SINGLE | SWT.BORDER); //
-	 * _entryPointMethodText.setLayoutData(createStandardLayout()); //
-	 * _entryPointMethodText.setFont(font); //
-	 * _entryPointMethodText.setEditable(false); //
-	 * _entryPointMethodText.addModifyListener(fBasicModifyListener); // Button
-	 * mainMethodBrowseButton = createPushButton(parent, "Browse", // null); //
-	 * mainMethodBrowseButton.addSelectionListener(new SelectionAdapter() { //
-	 * public void widgetSelected(SelectionEvent e) { //
-	 * if(_languageCombo.getText() == null){ //
-	 * setErrorMessage("Please select a language."); // } // else{ //
-	 * Set<Class<?>> candidateAspects = //
-	 * MelangeHelper.getAspects(_languageCombo.getText()); //
-	 * SelectMainMethodDialog dialog = new SelectMainMethodDialog( //
-	 * candidateAspects, new ENamedElementQualifiedNameLabelProvider()); // int
-	 * res = dialog.open(); // if (res == WizardDialog.OK) { // Method selection
-	 * = (Method) dialog.getFirstResult(); //
-	 * _entryPointMethodText.setText(selection.toString()); // } // } // } //
-	 * });
-	 * 
-	 * // createTextLabelLayout(parent, "Main model element path"); //
-	 * _entryPointModelElementText = new Text(parent, SWT.SINGLE | //
-	 * SWT.BORDER); //
-	 * _entryPointModelElementText.setLayoutData(createStandardLayout()); //
-	 * _entryPointModelElementText.setFont(font); //
-	 * _entryPointModelElementText.setEditable(false); //
-	 * _entryPointModelElementText.addModifyListener(event -> //
-	 * updateMainElementName()); //
-	 * _entryPointModelElementText.addModifyListener(fBasicModifyListener); //
-	 * Button mainModelElemBrowseButton = createPushButton(parent, "Browse", //
-	 * null); // mainModelElemBrowseButton.addSelectionListener(new
-	 * SelectionAdapter() // { // public void widgetSelected(SelectionEvent e) {
-	 * // Resource model = getModel(); // if( model == null){ //
-	 * setErrorMessage("Please select a model to execute."); // } //// else
-	 * if(_entryPointMethodText.getText() == null || //
-	 * _entryPointMethodText.getText().equals("")){ ////
-	 * setErrorMessage("Please select a main method."); //// } // else { //
-	 * SelectAnyEObjectDialog dialog = new SelectAnyEObjectDialog( //
-	 * PlatformUI.getWorkbench() // .getActiveWorkbenchWindow().getShell(), //
-	 * model.getResourceSet(), // new
-	 * ENamedElementQualifiedNameLabelProvider()){ // protected boolean
-	 * select(EObject obj) { // //String methodSignature =
-	 * _entryPointMethodText.getText(); // //String firstParamType = //
-	 * MelangeHelper.getParametersType(methodSignature)[0]; // //String
-	 * simpleParamType = MelangeHelper.lastSegment(firstParamType); // return
-	 * obj.eClass().getName().equals(simpleParamType); // } // }; // int res =
-	 * dialog.open(); // if (res == WizardDialog.OK) { // EObject selection =
-	 * (EObject) dialog.getFirstResult(); // String uriFragment =
-	 * selection.eResource() // .getURIFragment(selection); // //
-	 * _entryPointModelElementText.setText(uriFragment); // } // } // } // });
-	 * // // createTextLabelLayout(parent, "Main model element name"); //
-	 * _entryPointModelElementLabel = new Label(parent, SWT.HORIZONTAL); //
-	 * _entryPointModelElementLabel.setText("");
-	 * 
-	 * return parent; }
-	 */
+	
 
 	@Override
 	protected void updateLaunchConfigurationDialog() {
 		super.updateLaunchConfigurationDialog();
-		// compiledExecutionArea.setVisible(true);
-		// _modelInitializationMethodText.setText(getModelInitializationMethodName());
-		// _modelInitializationArgumentsText.setEnabled(!_modelInitializationMethodText.getText().isEmpty());
 		_melangeQueryText.setText(computeMelangeQuery());
 	}
 
@@ -445,30 +327,6 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 		return result;
 	}
 
-	/*
-	 * protected String getModelInitializationMethodName(){ String
-	 * entryPointClassName = null;
-	 * 
-	 * final String prefix = "public static void "; int startName =
-	 * prefix.length(); int endName =
-	 * _entryPointMethodText.getText().lastIndexOf("("); if(endName == -1)
-	 * return ""; String entryMethod =
-	 * _entryPointMethodText.getText().substring(startName, endName); int
-	 * lastDot = entryMethod.lastIndexOf("."); if(lastDot != -1){
-	 * entryPointClassName = entryMethod.substring(0, lastDot); }
-	 * 
-	 * Bundle bundle = MelangeHelper.getMelangeBundle(_languageCombo.getText());
-	 * 
-	 * if(entryPointClassName != null && bundle != null){ try { Class<?>
-	 * entryPointClass = bundle.loadClass(entryPointClassName); for(Method m :
-	 * entryPointClass.getMethods()){ // TODO find a better search mechanism
-	 * (check signature, inheritance, aspects, etc)
-	 * if(m.isAnnotationPresent(fr.inria.diverse.k3.al.annotationprocessor.
-	 * InitializeModel.class)){ return entryPointClassName+"."+m.getName(); } }
-	 * } catch (ClassNotFoundException e) {} }
-	 * 
-	 * return ""; }
-	 */
 
 	/**
 	 * caches the current model resource in order to avoid to reload it many
@@ -540,40 +398,8 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 			return false;
 		}
 
-		/*
-		 * String mainMethod = _entryPointMethodText.getText().trim(); if
-		 * (mainMethod.length() == 0) { setErrorMessage(LauncherMessages.
-		 * SequentialMainTab_Language_main_method_not_selected); return false; }
-		 * 
-		 * String rootElement = _entryPointModelElementText.getText().trim(); if
-		 * (rootElement.length() == 0) { setErrorMessage(LauncherMessages.
-		 * SequentialMainTab_Language_root_element_not_selected); return false;
-		 * }
-		 * 
-		 * String[] params =MelangeHelper.getParametersType(mainMethod); String
-		 * firstParam = MelangeHelper.lastSegment(params[0]); String rootEClass
-		 * = getModel().getEObject(rootElement).eClass().getName(); if(
-		 * !(params.length == 1 && firstParam.equals(rootEClass)) ){
-		 * setErrorMessage(LauncherMessages.
-		 * SequentialMainTab_Language_incompatible_root_and_main); return false;
-		 * }
-		 */
 
 		return true;
 	}
 
-	/*
-	 * private void updateMainElementName(){ try { Resource model = getModel();
-	 * EObject mainElement = null; if(model != null){ mainElement =
-	 * model.getEObject(_entryPointModelElementText.getText()); } if(mainElement
-	 * != null){
-	 * org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider
-	 * nameprovider = new DefaultDeclarativeQualifiedNameProvider();
-	 * QualifiedName qname = nameprovider.getFullyQualifiedName(mainElement);
-	 * String objectName = qname != null ? qname.toString():
-	 * mainElement.toString(); String prettyName = objectName+
-	 * " : "+mainElement.eClass().getName();
-	 * _entryPointModelElementLabel.setText(prettyName); } } catch (Exception e)
-	 * { } }
-	 */
 }

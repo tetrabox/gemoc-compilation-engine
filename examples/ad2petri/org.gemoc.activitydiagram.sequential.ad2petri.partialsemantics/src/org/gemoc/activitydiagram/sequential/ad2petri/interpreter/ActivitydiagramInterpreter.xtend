@@ -99,6 +99,7 @@ class ActivityNodeAspect {
 class InitialNodeAspect extends ActivityNodeAspect {
 
 	@OverrideAspectMethod
+	@Step
 	def void execute() {
 		_self.offer()
 	}
@@ -114,6 +115,7 @@ class InitialNodeAspect extends ActivityNodeAspect {
 class FinalNodeAspect extends ActivityNodeAspect {
 
 	@OverrideAspectMethod
+	@Step
 	def void execute() {
 		_self.take()
 	}

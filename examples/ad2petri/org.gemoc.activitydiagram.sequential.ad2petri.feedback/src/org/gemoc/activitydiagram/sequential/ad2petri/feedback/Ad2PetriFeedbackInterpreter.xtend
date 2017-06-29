@@ -98,6 +98,11 @@ class Ad2PetriFeedbackInterpreter implements FeedbackInterpreter {
 	var boolean initial = true
 
 	override processTargetStepStart(Step<?> targetStep) {
+		if (targetStep.mseoccurrence.mse.action.name.endsWith("initialize")) {
+			val Net runnedNet = targetStep.mseoccurrence.mse.caller as Net
+			val activity = getActivity(runnedNet)
+			feedbackEngine.feedbackStartStep(activity, activity.eClass.name, "initialize")
+		} else {
 			feedbackModelState()
 			if (targetStep.mseoccurrence.mse.action.name.endsWith("run")) {
 				val Net runnedNet = targetStep.mseoccurrence.mse.caller as Net
@@ -122,12 +127,15 @@ class Ad2PetriFeedbackInterpreter implements FeedbackInterpreter {
 					}
 				}
 			}
-		
+		}
+
 	}
 
 	override processTargetStepEnd(Step<?> targetStep) {
 		feedbackModelState()
-		if (targetStep.mseoccurrence.mse.action.name.endsWith("run")) {
+		if (targetStep.mseoccurrence.mse.action.name.endsWith("initialize")) {
+			feedbackEngine.feedbackEndStep
+		} else if (targetStep.mseoccurrence.mse.action.name.endsWith("run")) {
 			// We first end the final node execute 
 			feedbackEngine.feedbackEndStep
 			// Then we end the activity
@@ -151,12 +159,6 @@ class Ad2PetriFeedbackInterpreter implements FeedbackInterpreter {
 
 	override processTargetExecutionEnd() {
 		feedbackModelState()
-	}
-	
-	override initialize() {
-		feedbackEngine.feedbackStartStep(mapping.links.map[sourceElements].flatten.map[element].findFirst[it instanceof Activity], "Activity", "initialize")
-		feedbackModelState()
-		feedbackEngine.feedbackEndStep
 	}
 
 }

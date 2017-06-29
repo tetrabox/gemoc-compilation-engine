@@ -4,7 +4,6 @@ import fr.inria.diverse.melange.metamodel.melange.Element
 import fr.inria.diverse.melange.metamodel.melange.Language
 import fr.inria.diverse.melange.metamodel.melange.ModelTypingSpace
 import fr.inria.diverse.melange.resource.MelangeResource
-import fr.inria.diverse.trace.commons.model.trace.Step
 import gemoctraceability.GemoctraceabilityFactory
 import gemoctraceability.TraceabilityModel
 import java.util.Map
@@ -19,8 +18,6 @@ import org.eclipse.emf.transaction.util.TransactionUtil
 import org.gemoc.executionframework.engine.core.AbstractExecutionEngine
 import org.gemoc.executionframework.engine.core.AbstractSequentialExecutionEngine
 import org.gemoc.xdsmlframework.api.core.IExecutionContext
-import org.gemoc.xdsmlframework.api.core.IExecutionEngine
-import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon
 
 class FeedbackEngine extends AbstractSequentialExecutionEngine {
 
