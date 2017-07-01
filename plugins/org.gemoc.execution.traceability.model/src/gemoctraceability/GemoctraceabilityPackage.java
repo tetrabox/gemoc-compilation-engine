@@ -168,13 +168,22 @@ public interface GemoctraceabilityPackage extends EPackage {
 	int ANNOTATED_ELEMENT__ANNOTATION = 1;
 
 	/**
+	 * The feature id for the '<em><b>Link</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ANNOTATED_ELEMENT__LINK = 2;
+
+	/**
 	 * The number of structural features of the '<em>Annotated Element</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ANNOTATED_ELEMENT_FEATURE_COUNT = 2;
+	int ANNOTATED_ELEMENT_FEATURE_COUNT = 3;
 
 	/**
 	 * The number of operations of the '<em>Annotated Element</em>' class.
@@ -272,6 +281,17 @@ public interface GemoctraceabilityPackage extends EPackage {
 	EAttribute getAnnotatedElement_Annotation();
 
 	/**
+	 * Returns the meta object for the reference '{@link gemoctraceability.AnnotatedElement#getLink <em>Link</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Link</em>'.
+	 * @see gemoctraceability.AnnotatedElement#getLink()
+	 * @see #getAnnotatedElement()
+	 * @generated
+	 */
+	EReference getAnnotatedElement_Link();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -363,6 +383,14 @@ public interface GemoctraceabilityPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute ANNOTATED_ELEMENT__ANNOTATION = eINSTANCE.getAnnotatedElement_Annotation();
+
+		/**
+		 * The meta object literal for the '<em><b>Link</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ANNOTATED_ELEMENT__LINK = eINSTANCE.getAnnotatedElement_Link();
 
 	}
 

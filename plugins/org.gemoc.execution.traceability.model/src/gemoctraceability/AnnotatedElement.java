@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link gemoctraceability.AnnotatedElement#getElement <em>Element</em>}</li>
  *   <li>{@link gemoctraceability.AnnotatedElement#getAnnotation <em>Annotation</em>}</li>
+ *   <li>{@link gemoctraceability.AnnotatedElement#getLink <em>Link</em>}</li>
  * </ul>
  *
  * @see gemoctraceability.GemoctraceabilityPackage#getAnnotatedElement()
@@ -73,5 +74,31 @@ public interface AnnotatedElement extends EObject {
 	 * @generated
 	 */
 	void setAnnotation(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Link</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Link</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Link</em>' reference.
+	 * @see #setLink(Link)
+	 * @see gemoctraceability.GemoctraceabilityPackage#getAnnotatedElement_Link()
+	 * @model required="true"
+	 * @generated
+	 */
+	Link getLink();
+
+	/**
+	 * Sets the value of the '{@link gemoctraceability.AnnotatedElement#getLink <em>Link</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Link</em>' reference.
+	 * @see #getLink()
+	 * @generated
+	 */
+	void setLink(Link value);
 
 } // AnnotatedElement
