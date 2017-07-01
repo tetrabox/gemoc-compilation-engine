@@ -8,11 +8,12 @@ import fr.inria.diverse.trace.commons.model.generictrace.SingleReferenceValue
 import fr.inria.diverse.trace.commons.model.trace.GenericMSE
 import fr.inria.diverse.trace.commons.model.trace.MSEModel
 import fr.inria.diverse.trace.commons.model.trace.Trace
+import org.eclipse.emf.ecore.util.EcoreUtil
 import org.gemoc.xdsmlframework.api.core.IExecutionEngine
 
 class DynToStaticTrace {
-	
-	static def void execute(IExecutionEngine engine, Trace<?,?,?> trace) {
+
+	static def void execute(IExecutionEngine engine, Trace<?, ?, ?> trace) {
 		val modelResource = engine.executionContext.resourceModel
 		if (modelResource instanceof MelangeResource) {
 			val entrySet = modelResource.modelsMapping.entrySet
@@ -50,9 +51,11 @@ class DynToStaticTrace {
 				}
 			}
 
-			// Remove refs to dyn properties
+			// Replace dyn property by a copy
 			for (GenericDimension dim : allTraceElements.filter(GenericDimension)) {
-				dim.dynamicProperty = null
+				val dynPropertyCopy = EcoreUtil::copy(dim.dynamicProperty)
+				dim.eResource.contents.add(dynPropertyCopy)
+				dim.dynamicProperty = dynPropertyCopy
 			}
 
 			// Remove refs to eoperations
