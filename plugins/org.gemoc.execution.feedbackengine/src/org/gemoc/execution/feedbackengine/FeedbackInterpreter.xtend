@@ -8,7 +8,4 @@ interface FeedbackInterpreter {
 
 	def void processTargetStepEnd(Step<?> targetStep)
 	
-	def void processTargetExecutionEnd()
-
-
 }

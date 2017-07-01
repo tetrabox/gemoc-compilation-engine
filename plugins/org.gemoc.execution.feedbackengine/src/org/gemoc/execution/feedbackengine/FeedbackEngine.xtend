@@ -102,12 +102,14 @@ class FeedbackEngine extends AbstractSequentialExecutionEngine {
 				val element = GemoctraceabilityFactory::eINSTANCE.createAnnotatedElement
 				element.element = sourceMapping.get(sourceElement.element)
 				element.annotation = sourceElement.annotation
+				element.link = dynamicLink
 				dynamicLink.sourceElements.add(element)
 			}
 			for (targetElement : link.targetElements) {
 				val element = GemoctraceabilityFactory::eINSTANCE.createAnnotatedElement
 				element.element = targetMapping.get(targetElement.element)
 				element.annotation = targetElement.annotation
+				element.link = dynamicLink
 				dynamicLink.targetElements.add(element)
 			}
 			dynamicTraceabilityModel.links.add(dynamicLink)
