@@ -79,6 +79,9 @@
     <eOperations name="execute">
       <eAnnotations source="aspect"/>
     </eOperations>
+    <eOperations name="take">
+      <eAnnotations source="aspect"/>
+    </eOperations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityFinalNode" eSuperTypes="//FinalNode"/>
   <eClassifiers xsi:type="ecore:EClass" name="ForkNode" eSuperTypes="//ControlNode"/>

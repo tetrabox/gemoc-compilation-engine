@@ -158,6 +158,9 @@
       <genOperations>
         <ecoreOperation href="InterpretedActivityDiagram.ecore#//FinalNode/execute"/>
       </genOperations>
+      <genOperations>
+        <ecoreOperation href="InterpretedActivityDiagram.ecore#//FinalNode/take"/>
+      </genOperations>
     </genClasses>
     <genClasses>
       <ecoreClass href="InterpretedActivityDiagram.ecore#//ActivityFinalNode"/>

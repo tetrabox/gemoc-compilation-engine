@@ -1296,6 +1296,8 @@ public class ActivitydiagramPackageImpl extends EPackageImpl implements Activity
 
 		addEOperation(finalNodeEClass, null, "execute", 0, 1, IS_UNIQUE, IS_ORDERED);
 
+		addEOperation(finalNodeEClass, null, "take", 0, 1, IS_UNIQUE, IS_ORDERED);
+
 		initEClass(activityFinalNodeEClass, ActivityFinalNode.class, "ActivityFinalNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(forkNodeEClass, ForkNode.class, "ForkNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1459,6 +1461,11 @@ public class ActivitydiagramPackageImpl extends EPackageImpl implements Activity
 		   });	
 		addAnnotation
 		  (finalNodeEClass.getEOperations().get(0), 
+		   source, 
+		   new String[] {
+		   });	
+		addAnnotation
+		  (finalNodeEClass.getEOperations().get(1), 
 		   source, 
 		   new String[] {
 		   });	

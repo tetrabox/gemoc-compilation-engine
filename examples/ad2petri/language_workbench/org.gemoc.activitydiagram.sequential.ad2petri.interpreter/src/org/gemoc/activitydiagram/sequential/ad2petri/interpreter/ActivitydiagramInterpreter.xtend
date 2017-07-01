@@ -22,20 +22,17 @@ import fr.inria.diverse.k3.al.annotationprocessor.OverrideAspectMethod
 @Aspect(className=Activity)
 class ActivityAspect {
 
-	@InitializeModel
-	def void initialize(List<String> args) {
+	@InitializeModel def void initialize(List<String> args) {
 		val initialNode = _self.nodes.filter(InitialNode).head
 		val initialToken = ActivitydiagramFactory.eINSTANCE.createControlToken
 		initialNode.heldTokens.add(initialToken)
 	}
 
-	@Main
-	def void main() {
+	@Main def void main() {
 		_self.execute()
 	}
 
-	@Step
-	def void execute() {
+	@Step def void execute() {
 		var ActivityNode node = _self.findReadyNode()
 		while (node != null) {
 			node.execute()
@@ -52,41 +49,31 @@ class ActivityAspect {
 @Aspect(className=ActivityEdge)
 class ActivityEdgeAspect {
 
-	@Containment
-	public EList<Token> heldTokens
+	@Containment public EList<Token> heldTokens
 
 }
 
-@Aspect(className=ActivityNode)
-class ActivityNodeAspect {
+@Aspect(className=ActivityNode) class ActivityNodeAspect {
 
-	@Containment
-	public EList<Token> heldTokens
+	@Containment public EList<Token> heldTokens
 
-	@Step
-	def void execute() {
+	@Step def void execute() {
 		_self.take()
 		_self.offer()
 	}
 
-	@Step
-	def void offer() {
-		val token = _self.heldTokens.head
-		_self.heldTokens.remove(token)
+	@Step def void offer() {
+		_self.heldTokens.remove(_self.heldTokens.head)
 		for (edge : _self.outgoing) {
-			val newToken = ActivitydiagramFactory.eINSTANCE.createControlToken
-			edge.heldTokens.add(newToken)
+			edge.heldTokens.add(ActivitydiagramFactory.eINSTANCE.createControlToken)
 		}
 	}
 
-	@Step
-	def void take() {
+	@Step def void take() {
 		for (edge : _self.incoming) {
-			val token = edge.heldTokens.head
-			edge.heldTokens.remove(token)
+			edge.heldTokens.remove(edge.heldTokens.head)
 		}
-		val newToken = ActivitydiagramFactory.eINSTANCE.createControlToken
-		_self.heldTokens.add(newToken)
+		_self.heldTokens.add(ActivitydiagramFactory.eINSTANCE.createControlToken)
 	}
 
 	public def boolean isReady() {
@@ -95,29 +82,28 @@ class ActivityNodeAspect {
 
 }
 
-@Aspect(className=InitialNode)
-class InitialNodeAspect extends ActivityNodeAspect {
+@Aspect(className=InitialNode) class InitialNodeAspect extends ActivityNodeAspect {
 
-	@OverrideAspectMethod
-	@Step
-	def void execute() {
+	@OverrideAspectMethod @Step def void execute() {
 		_self.offer()
 	}
 
-	@OverrideAspectMethod
-	def boolean isReady() {
+	@OverrideAspectMethod def boolean isReady() {
 		_self.heldTokens.size > 0
 	}
 
 }
 
-@Aspect(className=FinalNode)
-class FinalNodeAspect extends ActivityNodeAspect {
+@Aspect(className=FinalNode) class FinalNodeAspect extends ActivityNodeAspect {
 
-	@OverrideAspectMethod
-	@Step
-	def void execute() {
+	@OverrideAspectMethod @Step def void execute() {
 		_self.take()
+	}
+
+	@OverrideAspectMethod @Step def void take() {
+		for (edge : _self.incoming) {
+			edge.heldTokens.remove(edge.heldTokens.head)
+		}
 	}
 
 }
