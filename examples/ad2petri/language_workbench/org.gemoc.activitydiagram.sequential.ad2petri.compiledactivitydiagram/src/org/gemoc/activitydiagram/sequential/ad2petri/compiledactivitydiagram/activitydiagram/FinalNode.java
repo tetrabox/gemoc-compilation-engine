@@ -22,4 +22,12 @@ public interface FinalNode extends ControlNode {
 	 */
 	void execute();
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	void take();
+
 } // FinalNode

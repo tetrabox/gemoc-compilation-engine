@@ -33,7 +33,8 @@ class Ad2PetriCompiler implements Compiler {
 
 	private def void transformToNet() {
 		transform(input)
-		output = mapping.links.findFirst[it.sourceElements.map[element].contains(input)].targetElements.map[element].head as Net
+		output = mapping.links.findFirst[it.sourceElements.map[element].contains(input)].targetElements.map[element].
+			head as Net
 	}
 
 	private def dispatch Link transform(Activity activity) {
@@ -42,12 +43,12 @@ class Ad2PetriCompiler implements Compiler {
 
 			// Create trace
 			result = GemoctraceabilityFactory::eINSTANCE.createLink
-			result.sourceElements.add(createAnnotatedElement(activity))
+			result.sourceElements.add(createAnnotatedElement(result, activity))
 			mapping.links.add(result)
 
 			// Create net
 			val net = PetrinetV1Factory::eINSTANCE.createNet
-			result.targetElements.add(createAnnotatedElement(net))
+			result.targetElements.add(createAnnotatedElement(result, net))
 
 			// Transform all referenced stuff
 			for (node : activity.nodes) {
@@ -66,7 +67,7 @@ class Ad2PetriCompiler implements Compiler {
 		if (result == null) {
 			// Create trace
 			result = GemoctraceabilityFactory::eINSTANCE.createLink
-			result.sourceElements.add(createAnnotatedElement(node))
+			result.sourceElements.add(createAnnotatedElement(result, node))
 			mapping.links.add(result)
 
 			// Get containing net
@@ -80,13 +81,13 @@ class Ad2PetriCompiler implements Compiler {
 			if (! (node instanceof FinalNode)) {
 				// Create place
 				place = PetrinetV1Factory::eINSTANCE.createPlace
-				result.targetElements.add(createAnnotatedElement(place))
+				result.targetElements.add(createAnnotatedElement(result, place))
 				place.name = node.name + "_node"
 				net.places.add(place)
 
 				// Create transition offer tokens
 				transition2 = PetrinetV1Factory::eINSTANCE.createTransition
-				result.targetElements.add(createAnnotatedElement(transition2,"offer"))
+				result.targetElements.add(createAnnotatedElement(result, transition2, "offer"))
 				transition2.name = node.name + "_offerTokens"
 				net.transitions.add(transition2)
 				transition2.input.add(place)
@@ -95,7 +96,7 @@ class Ad2PetriCompiler implements Compiler {
 			if (! (node instanceof InitialNode)) {
 				// Create transition take tokens
 				transition1 = PetrinetV1Factory::eINSTANCE.createTransition
-				result.targetElements.add(createAnnotatedElement(transition1,"take"))
+				result.targetElements.add(createAnnotatedElement(result, transition1, "take"))
 				transition1.name = node.name + "_takeOfferedTokens"
 				net.transitions.add(transition1)
 				if (place != null)
@@ -125,7 +126,7 @@ class Ad2PetriCompiler implements Compiler {
 
 			// Create trace
 			result = GemoctraceabilityFactory::eINSTANCE.createLink
-			result.sourceElements.add(createAnnotatedElement(controlFlow))
+			result.sourceElements.add(createAnnotatedElement(result, controlFlow))
 			mapping.links.add(result)
 
 			// Get containing net
@@ -133,7 +134,7 @@ class Ad2PetriCompiler implements Compiler {
 
 			// Create place
 			val place = PetrinetV1Factory::eINSTANCE.createPlace
-			result.targetElements.add(createAnnotatedElement(place))
+			result.targetElements.add(createAnnotatedElement(result, place))
 			place.name = controlFlow.name + "_controlflow"
 			net.places.add(place)
 		}
@@ -163,15 +164,16 @@ class Ad2PetriCompiler implements Compiler {
 		mapping.links.findFirst[it.sourceElements.map[element].contains(o)]
 	}
 
-	private def AnnotatedElement createAnnotatedElement(EObject o, String s) {
+	private def AnnotatedElement createAnnotatedElement(Link l, EObject o, String s) {
 		val annotatedElement = GemoctraceabilityFactory::eINSTANCE.createAnnotatedElement
 		annotatedElement.element = o
 		annotatedElement.annotation = s
+		annotatedElement.link = l
 		return annotatedElement
 	}
 
-	private def AnnotatedElement createAnnotatedElement(EObject o) {
-		return createAnnotatedElement(o, "")
+	private def AnnotatedElement createAnnotatedElement(Link l, EObject o) {
+		return createAnnotatedElement(l, o, "")
 	}
 
 }
