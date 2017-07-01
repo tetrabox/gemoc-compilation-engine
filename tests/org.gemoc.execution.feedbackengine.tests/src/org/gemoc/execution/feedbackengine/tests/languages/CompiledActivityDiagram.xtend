@@ -2,7 +2,7 @@ package org.gemoc.execution.feedbackengine.tests.languages
 
 import org.gemoc.executionframework.test.lib.ILanguageWrapper
 
-class Ad2petri implements ILanguageWrapper {
+class CompiledActivityDiagram implements ILanguageWrapper {
 
 	override getEntryPoint() {
 		""
