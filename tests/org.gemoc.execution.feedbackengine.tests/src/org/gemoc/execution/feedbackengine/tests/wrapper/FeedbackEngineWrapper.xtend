@@ -15,10 +15,23 @@ import org.gemoc.xdsmlframework.api.core.IRunConfiguration
 class FeedbackEngineWrapper implements IEngineWrapper  {
 	
 	
-	private var FeedbackEngine engine 
+	private var FeedbackEngine engine
+	
+	boolean disableFeedback = false
+	
+	new () {
+		
+	}
+	
+	new (boolean disableFeedback) {
+		this.disableFeedback = disableFeedback
+	}
 	
 	override prepare(ILanguageWrapper wrapper, IExecutableModel model, Set<String> addons, URI uri) {
 		engine = new FeedbackEngine
+		
+		if (disableFeedback)
+			engine.disableFeedback
 		val IRunConfiguration runConf = new TestRunConfiguration(model, uri,wrapper,addons)
 		val IExecutionContext exeContext = new SequentialModelExecutionContext(runConf, ExecutionMode::Run);
 		exeContext.initializeResourceModel();
