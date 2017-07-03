@@ -6,6 +6,8 @@ import fr.inria.diverse.trace.commons.model.trace.Step
 import gemoctraceability.AnnotatedElement
 import gemoctraceability.TraceabilityModel
 import java.util.Collection
+import java.util.HashMap
+import java.util.Map
 import org.eclipse.emf.ecore.EObject
 import org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.Activity
 import org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.ActivityEdge
@@ -17,15 +19,37 @@ import org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.act
 import org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.Token
 import org.gemoc.execution.feedbackengine.FeedbackEngine
 import org.gemoc.execution.feedbackengine.FeedbackInterpreter
+import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.BatchModelChangeListener
+import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.FieldModelChange
 
 class Ad2PetriFeedbackInterpreter implements FeedbackInterpreter {
 
 	private val TraceabilityModel mapping
 	private val FeedbackEngine feedbackEngine
+	private val BatchModelChangeListener listener
+	private val Map<Place, NamedElement> efficientPlaceMapping = new HashMap
+	private val Map<EObject, AnnotatedElement> efficientAnnotatedMapping = new HashMap
 
 	new(TraceabilityModel traceabilityModel, FeedbackEngine feedbackEngine) {
 		this.mapping = traceabilityModel
 		this.feedbackEngine = feedbackEngine
+		val anyTargetElement = mapping.links.head.targetElements.head.element
+
+		listener = new BatchModelChangeListener(#{anyTargetElement.eResource})
+		listener.registerObserver(this)
+
+		for (link : mapping.links) {
+			val place = link.targetElements.map[element].filter(Place).head
+			if (place != null) {
+			val tokenHolder = link.sourceElements.head.element as NamedElement
+				efficientPlaceMapping.put(place, tokenHolder)
+			}
+		}
+		
+		for (annot : mapping.eAllContents.filter(AnnotatedElement).toSet) {
+			efficientAnnotatedMapping.put(annot.element,annot)
+		}
+
 	}
 
 	static def Collection<Token> heldTokens(NamedElement e) {
@@ -33,16 +57,35 @@ class Ad2PetriFeedbackInterpreter implements FeedbackInterpreter {
 	}
 
 	def AnnotatedElement getAnnotatedElement(EObject o) {
-		mapping.eAllContents.filter(AnnotatedElement).findFirst[it.element == o]
+		//mapping.eAllContents.filter(AnnotatedElement).findFirst[it.element == o]
+		efficientAnnotatedMapping.get(o)
 	}
 
 	private def void initializeSourceState() {
+		val changes = listener.getChanges(this)
+		for (change : changes.filter(FieldModelChange)) {
+
+			val place = change.changedObject as Place
+			val tokenHolder = efficientPlaceMapping.get(place)
+
+			val diff = place.tokens - tokenHolder.heldTokens.size
+			for (var i = 0; i < Math.abs(diff); i++) {
+				if (diff > 0)
+					tokenHolder.heldTokens.add(ActivitydiagramFactory::eINSTANCE.createToken)
+				else
+					tokenHolder.heldTokens.remove(tokenHolder.heldTokens.head)
+			}
+
+		}
+	}
+
+	private def void initializeSourceState1() {
 		for (link : mapping.links) {
 			val place = link.targetElements.map[element].filter(Place).head
 			if (place != null) {
 				val tokenHolder = link.sourceElements.head.element as NamedElement
 				val diff = place.tokens - tokenHolder.heldTokens.size
-				for (var i = 0; i< Math.abs(diff); i++) {
+				for (var i = 0; i < Math.abs(diff); i++) {
 					if (diff > 0)
 						tokenHolder.heldTokens.add(ActivitydiagramFactory::eINSTANCE.createToken)
 					else
