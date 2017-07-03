@@ -29,6 +29,8 @@ class FeedbackEngine extends AbstractSequentialExecutionEngine {
 	var FeedbackInterpreter feedbackInterpreter
 	var AbstractExecutionEngine targetEngine
 
+	var boolean feedback = true
+
 	public def void feedbackStartStep(EObject caller, String className, String operationName) {
 		beforeExecutionStep(caller, className, operationName);
 	}
@@ -74,7 +76,6 @@ class FeedbackEngine extends AbstractSequentialExecutionEngine {
 		targetEngine = feedbackConfiguration.createTargetEngine() as AbstractExecutionEngine
 		targetEngine.initialize(exeContext);
 		targetEngine.stopOnAddonError = true;
-		
 
 		// Converting the traceability model to a dynamic one
 		val Map<EObject, EObject> sourceMapping = dynamicSourceModel.modelsMapping
@@ -83,13 +84,16 @@ class FeedbackEngine extends AbstractSequentialExecutionEngine {
 		val TraceabilityModel dynamicTraceability = transformToDynamic(compilatioResult.traceabilityModelRoot,
 			sourceMapping, targetMapping)
 
-		// Creating the feedback interpreter
-		feedbackInterpreter = feedbackConfiguration.createFeedbackInterpreter(dynamicTraceability, this)
-		
-		// Create the feedback addon
-		val feedbackAddon = new FeedbackAddon(feedbackInterpreter)
-		targetEngine.executionContext.executionPlatform.addEngineAddon(feedbackAddon)
-		
+		if (feedback) {
+
+			// Creating the feedback interpreter
+			feedbackInterpreter = feedbackConfiguration.createFeedbackInterpreter(dynamicTraceability, this)
+
+			// Create the feedback addon
+			val feedbackAddon = new FeedbackAddon(feedbackInterpreter)
+			targetEngine.executionContext.executionPlatform.addEngineAddon(feedbackAddon)
+
+		}
 
 	}
 
@@ -137,7 +141,7 @@ class FeedbackEngine extends AbstractSequentialExecutionEngine {
 		for (Element element : modelTypingSpace.getElements()) {
 			if (element instanceof Language) {
 				val Language language = element as Language;
-				if (languageFQN.endsWith("."+language.getName())) {
+				if (languageFQN.endsWith("." + language.getName())) {
 					return language;
 				}
 			}
@@ -150,13 +154,16 @@ class FeedbackEngine extends AbstractSequentialExecutionEngine {
 			throw targetEngine.error
 	}
 
-
 	override protected initializeModel() {
 		// Nothing to do
 	}
 
 	override protected prepareInitializeModel(IExecutionContext executionContext) {
 		// Nothing to do
+	}
+
+	public def disableFeedback() {
+		this.feedback = false
 	}
 
 }
