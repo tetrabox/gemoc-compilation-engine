@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ASCII"?>
+<activitydiagram:Activity xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:activitydiagram="http://activitydiagram/1.0" name="activity-size010-id06">
+  <nodes xsi:type="activitydiagram:InitialNode" name="InitialNode" outgoing="ControlFlow1"/>
+  <nodes xsi:type="activitydiagram:OpaqueAction" name="Action1" outgoing="ControlFlow2" incoming="ControlFlow1"/>
+  <nodes xsi:type="activitydiagram:ForkNode" name="Fork1" outgoing="ControlFlow3 ControlFlow6" incoming="ControlFlow2"/>
+  <nodes xsi:type="activitydiagram:OpaqueAction" name="Action2" outgoing="ControlFlow4" incoming="ControlFlow3"/>
+  <nodes xsi:type="activitydiagram:OpaqueAction" name="Action3" outgoing="ControlFlow5" incoming="ControlFlow4"/>
+  <nodes xsi:type="activitydiagram:JoinNode" name="Join1" outgoing="ControlFlow7" incoming="ControlFlow5 ControlFlow6"/>
+  <nodes xsi:type="activitydiagram:OpaqueAction" name="Action4" outgoing="ControlFlow8" incoming="ControlFlow7"/>
+  <nodes xsi:type="activitydiagram:OpaqueAction" name="Action5" outgoing="ControlFlow9" incoming="ControlFlow8"/>
+  <nodes xsi:type="activitydiagram:OpaqueAction" name="Action6" outgoing="ControlFlow10" incoming="ControlFlow9"/>
+  <nodes xsi:type="activitydiagram:ActivityFinalNode" name="FinalNode" incoming="ControlFlow10"/>
+  <edges xsi:type="activitydiagram:ControlFlow" name="ControlFlow1" source="InitialNode" target="Action1"/>
+  <edges xsi:type="activitydiagram:ControlFlow" name="ControlFlow2" source="Action1" target="Fork1"/>
+  <edges xsi:type="activitydiagram:ControlFlow" name="ControlFlow3" source="Fork1" target="Action2"/>
+  <edges xsi:type="activitydiagram:ControlFlow" name="ControlFlow4" source="Action2" target="Action3"/>
+  <edges xsi:type="activitydiagram:ControlFlow" name="ControlFlow5" source="Action3" target="Join1"/>
+  <edges xsi:type="activitydiagram:ControlFlow" name="ControlFlow6" source="Fork1" target="Join1"/>
+  <edges xsi:type="activitydiagram:ControlFlow" name="ControlFlow7" source="Join1" target="Action4"/>
+  <edges xsi:type="activitydiagram:ControlFlow" name="ControlFlow8" source="Action4" target="Action5"/>
+  <edges xsi:type="activitydiagram:ControlFlow" name="ControlFlow9" source="Action5" target="Action6"/>
+  <edges xsi:type="activitydiagram:ControlFlow" name="ControlFlow10" source="Action6" target="FinalNode"/>
+</activitydiagram:Activity>

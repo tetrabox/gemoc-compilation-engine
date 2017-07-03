@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="ASCII"?>
+<activitydiagram:Activity xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:activitydiagram="http://activitydiagram/1.0" name="activity-size030-id06">
+  <nodes xsi:type="activitydiagram:InitialNode" name="InitialNode" outgoing="ControlFlow1"/>
+  <nodes xsi:type="activitydiagram:ForkNode" name="Fork1" outgoing="ControlFlow2 ControlFlow6" incoming="ControlFlow1"/>
+  <nodes xsi:type="activitydiagram:OpaqueAction" name="Action1" outgoing="ControlFlow3" incoming="ControlFlow2"/>
+  <nodes xsi:type="activitydiagram:OpaqueAction" name="Action2" outgoing="ControlFlow4" incoming="ControlFlow3"/>
+  <nodes xsi:type="activitydiagram:OpaqueAction" name="Action3" outgoing="ControlFlow5" incoming="ControlFlow4"/>
+  <nodes xsi:type="activitydiagram:JoinNode" name="Join1" outgoing="ControlFlow7" incoming="ControlFlow5 ControlFlow6"/>
+  <nodes xsi:type="activitydiagram:ForkNode" name="Fork2" outgoing="ControlFlow8 ControlFlow36" incoming="ControlFlow7"/>
+  <nodes xsi:type="activitydiagram:OpaqueAction" name="Action4" outgoing="ControlFlow9" incoming="ControlFlow8"/>
+  <nodes xsi:type="activitydiagram:OpaqueAction" name="Action5" outgoing="ControlFlow10" incoming="ControlFlow9"/>
+  <nodes xsi:type="activitydiagram:ForkNode" name="Fork3" outgoing="ControlFlow11 ControlFlow34" incoming="ControlFlow10"/>
+  <nodes xsi:type="activitydiagram:ForkNode" name="Fork4" outgoing="ControlFlow12 ControlFlow32" incoming="ControlFlow11"/>
+  <nodes xsi:type="activitydiagram:OpaqueAction" name="Action6" outgoing="ControlFlow13" incoming="ControlFlow12"/>
+  <nodes xsi:type="activitydiagram:ForkNode" name="Fork5" outgoing="ControlFlow14 ControlFlow30" incoming="ControlFlow13"/>
+  <nodes xsi:type="activitydiagram:OpaqueAction" name="Action7" outgoing="ControlFlow15" incoming="ControlFlow14"/>
+  <nodes xsi:type="activitydiagram:OpaqueAction" name="Action8" outgoing="ControlFlow16" incoming="ControlFlow15"/>
+  <nodes xsi:type="activitydiagram:ForkNode" name="Fork6" outgoing="ControlFlow17 ControlFlow27" incoming="ControlFlow16"/>
+  <nodes xsi:type="activitydiagram:ForkNode" name="Fork7" outgoing="ControlFlow18 ControlFlow25" incoming="ControlFlow17"/>
+  <nodes xsi:type="activitydiagram:OpaqueAction" name="Action9" outgoing="ControlFlow19" incoming="ControlFlow18"/>
+  <nodes xsi:type="activitydiagram:ForkNode" name="Fork8" outgoing="ControlFlow20 ControlFlow21" incoming="ControlFlow19"/>
+  <nodes xsi:type="activitydiagram:OpaqueAction" name="Action10" outgoing="ControlFlow23" incoming="ControlFlow20"/>
+  <nodes xsi:type="activitydiagram:OpaqueAction" name="Action11" outgoing="ControlFlow22" incoming="ControlFlow21"/>
+  <nodes xsi:type="activitydiagram:OpaqueAction" name="Action12" outgoing="ControlFlow24" incoming="ControlFlow22"/>
+  <nodes xsi:type="activitydiagram:JoinNode" name="Join2" outgoing="ControlFlow26" incoming="ControlFlow23 ControlFlow24"/>
+  <nodes xsi:type="activitydiagram:JoinNode" name="Join3" outgoing="ControlFlow28" incoming="ControlFlow25 ControlFlow26"/>
+  <nodes xsi:type="activitydiagram:JoinNode" name="Join4" outgoing="ControlFlow29" incoming="ControlFlow27 ControlFlow28"/>
+  <nodes xsi:type="activitydiagram:JoinNode" name="Join5" outgoing="ControlFlow31" incoming="ControlFlow29 ControlFlow30"/>
+  <nodes xsi:type="activitydiagram:JoinNode" name="Join6" outgoing="ControlFlow33" incoming="ControlFlow31 ControlFlow32"/>
+  <nodes xsi:type="activitydiagram:JoinNode" name="Join7" outgoing="ControlFlow35" incoming="ControlFlow33 ControlFlow34"/>
+  <nodes xsi:type="activitydiagram:JoinNode" name="Join8" outgoing="ControlFlow37" incoming="ControlFlow35 ControlFlow36"/>
+  <nodes xsi:type="activitydiagram:ActivityFinalNode" name="FinalNode" incoming="ControlFlow37"/>
+  <edges xsi:type="activitydiagram:ControlFlow" name="ControlFlow1" source="InitialNode" target="Fork1"/>
+  <edges xsi:type="activitydiagram:ControlFlow" name="ControlFlow2" source="Fork1" target="Action1"/>
+  <edges xsi:type="activitydiagram:ControlFlow" name="ControlFlow3" source="Action1" target="Action2"/>
+  <edges xsi:type="activitydiagram:ControlFlow" name="ControlFlow4" source="Action2" target="Action3"/>
+  <edges xsi:type="activitydiagram:ControlFlow" name="ControlFlow5" source="Action3" target="Join1"/>
+  <edges xsi:type="activitydiagram:ControlFlow" name="ControlFlow6" source="Fork1" target="Join1"/>
+  <edges xsi:type="activitydiagram:ControlFlow" name="ControlFlow7" source="Join1" target="Fork2"/>
+  <edges xsi:type="activitydiagram:ControlFlow" name="ControlFlow8" source="Fork2" target="Action4"/>
+  <edges xsi:type="activitydiagram:ControlFlow" name="ControlFlow9" source="Action4" target="Action5"/>
+  <edges xsi:type="activitydiagram:ControlFlow" name="ControlFlow10" source="Action5" target="Fork3"/>
+  <edges xsi:type="activitydiagram:ControlFlow" name="ControlFlow11" source="Fork3" target="Fork4"/>
+  <edges xsi:type="activitydiagram:ControlFlow" name="ControlFlow12" source="Fork4" target="Action6"/>
+  <edges xsi:type="activitydiagram:ControlFlow" name="ControlFlow13" source="Action6" target="Fork5"/>
+  <edges xsi:type="activitydiagram:ControlFlow" name="ControlFlow14" source="Fork5" target="Action7"/>
+  <edges xsi:type="activitydiagram:ControlFlow" name="ControlFlow15" source="Action7" target="Action8"/>
+  <edges xsi:type="activitydiagram:ControlFlow" name="ControlFlow16" source="Action8" target="Fork6"/>
+  <edges xsi:type="activitydiagram:ControlFlow" name="ControlFlow17" source="Fork6" target="Fork7"/>
+  <edges xsi:type="activitydiagram:ControlFlow" name="ControlFlow18" source="Fork7" target="Action9"/>
+  <edges xsi:type="activitydiagram:ControlFlow" name="ControlFlow19" source="Action9" target="Fork8"/>
+  <edges xsi:type="activitydiagram:ControlFlow" name="ControlFlow20" source="Fork8" target="Action10"/>
+  <edges xsi:type="activitydiagram:ControlFlow" name="ControlFlow21" source="Fork8" target="Action11"/>
+  <edges xsi:type="activitydiagram:ControlFlow" name="ControlFlow22" source="Action11" target="Action12"/>
+  <edges xsi:type="activitydiagram:ControlFlow" name="ControlFlow23" source="Action10" target="Join2"/>
+  <edges xsi:type="activitydiagram:ControlFlow" name="ControlFlow24" source="Action12" target="Join2"/>
+  <edges xsi:type="activitydiagram:ControlFlow" name="ControlFlow25" source="Fork7" target="Join3"/>
+  <edges xsi:type="activitydiagram:ControlFlow" name="ControlFlow26" source="Join2" target="Join3"/>
+  <edges xsi:type="activitydiagram:ControlFlow" name="ControlFlow27" source="Fork6" target="Join4"/>
+  <edges xsi:type="activitydiagram:ControlFlow" name="ControlFlow28" source="Join3" target="Join4"/>
+  <edges xsi:type="activitydiagram:ControlFlow" name="ControlFlow29" source="Join4" target="Join5"/>
+  <edges xsi:type="activitydiagram:ControlFlow" name="ControlFlow30" source="Fork5" target="Join5"/>
+  <edges xsi:type="activitydiagram:ControlFlow" name="ControlFlow31" source="Join5" target="Join6"/>
+  <edges xsi:type="activitydiagram:ControlFlow" name="ControlFlow32" source="Fork4" target="Join6"/>
+  <edges xsi:type="activitydiagram:ControlFlow" name="ControlFlow33" source="Join6" target="Join7"/>
+  <edges xsi:type="activitydiagram:ControlFlow" name="ControlFlow34" source="Fork3" target="Join7"/>
+  <edges xsi:type="activitydiagram:ControlFlow" name="ControlFlow35" source="Join7" target="Join8"/>
+  <edges xsi:type="activitydiagram:ControlFlow" name="ControlFlow36" source="Fork2" target="Join8"/>
+  <edges xsi:type="activitydiagram:ControlFlow" name="ControlFlow37" source="Join8" target="FinalNode"/>
+</activitydiagram:Activity>
