@@ -21,7 +21,7 @@ public class TestActivityGenerator {
 		Activity activity = generator.generateActivity(10, 40);
 		Assert.assertEquals(10, activity.getNodes().size());
 		activity.setName("Activity-Size10");
-		persist(activity, "models/Activity-Size10.xmi");
+		Util.persist(activity, "models-test/Activity-Size10.xmi");
 	}
 	
 	@Test
@@ -30,7 +30,7 @@ public class TestActivityGenerator {
 		Activity activity = generator.generateActivity(20, 40);
 		Assert.assertEquals(20, activity.getNodes().size());
 		activity.setName("Activity-Size20");
-		persist(activity, "models/Activity-Size20.xmi");
+		Util.persist(activity, "models-test/Activity-Size20.xmi");
 	}
 
 	@Test
@@ -39,7 +39,7 @@ public class TestActivityGenerator {
 		Activity activity = generator.generateActivity(30, 40);
 		Assert.assertEquals(30, activity.getNodes().size());
 		activity.setName("Activity-Size30");
-		persist(activity, "models/Activity-Size30.xmi");
+		Util.persist(activity, "models-test/Activity-Size30.xmi");
 	}
 	
 	@Test
@@ -48,7 +48,7 @@ public class TestActivityGenerator {
 		Activity activity = generator.generateActivity(50, 40);
 		Assert.assertEquals(50, activity.getNodes().size());
 		activity.setName("Activity-Size50");
-		persist(activity, "models/Activity-Size50.xmi");
+		Util.persist(activity, "models-test/Activity-Size50.xmi");
 	}
 	
 	@Test
@@ -57,20 +57,8 @@ public class TestActivityGenerator {
 		Activity activity = generator.generateActivity(100, 40);
 		Assert.assertEquals(100, activity.getNodes().size());
 		activity.setName("Activity-Size100");
-		persist(activity, "models/Activity-Size100.xmi");
+		Util.persist(activity, "models-test/Activity-Size100.xmi");
 	}
 
-	private void persist(Activity activity, String path) {
-		ResourceSet resourceSet = new ResourceSetImpl();
-		Resource resource = resourceSet.createResource(URI.createURI(path));
-		resource.getContents().add(activity);
-
-		try {
-			resource.save(Collections.EMPTY_MAP);
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw new RuntimeException("Could not store generated activity " + activity.getName() + " at path " + path);
-		}
-	}
 
 }
