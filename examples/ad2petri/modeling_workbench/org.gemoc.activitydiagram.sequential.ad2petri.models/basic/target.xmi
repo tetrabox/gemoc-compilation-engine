@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="ASCII"?>
+<petrinetv1:Net xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:petrinetv1="petrinetv1">
+  <places name="initialNode2_node" initialTokens="1"/>
+  <places name="edge3_controlflow"/>
+  <places name="forkNode1_node"/>
+  <places name="edge4_controlflow"/>
+  <places name="edge5_controlflow"/>
+  <places name="action2_node"/>
+  <places name="edge6_controlflow"/>
+  <places name="action3_node"/>
+  <places name="edge7_controlflow"/>
+  <places name="joinNode1_node"/>
+  <places name="edge8_controlflow"/>
+  <transitions input="//@places.0" output="//@places.1" name="initialNode2_offerTokens"/>
+  <transitions input="//@places.2" output="//@places.3 //@places.4" name="forkNode1_offerTokens"/>
+  <transitions input="//@places.1" output="//@places.2" name="forkNode1_takeOfferedTokens"/>
+  <transitions input="//@places.5" output="//@places.6" name="action2_offerTokens"/>
+  <transitions input="//@places.3" output="//@places.5" name="action2_takeOfferedTokens"/>
+  <transitions input="//@places.7" output="//@places.8" name="action3_offerTokens"/>
+  <transitions input="//@places.4" output="//@places.7" name="action3_takeOfferedTokens"/>
+  <transitions input="//@places.9" output="//@places.10" name="joinNode1_offerTokens"/>
+  <transitions input="//@places.6 //@places.8" output="//@places.9" name="joinNode1_takeOfferedTokens"/>
+  <transitions input="//@places.10" name="finalNode2_takeOfferedTokens"/>
+</petrinetv1:Net>
