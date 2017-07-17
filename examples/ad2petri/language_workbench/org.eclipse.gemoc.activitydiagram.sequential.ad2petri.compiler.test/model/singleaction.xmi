@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<activitydiagram:Activity
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:activitydiagram="http://activitydiagram/1.0"
+    xsi:schemaLocation="http://activitydiagram/1.0 ../../org.eclipse.gemoc.activitydiagram.sequential.model/ad/activitydiagram.ecore"
+    name="simple">
+  <nodes xsi:type="activitydiagram:InitialNode"
+      name="init"
+      outgoing="control1"/>
+  <nodes xsi:type="activitydiagram:ActivityFinalNode"
+      name="final"
+      incoming="control2"/>
+  <nodes xsi:type="activitydiagram:OpaqueAction"
+      name="singleaction"
+      outgoing="control2"
+      incoming="control1"/>
+  <edges xsi:type="activitydiagram:ControlFlow"
+      name="control1"
+      source="init"
+      target="singleaction"/>
+  <edges xsi:type="activitydiagram:ControlFlow"
+      name="control2"
+      source="singleaction"
+      target="final"/>
+</activitydiagram:Activity>

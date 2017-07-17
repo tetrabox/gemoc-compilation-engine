@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin
+   id="test"
+   name="test"
+   version="1"
+   provider-name="test">
+   <requires>
+      <import plugin="org.eclipse.gemoc.activitydiagram.sequential.model" version="0.1.0"/>
+   </requires>
+</plugin>

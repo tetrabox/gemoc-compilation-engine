@@ -7,7 +7,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.modelexecution.activitydiagram.generator;bundle-version="1.0.0",
  org.junit,
  org.eclipse.emf.ecore.xmi,
- org.gemoc.activitydiagram.sequential.model;bundle-version="0.1.0",
+ org.eclipse.gemoc.activitydiagram.sequential.model;bundle-version="0.1.0",
  com.google.guava,
  org.eclipse.xtext.xbase.lib,
  org.eclipse.xtend.lib,

@@ -1,0 +1,37 @@
+/**
+ */
+package org.eclipse.gemoc.activitydiagram.sequential.ad2petri.interpretedactivitydiagram.activitydiagram.impl;
+
+import org.eclipse.emf.ecore.EClass;
+
+import org.eclipse.gemoc.activitydiagram.sequential.ad2petri.interpretedactivitydiagram.activitydiagram.ActivitydiagramPackage;
+import org.eclipse.gemoc.activitydiagram.sequential.ad2petri.interpretedactivitydiagram.activitydiagram.JoinNode;
+
+/**
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>Join Node</b></em>'.
+ * <!-- end-user-doc -->
+ *
+ * @generated
+ */
+public class JoinNodeImpl extends ControlNodeImpl implements JoinNode {
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected JoinNodeImpl() {
+		super();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	protected EClass eStaticClass() {
+		return ActivitydiagramPackage.Literals.JOIN_NODE;
+	}
+
+} //JoinNodeImpl
