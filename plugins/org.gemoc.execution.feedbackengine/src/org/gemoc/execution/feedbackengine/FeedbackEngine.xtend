@@ -26,7 +26,7 @@ class FeedbackEngine extends AbstractSequentialExecutionEngine {
 	public static val String compilerExtensionPoint = "org.gemoc.execution.feedbackengine.compiler"
 	public static val String feedbackExtensionPoint = "org.gemoc.execution.feedbackengine.feedback"
 
-	var FeedbackInterpreter feedbackInterpreter
+	var FeedbackManager feedbackInterpreter
 	var AbstractExecutionEngine targetEngine
 
 	var boolean feedback = true

@@ -1,8 +1,10 @@
 package org.gemoc.activitydiagram.sequential.ad2petri
 
+
 external language ActivityDiagram {
 	syntax "platform:/resource/org.gemoc.activitydiagram.sequential.model/ad/activitydiagram.ecore"
 } 
+
 
 language CompiledActivityDiagram inherits ActivityDiagram {
 	
@@ -13,6 +15,16 @@ language CompiledActivityDiagram inherits ActivityDiagram {
 	annotation "feedback": "ad2petri-feedback"
 
 }
+
+
+
+
+
+
+
+
+
+
 
 language InterpretedActivityDiagram inherits ActivityDiagram {
 	

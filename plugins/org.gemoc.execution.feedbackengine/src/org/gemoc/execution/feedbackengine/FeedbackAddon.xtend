@@ -6,9 +6,9 @@ import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon
 
 class FeedbackAddon implements IEngineAddon {
 
-	private val FeedbackInterpreter feedbackInterpreter
+	private val FeedbackManager feedbackInterpreter
 
-	new(FeedbackInterpreter feedbackInterpreter) {
+	new(FeedbackManager feedbackInterpreter) {
 		this.feedbackInterpreter = feedbackInterpreter
 	}
 

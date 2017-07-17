@@ -4,7 +4,7 @@ import gemoctraceability.TraceabilityModel
 import org.gemoc.xdsmlframework.api.core.IExecutionEngine
 
 interface FeedbackConfiguration {
-	def FeedbackInterpreter createFeedbackInterpreter(TraceabilityModel traceability, FeedbackEngine feedbackEngine)
+	def FeedbackManager createFeedbackInterpreter(TraceabilityModel traceability, FeedbackEngine feedbackEngine)
 	
 	def IExecutionEngine createTargetEngine()
 	

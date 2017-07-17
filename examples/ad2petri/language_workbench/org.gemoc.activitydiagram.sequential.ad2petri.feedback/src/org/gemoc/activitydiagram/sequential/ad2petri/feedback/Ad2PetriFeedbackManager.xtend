@@ -18,11 +18,11 @@ import org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.act
 import org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.NamedElement
 import org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.Token
 import org.gemoc.execution.feedbackengine.FeedbackEngine
-import org.gemoc.execution.feedbackengine.FeedbackInterpreter
 import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.BatchModelChangeListener
 import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.FieldModelChange
+import org.gemoc.execution.feedbackengine.FeedbackManager
 
-class Ad2PetriFeedbackInterpreter implements FeedbackInterpreter {
+class Ad2PetriFeedbackManager implements FeedbackManager {
 
 	private val TraceabilityModel mapping
 	private val FeedbackEngine feedbackEngine
@@ -61,7 +61,7 @@ class Ad2PetriFeedbackInterpreter implements FeedbackInterpreter {
 		efficientAnnotatedMapping.get(o)
 	}
 
-	private def void initializeSourceState() {
+	def void feedbackState() {
 		val changes = listener.getChanges(this)
 		for (change : changes.filter(FieldModelChange)) {
 
@@ -76,22 +76,6 @@ class Ad2PetriFeedbackInterpreter implements FeedbackInterpreter {
 					tokenHolder.heldTokens.remove(tokenHolder.heldTokens.head)
 			}
 
-		}
-	}
-
-	private def void initializeSourceState1() {
-		for (link : mapping.links) {
-			val place = link.targetElements.map[element].filter(Place).head
-			if (place != null) {
-				val tokenHolder = link.sourceElements.head.element as NamedElement
-				val diff = place.tokens - tokenHolder.heldTokens.size
-				for (var i = 0; i < Math.abs(diff); i++) {
-					if (diff > 0)
-						tokenHolder.heldTokens.add(ActivitydiagramFactory::eINSTANCE.createToken)
-					else
-						tokenHolder.heldTokens.remove(tokenHolder.heldTokens.head)
-				}
-			}
 		}
 	}
 
@@ -121,7 +105,7 @@ class Ad2PetriFeedbackInterpreter implements FeedbackInterpreter {
 	}
 
 	override processTargetStepEnd(Step<?> targetStep) {
-		initializeSourceState()
+		feedbackState()
 		feedbackEngine.feedbackEndStep()
 		if (targetStep.mseoccurrence.mse.action.name.endsWith("fire")) {
 			val annotatedTransition = getAnnotatedElement(targetStep.mseoccurrence.mse.caller as Transition)
