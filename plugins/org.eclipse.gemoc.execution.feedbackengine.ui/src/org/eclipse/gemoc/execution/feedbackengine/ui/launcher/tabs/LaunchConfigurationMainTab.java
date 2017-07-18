@@ -28,7 +28,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.gemoc.commons.eclipse.emf.URIHelper;
 import org.eclipse.gemoc.commons.eclipse.ui.dialogs.SelectAnyIFileDialog;
 import org.eclipse.gemoc.dsl.debug.ide.launch.AbstractDSLLaunchConfigurationDelegate;
-import org.eclipse.gemoc.dsl.debug.ide.sirius.ui.launch.AbstractDSLLaunchConfigurationDelegateUI2;
+import org.eclipse.gemoc.dsl.debug.ide.sirius.ui.launch.AbstractDSLLaunchConfigurationDelegateSiriusUI;
 import org.eclipse.gemoc.execution.feedbackengine.ui.Activator;
 import org.eclipse.gemoc.execution.feedbackengine.ui.launcher.LauncherMessages;
 import org.eclipse.gemoc.executionframework.engine.commons.MelangeHelper;
@@ -135,7 +135,7 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
 		configuration.setAttribute(AbstractDSLLaunchConfigurationDelegate.RESOURCE_URI,
 				this._modelLocationText.getText());
-		configuration.setAttribute(AbstractDSLLaunchConfigurationDelegateUI2.SIRIUS_RESOURCE_URI,
+		configuration.setAttribute(AbstractDSLLaunchConfigurationDelegateSiriusUI.SIRIUS_RESOURCE_URI,
 				this._siriusRepresentationLocationText.getText());
 		configuration.setAttribute(RunConfiguration.LAUNCH_DELAY, Integer.parseInt(_delayText.getText()));
 		configuration.setAttribute(RunConfiguration.LAUNCH_SELECTED_LANGUAGE, _languageCombo.getText());
