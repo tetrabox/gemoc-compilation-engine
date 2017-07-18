@@ -4,5 +4,5 @@ Bundle-Name: Random Activity Diagram Generator
 Bundle-SymbolicName: org.modelexecution.activitydiagram.generator
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Require-Bundle: org.eclipse.gemoc.activitydiagram.sequential.model;bundle-version="0.1.0"
+Require-Bundle: org.gemoc.activitydiagram.sequential.model;bundle-version="0.1.0"
 Export-Package: org.modelexecution.activitydiagram.generator
