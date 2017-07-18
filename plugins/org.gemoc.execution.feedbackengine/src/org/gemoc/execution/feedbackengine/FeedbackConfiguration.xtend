@@ -4,7 +4,7 @@ import gemoctraceability.TraceabilityModel
 import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine
 
 interface FeedbackConfiguration {
-	def FeedbackManager createFeedbackInterpreter(TraceabilityModel traceability, FeedbackEngine feedbackEngine)
+	def FeedbackManager createFeedbackManager(TraceabilityModel traceability, FeedbackEngine feedbackEngine)
 	
 	def IExecutionEngine createTargetEngine()
 	

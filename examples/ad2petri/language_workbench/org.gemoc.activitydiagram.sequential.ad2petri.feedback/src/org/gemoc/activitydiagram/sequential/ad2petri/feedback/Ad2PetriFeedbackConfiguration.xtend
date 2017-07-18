@@ -7,9 +7,8 @@ import org.eclipse.gemoc.execution.sequential.javaengine.PlainK3ExecutionEngine
 
 class Ad2PetriFeedbackConfiguration implements FeedbackConfiguration {
 
-	override createFeedbackInterpreter(TraceabilityModel traceability, FeedbackEngine feedbackEngine) {
-		return new Ad2PetriFeedbackManager(traceability,
-			feedbackEngine)
+	override createFeedbackManager(TraceabilityModel traceability, FeedbackEngine feedbackEngine) {
+		return new Ad2PetriFeedbackManager(traceability, feedbackEngine)
 	}
 
 	override createTargetEngine() {

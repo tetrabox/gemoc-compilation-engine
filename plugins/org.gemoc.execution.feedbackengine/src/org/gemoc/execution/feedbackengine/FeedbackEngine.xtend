@@ -87,7 +87,7 @@ class FeedbackEngine extends AbstractSequentialExecutionEngine {
 		if (feedback) {
 
 			// Creating the feedback interpreter
-			feedbackInterpreter = feedbackConfiguration.createFeedbackInterpreter(dynamicTraceability, this)
+			feedbackInterpreter = feedbackConfiguration.createFeedbackManager(dynamicTraceability, this)
 
 			// Create the feedback addon
 			val feedbackAddon = new FeedbackAddon(feedbackInterpreter)
