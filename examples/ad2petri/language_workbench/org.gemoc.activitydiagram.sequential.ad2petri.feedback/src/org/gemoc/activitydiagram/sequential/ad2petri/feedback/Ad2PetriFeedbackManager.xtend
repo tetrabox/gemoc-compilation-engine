@@ -40,7 +40,7 @@ class Ad2PetriFeedbackManager implements FeedbackManager {
 
 		for (link : mapping.links) {
 			val place = link.targetElements.map[element].filter(Place).head
-			if (place != null) {
+			if (place !== null) {
 			val tokenHolder = link.sourceElements.head.element as NamedElement
 				efficientPlaceMapping.put(place, tokenHolder)
 			}

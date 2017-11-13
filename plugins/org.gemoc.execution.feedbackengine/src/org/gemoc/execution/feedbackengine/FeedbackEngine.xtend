@@ -150,7 +150,7 @@ class FeedbackEngine extends AbstractSequentialExecutionEngine {
 
 	override protected executeEntryPoint() {
 		targetEngine.startSynchronous();
-		if (targetEngine.error != null)
+		if (targetEngine.error !== null)
 			throw targetEngine.error
 	}
 

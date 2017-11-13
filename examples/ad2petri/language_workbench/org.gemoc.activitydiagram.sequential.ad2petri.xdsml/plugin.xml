@@ -2,7 +2,6 @@
 <?eclipse version="3.4"?>
 <plugin>
   <extension point="org.eclipse.gemoc.gemoc_language_workbench.sequential.xdsml">
-    <XDSML_Definition modelLoader_class="org.eclipse.gemoc.executionframework.extensions.sirius.modelloader.DefaultModelLoader" name="org.gemoc.activitydiagram.sequential.ad2petri.InterpretedActivityDiagram" xdsmlFilePath="/org.gemoc.activitydiagram.sequential.ad2petri.xdsml/bin/org/gemoc/activitydiagram/sequential/ad2petri/ad2petri.melange" />
     <XDSML_Definition modelLoader_class="org.eclipse.gemoc.executionframework.extensions.sirius.modelloader.DefaultModelLoader" name="org.gemoc.activitydiagram.sequential.ad2petri.CompiledActivityDiagram" xdsmlFilePath="/org.gemoc.activitydiagram.sequential.ad2petri.xdsml/src/org/gemoc/activitydiagram/sequential/ad2petri/ad2petri.melange" />
   </extension>
   <extension point="org.eclipse.gemoc.gemoc_language_workbench.sequential.xdsml">

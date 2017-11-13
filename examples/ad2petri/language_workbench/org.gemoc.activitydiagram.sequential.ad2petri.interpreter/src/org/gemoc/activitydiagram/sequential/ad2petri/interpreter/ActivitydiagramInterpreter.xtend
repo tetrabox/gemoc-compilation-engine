@@ -34,7 +34,7 @@ class ActivityAspect {
 
 	@Step def void execute() {
 		var ActivityNode node = _self.findReadyNode()
-		while (node != null) {
+		while (node !== null) {
 			node.execute()
 			node = _self.findReadyNode()
 		}

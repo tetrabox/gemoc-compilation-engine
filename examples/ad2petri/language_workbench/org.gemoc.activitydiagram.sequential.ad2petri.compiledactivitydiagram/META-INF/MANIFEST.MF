@@ -20,5 +20,5 @@ Export-Package: org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydi
  org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram,
  org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.impl,
  org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.util
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 

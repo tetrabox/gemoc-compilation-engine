@@ -39,7 +39,7 @@ class Ad2PetriCompiler implements Compiler {
 
 	private def dispatch Link transform(Activity activity) {
 		var result = getExistingLink(activity)
-		if (result == null) {
+		if (result === null) {
 
 			// Create trace
 			result = GemoctraceabilityFactory::eINSTANCE.createLink
@@ -64,7 +64,7 @@ class Ad2PetriCompiler implements Compiler {
 
 	private def dispatch Link transform(ActivityNode node) {
 		var result = getExistingLink(node)
-		if (result == null) {
+		if (result === null) {
 			// Create trace
 			result = GemoctraceabilityFactory::eINSTANCE.createLink
 			result.sourceElements.add(createAnnotatedElement(result, node))
@@ -99,7 +99,7 @@ class Ad2PetriCompiler implements Compiler {
 				result.targetElements.add(createAnnotatedElement(result, transition1, "take"))
 				transition1.name = node.name + "_takeOfferedTokens"
 				net.transitions.add(transition1)
-				if (place != null)
+				if (place !== null)
 					transition1.output.add(place)
 			} else {
 				place.initialTokens = 1
@@ -122,7 +122,7 @@ class Ad2PetriCompiler implements Compiler {
 	private def dispatch Link transform(ControlFlow controlFlow) {
 
 		var result = getExistingLink(controlFlow)
-		if (result == null) {
+		if (result === null) {
 
 			// Create trace
 			result = GemoctraceabilityFactory::eINSTANCE.createLink
