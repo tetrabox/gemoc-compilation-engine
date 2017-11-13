@@ -1,6 +1,12 @@
 Manifest-Version: 1.0
 Bundle-SymbolicName: org.gemoc.activitydiagram.sequential.ad2petri.xdsml;singleton:=true
-Export-Package: org.gemoc.activitydiagram.sequential.ad2petri
+Export-Package: org.gemoc.activitydiagram.sequential.ad2petri,
+ org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagrammt.activitydiagram.util,
+ org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagrammt.activitydiagram,
+ org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagrammt.activitydiagram.impl,
+ org.gemoc.activitydiagram.sequential.ad2petri.interpretedactivitydiagrammt.activitydiagram.impl,
+ org.gemoc.activitydiagram.sequential.ad2petri.interpretedactivitydiagrammt.activitydiagram.util,
+ org.gemoc.activitydiagram.sequential.ad2petri.interpretedactivitydiagrammt.activitydiagram
 Bundle-Name: org.gemoc.activitydiagram.sequential.ad2petri
 Bundle-Version: 1.0.0
 Bundle-ClassPath: .
@@ -16,12 +22,13 @@ Require-Bundle: org.eclipse.xtend.lib;bundle-version="2.7.0";visibility:="privat
  fr.inria.diverse.melange.adapters;bundle-version="0.1.0";visibility:="reexport",
  org.eclipse.gemoc.executionframework.extensions.sirius;bundle-version="0.0.0";visibility:=reexport,
  org.gemoc.activitydiagram.sequential.ad2petri.interpreter;bundle-version="1.0.0",
- org.gemoc.activitydiagram.sequential.model;bundle-version="0.1.0",
- org.gemoc.activitydiagram.sequential.model.dynamic;bundle-version="0.1.0",
- fr.inria.diverse.k3.al.annotationprocessor.plugin;bundle-version="3.2.1",
+ org.gemoc.activitydiagram.sequential.model,
+ org.gemoc.activitydiagram.sequential.model.dynamic,
+ fr.inria.diverse.k3.al.annotationprocessor.plugin,
+ org.eclipse.gemoc.execution.sequential.javaxdsml.api,
  org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram,
- org.gemoc.activitydiagram.sequential.ad2petri.interpretedactivitydiagram,
- org.eclipse.gemoc.execution.sequential.javaxdsml.api
+ org.gemoc.activitydiagram.sequential.ad2petri.interpretedactivitydiagram
 Bundle-ManifestVersion: 2
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
+
