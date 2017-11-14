@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: org.tetrabox.examples.statemachines.compiler
+Bundle-SymbolicName: org.tetrabox.examples.statemachines.compiler
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: com.google.guava,
+ org.eclipse.xtext.xbase.lib,
+ org.eclipse.xtend.lib,
+ org.eclipse.xtend.lib.macro,
+ org.gemoc.execution.feedbackengine;bundle-version="1.0.0",
+ org.eclipse.emf.ecore;bundle-version="2.13.0",
+ org.tetrabox.examples.statemachines.abstractsyntax;bundle-version="0.1.0",
+ org.tetrabox.minijava.xtext;bundle-version="1.0.0",
+ org.gemoc.execution.traceability.model;bundle-version="1.0.0"
+
