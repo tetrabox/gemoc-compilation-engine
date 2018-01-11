@@ -47,7 +47,7 @@ class StateTransformer {
 			// Transform state machine and connect
 			val stateMachineLink = transform(state.stateMachine)
 			val stateInterface = stateMachineLink.targetElements.
-				findFirst[it.annotation == "stateInterface"] as Interface
+				findFirst[it.annotation == "stateInterface"].element as Interface
 			stateClass.implements.add(stateInterface)
 
 		}

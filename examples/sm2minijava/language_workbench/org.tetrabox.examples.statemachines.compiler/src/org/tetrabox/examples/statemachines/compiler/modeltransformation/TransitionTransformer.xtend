@@ -11,6 +11,7 @@ import org.tetrabox.minijava.xtext.miniJava.MiniJavaFactory
 import statemachines.CustomEvent
 import statemachines.almostuml.State
 import statemachines.almostuml.Transition
+import statemachines.almostuml.StateMachine
 
 class TransitionTransformer {
 	private var TraceabilityModel mapping
@@ -43,7 +44,7 @@ class TransitionTransformer {
 			val methodBody = MiniJavaFactory::eINSTANCE.createBlock
 			methodBody.statements.add(methodBodyReturn)
 			val methodType = MiniJavaFactory::eINSTANCE.createClassRef
-			val event = transition.trigger.head as CustomEvent
+			val event = transition.trigger.head.event as CustomEvent
 			val method = MiniJavaFactory::eINSTANCE.createMethod => [
 				access = AccessLevel::PUBLIC
 				body = methodBody
@@ -56,13 +57,14 @@ class TransitionTransformer {
 			//mapping.links.findFirst[it.sourceElements.contains()]
 			
 			// Transform state machine and connect
-			val linkStateMachine = transform(transition.stateMachine)
+			val StateMachine stateMachine = transition.stateMachine
+			val linkStateMachine = transform(stateMachine)
 			val stateInterface = linkStateMachine.targetElements.findFirst[it == "stateInterface"] as Class
 			methodType.referencedClass = stateInterface
 			
 			// Transform target state and connect
 			val linkTargetState = transform(transition.target as State)
-			val stateClass = linkTargetState.targetElements.head as Class
+			val stateClass = linkTargetState.targetElements.head.element as Class
 			methodBodyReturnNew.type = stateClass
 
 		}

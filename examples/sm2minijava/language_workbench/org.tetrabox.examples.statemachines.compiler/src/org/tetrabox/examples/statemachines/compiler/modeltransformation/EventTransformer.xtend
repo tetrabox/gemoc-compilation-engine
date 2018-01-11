@@ -8,6 +8,7 @@ import org.tetrabox.examples.statemachines.compiler.Util
 import org.tetrabox.minijava.xtext.miniJava.AccessLevel
 import org.tetrabox.minijava.xtext.miniJava.Class
 import org.tetrabox.minijava.xtext.miniJava.Field
+import org.tetrabox.minijava.xtext.miniJava.Interface
 import org.tetrabox.minijava.xtext.miniJava.Method
 import org.tetrabox.minijava.xtext.miniJava.MiniJavaFactory
 import statemachines.CustomEvent
@@ -41,7 +42,7 @@ class EventTransformer {
 				access = AccessLevel::PUBLIC;
 			]
 			result.targetElements.add(
-				createAnnotatedElement(result, stateInterfaceMethod, event.stateMachine.name + "_interfaceMethod"))
+				createAnnotatedElement(result, stateInterfaceMethod, event.name + "_interfaceMethod"))
 
 			// Output: concrete private method for the state machine class
 			val currentFieldAccess1 = MiniJavaFactory::eINSTANCE.createFieldAccess => [
@@ -66,7 +67,7 @@ class EventTransformer {
 				body = stateMachineMethodBody
 			]
 			result.targetElements.add(
-				createAnnotatedElement(result, stateMachineMethod, event.stateMachine.name + "_method"))
+				createAnnotatedElement(result, stateMachineMethod, event.name + "_method"))
 
 			// Output: conditional for the handler
 			val stateMachineConditionnalExpression = MiniJavaFactory::eINSTANCE.createEquality => [
@@ -84,14 +85,14 @@ class EventTransformer {
 				elseBlock = MiniJavaFactory::eINSTANCE.createBlock
 			]
 			result.targetElements.add(
-				createAnnotatedElement(result, stateMachineConditionnal, event.stateMachine.name + "_conditionnal"))
+				createAnnotatedElement(result, stateMachineConditionnal, event.name + "_conditionnal"))
 
 			// Transform state machine and connect stuff
 			val stateMachineLink = transform(event.stateMachine)
 			val stateMachineClass = stateMachineLink.targetElements.
-				findFirst[it.annotation == "stateMachineClass"] as Class
+				findFirst[it.annotation == "stateMachineClass"].element as Class
 			val stateMachineHandle = stateMachineClass.members.findFirst[it.name == "handle"] as Method
-			val stateInterface = stateMachineLink.targetElements.findFirst[it.annotation == "stateInterface"] as Class
+			val stateInterface = stateMachineLink.targetElements.findFirst[it.annotation == "stateInterface"].element as Interface
 			val stateMachineCurrentField = stateMachineClass.members.findFirst[it.name == "current"] as Field
 			currentFieldAccess1.field = stateMachineCurrentField
 			currentFieldAccess2.field = stateMachineCurrentField

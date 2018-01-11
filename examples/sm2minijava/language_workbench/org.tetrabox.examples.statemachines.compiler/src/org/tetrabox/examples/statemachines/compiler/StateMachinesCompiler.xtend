@@ -49,6 +49,8 @@ class StateMachinesCompiler implements Compiler {
 		statemachineTransformer.stateTransformer = stateTransformer
 		stateTransformer.stateMachineTransformer = statemachineTransformer
 		stateTransformer.transitionTransformer = transitionTransformer
+		transitionTransformer.stateMachineTransformer = statemachineTransformer
+		transitionTransformer.stateTransformer = stateTransformer
 		transformer.transform(input)
 		output = findTargetElementsOfType(MiniJavaPackage::eINSTANCE.program).head as Program
 	}
