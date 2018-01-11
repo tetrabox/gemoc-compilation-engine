@@ -64,7 +64,7 @@ class Util {
 //		]
 //	}
 	public def Block endOfConditionnalElseChain(Block conditionnal) {
-		if (conditionnal !== null && !conditionnal.statements.empty) {
+		if (!conditionnal.statements.empty) {
 			val nextStatement = conditionnal.statements.head
 			if (nextStatement instanceof IfStatement) {
 				return nextStatement.elseBlock.endOfConditionnalElseChain

@@ -53,7 +53,7 @@ class StateMachineTransformer {
 			// Output: unique state interface
 			val stateInterface = MiniJavaFactory::eINSTANCE.createInterface => [name = "State"]
 			result.targetElements.add(createAnnotatedElement(result, stateInterface, "stateInterface"))
-			// TODO fill later with event operations
+
 			// Output: current field
 			val currentField = MiniJavaFactory::eINSTANCE.createField => [
 				name = "current";
@@ -86,7 +86,6 @@ class StateMachineTransformer {
 
 			// Output: handle method
 			val handleRootConditionnalBlock = MiniJavaFactory::eINSTANCE.createBlock
-			// TODO then block to fill with event stuff
 			val handleRootConditionnal = MiniJavaFactory::eINSTANCE.createIfStatement => [
 				expression = MiniJavaFactory::eINSTANCE.createInequality => [
 					left = MiniJavaFactory::eINSTANCE.createFieldAccess => [
@@ -123,11 +122,15 @@ class StateMachineTransformer {
 				val block = handleRootConditionnalBlock.endOfConditionnalElseChain
 				block.statements.add(eventConditionnal)
 
+				// event interface method
+				val Method eventInterfaceMethod = link.targetElements.findFirst [
+					it.annotation === stateMachine.name + "_interfaceMethod"
+				] as Method
+				stateInterface.members.add(eventInterfaceMethod)
+
 			}
 
-			// TODO handle method
-			// TODO event methods
-			// Transform the states (each state manages its transitions)
+			// Transform the states (each state manages its transitions) and connect
 			var Class initClass = null
 			for (s : stateMachine.region.head.subvertex.filter(State)) {
 				val link = transform(s)
@@ -138,8 +141,6 @@ class StateMachineTransformer {
 
 				}
 			}
-
-			// Connect stuff
 			constructorCall.type = initClass
 
 		// Transform the transitions TODO or not? 

@@ -38,6 +38,8 @@ class EventTransformer {
 				name = event.name;
 				access = AccessLevel::PUBLIC;
 			]
+			result.targetElements.add(
+				createAnnotatedElement(result, stateInterfaceMethod, event.stateMachine.name + "_interfaceMethod"))
 
 			// Output: concrete private method for the state machine class
 			val currentFieldAccess1 = MiniJavaFactory::eINSTANCE.createFieldAccess => [
@@ -82,9 +84,6 @@ class EventTransformer {
 			result.targetElements.add(
 				createAnnotatedElement(result, stateMachineConditionnal, event.stateMachine.name + "_conditionnal"))
 
-			// Output: one concrete method per state class
-			// TODO
-			//
 			// Transform state machine and connect stuff
 			val stateMachineLink = transform(event.stateMachine)
 			val stateMachineClass = stateMachineLink.targetElements.
