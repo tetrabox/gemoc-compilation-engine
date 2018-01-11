@@ -1,4 +1,4 @@
-package org.tetrabox.examples.statemachines.compiler
+package org.tetrabox.examples.statemachines.compiler.modeltransformation
 
 import gemoctraceability.GemoctraceabilityFactory
 import gemoctraceability.Link
@@ -8,11 +8,11 @@ import statemachines.almostuml.State
 class StateTransformer {
 	
 private var TraceabilityModel mapping
-	private extension var Util util
+	private extension var org.tetrabox.examples.statemachines.compiler.Util util
 		
 	new(TraceabilityModel model) {
 		this.mapping = model
-		util = new Util(mapping)
+		util = new org.tetrabox.examples.statemachines.compiler.Util(mapping)
 	}
 
 	def Link transform(State state) {

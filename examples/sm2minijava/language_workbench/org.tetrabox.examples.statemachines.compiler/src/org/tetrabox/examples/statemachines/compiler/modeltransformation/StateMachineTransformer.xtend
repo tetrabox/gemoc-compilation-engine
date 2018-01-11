@@ -1,4 +1,4 @@
-package org.tetrabox.examples.statemachines.compiler
+package org.tetrabox.examples.statemachines.compiler.modeltransformation
 
 import gemoctraceability.GemoctraceabilityFactory
 import gemoctraceability.Link
@@ -14,19 +14,19 @@ import statemachines.almostuml.State
 import statemachines.almostuml.StateMachine
 
 class StateMachineTransformer {
-	
+
 	private var TraceabilityModel mapping
-	private extension var Util util
+	private extension var org.tetrabox.examples.statemachines.compiler.Util util
 	private extension var EventTransformer eventTransformer
 	private extension var StateTransformer stateTransformer
-		
+
 	new(TraceabilityModel model) {
 		mapping = model
-		util = new Util(mapping)
+		util = new org.tetrabox.examples.statemachines.compiler.Util(mapping)
 		eventTransformer = new EventTransformer(mapping)
 		stateTransformer = new StateTransformer(mapping)
 	}
-	
+
 	/**
 	 *    class <state machine name> {
 	 * 	private State current; 
@@ -142,11 +142,10 @@ class StateMachineTransformer {
 			// Connect stuff
 			constructorCall.type = initClass
 
-			// Transform the transitions TODO or not? 
+		// Transform the transitions TODO or not? 
 //			for (t : stateMachine.region.head.transition) {
 //				transform(t)
 //			}
-
 		}
 		return result
 	}

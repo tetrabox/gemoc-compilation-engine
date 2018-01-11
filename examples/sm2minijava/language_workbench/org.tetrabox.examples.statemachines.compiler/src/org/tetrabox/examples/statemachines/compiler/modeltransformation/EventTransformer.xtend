@@ -1,4 +1,4 @@
-package org.tetrabox.examples.statemachines.compiler
+package org.tetrabox.examples.statemachines.compiler.modeltransformation
 
 import gemoctraceability.GemoctraceabilityFactory
 import gemoctraceability.Link
@@ -13,12 +13,12 @@ import statemachines.CustomEvent
 class EventTransformer {
 	
 	private var TraceabilityModel mapping
-	private extension var Util util
+	private extension var org.tetrabox.examples.statemachines.compiler.Util util
 	private extension var StateMachineTransformer stateMachineTransformer
 		
 	new(TraceabilityModel model) {
 		mapping = model
-		util = new Util(mapping)
+		util = new org.tetrabox.examples.statemachines.compiler.Util(mapping)
 		stateMachineTransformer = new StateMachineTransformer(mapping)
 	}
 

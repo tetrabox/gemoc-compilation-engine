@@ -10,6 +10,7 @@ import org.tetrabox.minijava.xtext.miniJava.MiniJavaPackage
 import org.tetrabox.minijava.xtext.miniJava.Program
 import statemachines.CustomSystem
 import statemachines.almostuml.Transition
+import org.tetrabox.examples.statemachines.compiler.modeltransformation.CustomSystemTransformer
 
 class StateMachinesCompiler implements Compiler {
 
