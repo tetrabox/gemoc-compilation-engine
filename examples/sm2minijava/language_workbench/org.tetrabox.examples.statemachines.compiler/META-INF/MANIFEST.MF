@@ -13,4 +13,6 @@ Require-Bundle: com.google.guava,
  org.tetrabox.examples.statemachines.abstractsyntax;bundle-version="0.1.0",
  org.tetrabox.minijava.xtext;bundle-version="1.0.0",
  org.gemoc.execution.traceability.model;bundle-version="1.0.0"
+Export-Package: org.tetrabox.examples.statemachines.compiler,
+ org.tetrabox.examples.statemachines.compiler.modeltransformation
 

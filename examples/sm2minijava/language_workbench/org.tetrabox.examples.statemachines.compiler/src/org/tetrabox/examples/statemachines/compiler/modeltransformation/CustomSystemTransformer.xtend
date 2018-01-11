@@ -4,6 +4,8 @@ import gemoctraceability.GemoctraceabilityFactory
 import gemoctraceability.Link
 import gemoctraceability.TraceabilityModel
 import java.util.Set
+import org.eclipse.xtend.lib.annotations.Accessors
+import org.tetrabox.examples.statemachines.compiler.Util
 import org.tetrabox.minijava.xtext.miniJava.Assignment
 import org.tetrabox.minijava.xtext.miniJava.Class
 import org.tetrabox.minijava.xtext.miniJava.Method
@@ -19,16 +21,16 @@ class CustomSystemTransformer {
 
 	private extension var StateMachineTransformer stateMachineTransformer
 	private var TraceabilityModel mapping
-	private extension var org.tetrabox.examples.statemachines.compiler.Util util
+	private extension var Util util
+	@Accessors(PUBLIC_SETTER,PUBLIC_GETTER)
 	private extension var StateTransformer stateTransformer
+	@Accessors(PUBLIC_SETTER,PUBLIC_GETTER)
 	private extension var EventTransformer eventTransformer
 
 	new(TraceabilityModel model) {
 		mapping = model
-		util = new org.tetrabox.examples.statemachines.compiler.Util(mapping)
+		util = new Util(mapping)
 		stateMachineTransformer = new StateMachineTransformer(mapping)
-		stateTransformer = new StateTransformer(mapping)
-		eventTransformer = new EventTransformer(mapping)
 	}
 
 	def Link transform(CustomSystem system) {

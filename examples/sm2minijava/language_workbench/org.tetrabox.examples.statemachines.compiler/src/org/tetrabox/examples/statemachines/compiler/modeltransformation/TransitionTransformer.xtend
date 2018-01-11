@@ -3,25 +3,26 @@ package org.tetrabox.examples.statemachines.compiler.modeltransformation
 import gemoctraceability.GemoctraceabilityFactory
 import gemoctraceability.Link
 import gemoctraceability.TraceabilityModel
+import org.eclipse.xtend.lib.annotations.Accessors
 import org.tetrabox.examples.statemachines.compiler.Util
 import org.tetrabox.minijava.xtext.miniJava.AccessLevel
 import org.tetrabox.minijava.xtext.miniJava.Class
 import org.tetrabox.minijava.xtext.miniJava.MiniJavaFactory
 import statemachines.CustomEvent
-import statemachines.almostuml.Transition
 import statemachines.almostuml.State
+import statemachines.almostuml.Transition
 
 class TransitionTransformer {
 	private var TraceabilityModel mapping
 	private extension var Util util
+	@Accessors(PUBLIC_SETTER,PUBLIC_GETTER)
 	private extension var StateTransformer stateTransformer
+	@Accessors(PUBLIC_SETTER,PUBLIC_GETTER)
 	private extension var StateMachineTransformer stateMachineTransformer
 
 	new(TraceabilityModel model) {
 		mapping = model
 		util = new Util(mapping)
-		stateTransformer = new StateTransformer(mapping)
-		stateMachineTransformer = new StateMachineTransformer(mapping)
 	}
 
 	def Link transform(Transition transition) {

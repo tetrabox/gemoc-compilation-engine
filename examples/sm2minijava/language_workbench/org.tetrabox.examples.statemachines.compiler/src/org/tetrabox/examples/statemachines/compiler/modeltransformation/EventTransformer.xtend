@@ -3,23 +3,25 @@ package org.tetrabox.examples.statemachines.compiler.modeltransformation
 import gemoctraceability.GemoctraceabilityFactory
 import gemoctraceability.Link
 import gemoctraceability.TraceabilityModel
+import org.eclipse.xtend.lib.annotations.Accessors
+import org.tetrabox.examples.statemachines.compiler.Util
 import org.tetrabox.minijava.xtext.miniJava.AccessLevel
+import org.tetrabox.minijava.xtext.miniJava.Class
 import org.tetrabox.minijava.xtext.miniJava.Field
 import org.tetrabox.minijava.xtext.miniJava.Method
-import org.tetrabox.minijava.xtext.miniJava.Class
 import org.tetrabox.minijava.xtext.miniJava.MiniJavaFactory
 import statemachines.CustomEvent
 
 class EventTransformer {
 	
 	private var TraceabilityModel mapping
-	private extension var org.tetrabox.examples.statemachines.compiler.Util util
+	private extension var Util util
+	@Accessors(PUBLIC_SETTER,PUBLIC_GETTER)
 	private extension var StateMachineTransformer stateMachineTransformer
 		
 	new(TraceabilityModel model) {
 		mapping = model
-		util = new org.tetrabox.examples.statemachines.compiler.Util(mapping)
-		stateMachineTransformer = new StateMachineTransformer(mapping)
+		util = new Util(mapping)
 	}
 
 	// output: operation in state interface + one method per state class + one method in state machine class

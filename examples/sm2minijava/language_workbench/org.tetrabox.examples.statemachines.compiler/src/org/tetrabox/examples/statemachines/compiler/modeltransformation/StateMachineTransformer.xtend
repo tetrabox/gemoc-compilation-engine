@@ -12,20 +12,23 @@ import statemachines.almostuml.Pseudostate
 import statemachines.almostuml.PseudostateKind
 import statemachines.almostuml.State
 import statemachines.almostuml.StateMachine
+import org.eclipse.xtend.lib.annotations.Accessors
 
 class StateMachineTransformer {
 
 	private var TraceabilityModel mapping
 	private extension var org.tetrabox.examples.statemachines.compiler.Util util
+	@Accessors(PUBLIC_SETTER,PUBLIC_GETTER)
 	private extension var EventTransformer eventTransformer
+	@Accessors(PUBLIC_SETTER,PUBLIC_GETTER)
 	private extension var StateTransformer stateTransformer
 
 	new(TraceabilityModel model) {
 		mapping = model
 		util = new org.tetrabox.examples.statemachines.compiler.Util(mapping)
-		eventTransformer = new EventTransformer(mapping)
-		stateTransformer = new StateTransformer(mapping)
 	}
+	
+
 
 	/**
 	 *    class <state machine name> {
