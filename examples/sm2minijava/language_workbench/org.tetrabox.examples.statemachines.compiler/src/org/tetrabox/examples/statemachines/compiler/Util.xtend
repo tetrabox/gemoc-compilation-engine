@@ -29,7 +29,7 @@ class Util {
 	}
 
 	public def Set<EObject> findTargetElementsOfType(EClass c) {
-		mapping.links.map[targetElements].flatten.map[element].filter[it.eClass === c].toSet
+		mapping.links.map[targetElements].flatten.map[element].filter[c.isSuperTypeOf(it.eClass)].toSet
 	}
 
 	public def StateMachine getStateMachine(EObject o) {

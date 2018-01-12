@@ -6,14 +6,13 @@ import gemoctraceability.TraceabilityModel
 import java.util.Set
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.tetrabox.examples.statemachines.compiler.Util
+import org.tetrabox.minijava.xtext.miniJava.AccessLevel
 import org.tetrabox.minijava.xtext.miniJava.Class
 import org.tetrabox.minijava.xtext.miniJava.Method
 import org.tetrabox.minijava.xtext.miniJava.MiniJavaFactory
 import org.tetrabox.minijava.xtext.miniJava.MiniJavaPackage
 import org.tetrabox.minijava.xtext.miniJava.TypeDeclaration
 import statemachines.CustomSystem
-import statemachines.almostuml.Pseudostate
-import statemachines.almostuml.PseudostateKind
 
 class CustomSystemTransformer {
 
@@ -23,7 +22,7 @@ class CustomSystemTransformer {
 	@Accessors(PUBLIC_SETTER,PUBLIC_GETTER)
 	private extension var StateTransformer stateTransformer
 	@Accessors(PUBLIC_SETTER,PUBLIC_GETTER)
-	private extension var EventTransformer eventTransformer
+	private extension var CustomEventTransformer eventTransformer
 
 	new(TraceabilityModel model) {
 		mapping = model
@@ -77,7 +76,7 @@ class CustomSystemTransformer {
 
 			// Output: for loop progression
 			val progressionI = MiniJavaFactory::eINSTANCE.createAssignment => [
-				assignee = declareI;
+				assignee = MiniJavaFactory::eINSTANCE.createSymbolRef => [symbol = declareI];
 				value = MiniJavaFactory::eINSTANCE.createPlus => [
 					left = MiniJavaFactory::eINSTANCE.createSymbolRef => [symbol = declareI];
 					right = MiniJavaFactory::eINSTANCE.createIntConstant => [value = 1]
@@ -113,6 +112,7 @@ class CustomSystemTransformer {
 				declaration = assignI;
 				condition = conditionI;
 				progression = progressionI
+				block = loopBody
 			]
 			result.targetElements.add(createAnnotatedElement(result, forLoop))
 
@@ -128,6 +128,7 @@ class CustomSystemTransformer {
 				static = true;
 				typeRef = MiniJavaFactory::eINSTANCE.createVoidTypeRef;
 				body = mainBody;
+				access = AccessLevel::PUBLIC
 			]
 			result.targetElements.add(createAnnotatedElement(result, mainMethod))
 			mainMethod.params.add(args)
@@ -142,26 +143,18 @@ class CustomSystemTransformer {
 				transform(e)
 			}
 
-			// Transform init state and get init construction statement
-			val initState = system.statemachine.states.filter(Pseudostate).findFirst [
-				it.kind === PseudostateKind::INITIAL
-			]
-			// val initStateLink = transform(initState)
-			// val initStateConstruction = initStateLink.targetElements.map[element].filter(Assignment).head
 			// Transform state machine and get stuff
 			val stateMachineLink = transform(system.statemachine)
 			val stateMachineClass = stateMachineLink.targetElements.filter[it.annotation == "stateMachineClass"].map [
 				element
 			].filter(Class).head
 			val handleMethod = stateMachineClass.members.findFirst[it.name == "handle"] as Method
-			val initStateLink = transform(initState)
-			val initStateClass = initStateLink.targetElements.head.element as Class
 
 			// Connect stuff
 			callHandle.receiver = MiniJavaFactory::eINSTANCE.createSymbolRef => [symbol = machineVarDecl]
 			callHandle.method = handleMethod
-			machineVarDecl.typeRef = MiniJavaFactory::eINSTANCE.createClassRef => [referencedClass = initStateClass]
-			machineVarDeclNew.type = initStateClass
+			machineVarDecl.typeRef = MiniJavaFactory::eINSTANCE.createClassRef => [referencedClass = stateMachineClass]
+			machineVarDeclNew.type = stateMachineClass
 
 			// Gather all generated types
 			val Set<TypeDeclaration> types = findTargetElementsOfType(MiniJavaPackage::eINSTANCE.typeDeclaration).

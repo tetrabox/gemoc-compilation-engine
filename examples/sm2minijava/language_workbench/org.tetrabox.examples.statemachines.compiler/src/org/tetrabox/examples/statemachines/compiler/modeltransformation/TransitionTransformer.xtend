@@ -7,11 +7,12 @@ import org.eclipse.xtend.lib.annotations.Accessors
 import org.tetrabox.examples.statemachines.compiler.Util
 import org.tetrabox.minijava.xtext.miniJava.AccessLevel
 import org.tetrabox.minijava.xtext.miniJava.Class
+import org.tetrabox.minijava.xtext.miniJava.Interface
 import org.tetrabox.minijava.xtext.miniJava.MiniJavaFactory
 import statemachines.CustomEvent
 import statemachines.almostuml.State
-import statemachines.almostuml.Transition
 import statemachines.almostuml.StateMachine
+import statemachines.almostuml.Transition
 
 class TransitionTransformer {
 	private var TraceabilityModel mapping
@@ -59,7 +60,7 @@ class TransitionTransformer {
 			// Transform state machine and connect
 			val StateMachine stateMachine = transition.stateMachine
 			val linkStateMachine = transform(stateMachine)
-			val stateInterface = linkStateMachine.targetElements.findFirst[it == "stateInterface"] as Class
+			val stateInterface = linkStateMachine.targetElements.findFirst[it.annotation == "stateInterface"].element as Interface
 			methodType.referencedClass = stateInterface
 			
 			// Transform target state and connect

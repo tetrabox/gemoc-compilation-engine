@@ -19,7 +19,7 @@ class StateMachineTransformer {
 	private var TraceabilityModel mapping
 	private extension var org.tetrabox.examples.statemachines.compiler.Util util
 	@Accessors(PUBLIC_SETTER,PUBLIC_GETTER)
-	private extension var EventTransformer eventTransformer
+	private extension var CustomEventTransformer eventTransformer
 	@Accessors(PUBLIC_SETTER,PUBLIC_GETTER)
 	private extension var StateTransformer stateTransformer
 
@@ -81,7 +81,7 @@ class StateMachineTransformer {
 			val constructorBlock = MiniJavaFactory::eINSTANCE.createBlock
 			constructorBlock.statements.add(constructorAssignment)
 			val constructor = MiniJavaFactory::eINSTANCE.createMethod => [
-				name = stateMachineClass.name;
+				typeRef = MiniJavaFactory::eINSTANCE.createClassRef => [referencedClass = stateMachineClass];
 				access = AccessLevel::PUBLIC;
 				body = constructorBlock
 			]
@@ -102,12 +102,17 @@ class StateMachineTransformer {
 
 			val handleMethodBody = MiniJavaFactory::eINSTANCE.createBlock
 			handleMethodBody.statements.add(handleRootConditionnal)
+			val handleMethodParam = MiniJavaFactory::eINSTANCE.createParameter => [
+				name = "eventName"
+				typeRef = MiniJavaFactory::eINSTANCE.createStringTypeRef
+			]
 			val handleMethod = MiniJavaFactory::eINSTANCE.createMethod => [
 				name = "handle";
 				access = AccessLevel::PUBLIC;
 				typeRef = MiniJavaFactory::eINSTANCE.createVoidTypeRef;
 				body = handleMethodBody
 			]
+			handleMethod.params.add(handleMethodParam)
 			stateMachineClass.members.add(handleMethod)
 
 			// Transform the events, and connect their results with everything

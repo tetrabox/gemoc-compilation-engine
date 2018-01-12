@@ -1,26 +1,22 @@
 package org.tetrabox.examples.statemachines.compiler
 
 import gemoctraceability.GemoctraceabilityFactory
-import gemoctraceability.Link
 import gemoctraceability.TraceabilityModel
 import org.eclipse.emf.ecore.EObject
 import org.gemoc.execution.feedbackengine.CompilationResult
 import org.gemoc.execution.feedbackengine.Compiler
+import org.tetrabox.examples.statemachines.compiler.modeltransformation.CustomEventTransformer
 import org.tetrabox.examples.statemachines.compiler.modeltransformation.CustomSystemTransformer
-import org.tetrabox.examples.statemachines.compiler.modeltransformation.EventTransformer
 import org.tetrabox.examples.statemachines.compiler.modeltransformation.StateMachineTransformer
 import org.tetrabox.examples.statemachines.compiler.modeltransformation.StateTransformer
 import org.tetrabox.examples.statemachines.compiler.modeltransformation.TransitionTransformer
-import org.tetrabox.minijava.xtext.miniJava.MiniJavaPackage
 import org.tetrabox.minijava.xtext.miniJava.Program
 import statemachines.CustomSystem
-import statemachines.almostuml.Transition
 
 class StateMachinesCompiler implements Compiler {
 
 	private var CustomSystem input
 	private var TraceabilityModel mapping
-	private var Program output
 	private extension var Util util
 	
 
@@ -28,7 +24,7 @@ class StateMachinesCompiler implements Compiler {
 		mapping = GemoctraceabilityFactory::eINSTANCE.createTraceabilityModel
 		util = new Util(mapping)
 		input = sourceModelRoot as CustomSystem
-		transformToJava()
+		val output = transformToJava()
 		return new CompilationResult(mapping, output)
 	}
 
@@ -36,12 +32,16 @@ class StateMachinesCompiler implements Compiler {
 		"minijava"
 	}
 
-	private def void transformToJava() {
+	private def Program transformToJava() {
+		
+		// Creating the model transformation
 		val CustomSystemTransformer transformer = new CustomSystemTransformer(mapping)
-		val EventTransformer eventTransformer = new EventTransformer(mapping)
+		val CustomEventTransformer eventTransformer = new CustomEventTransformer(mapping)
 		val StateMachineTransformer statemachineTransformer = new StateMachineTransformer(mapping)
 		val StateTransformer stateTransformer = new StateTransformer(mapping)
 		val TransitionTransformer transitionTransformer = new TransitionTransformer(mapping)
+		
+		// Manual injection...
 		transformer.eventTransformer = eventTransformer
 		transformer.stateTransformer = stateTransformer
 		eventTransformer.stateMachineTransformer = statemachineTransformer
@@ -51,12 +51,13 @@ class StateMachinesCompiler implements Compiler {
 		stateTransformer.transitionTransformer = transitionTransformer
 		transitionTransformer.stateMachineTransformer = statemachineTransformer
 		transitionTransformer.stateTransformer = stateTransformer
-		transformer.transform(input)
-		output = findTargetElementsOfType(MiniJavaPackage::eINSTANCE.program).head as Program
+		
+		// Calling the transformation
+		val link = transformer.transform(input)
+		val result = link.targetElements.map[element].filter(Program).head
+		return result
 	}
 
 
-	def Link transform(Transition transition) {
-	}
 
 }

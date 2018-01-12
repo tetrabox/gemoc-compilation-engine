@@ -13,7 +13,7 @@ import org.tetrabox.minijava.xtext.miniJava.Method
 import org.tetrabox.minijava.xtext.miniJava.MiniJavaFactory
 import statemachines.CustomEvent
 
-class EventTransformer {
+class CustomEventTransformer {
 	
 	private var TraceabilityModel mapping
 	private extension var Util util
