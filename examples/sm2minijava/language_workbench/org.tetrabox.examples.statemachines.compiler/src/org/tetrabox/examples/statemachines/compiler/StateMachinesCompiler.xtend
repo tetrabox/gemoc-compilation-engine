@@ -9,7 +9,6 @@ import org.tetrabox.examples.statemachines.compiler.modeltransformation.CustomEv
 import org.tetrabox.examples.statemachines.compiler.modeltransformation.CustomSystemTransformer
 import org.tetrabox.examples.statemachines.compiler.modeltransformation.StateMachineTransformer
 import org.tetrabox.examples.statemachines.compiler.modeltransformation.StateTransformer
-import org.tetrabox.examples.statemachines.compiler.modeltransformation.TransitionTransformer
 import org.tetrabox.minijava.xtext.miniJava.Program
 import statemachines.CustomSystem
 
@@ -39,7 +38,6 @@ class StateMachinesCompiler implements Compiler {
 		val CustomEventTransformer eventTransformer = new CustomEventTransformer(mapping)
 		val StateMachineTransformer statemachineTransformer = new StateMachineTransformer(mapping)
 		val StateTransformer stateTransformer = new StateTransformer(mapping)
-		val TransitionTransformer transitionTransformer = new TransitionTransformer(mapping)
 		
 		// Manual injection...
 		transformer.eventTransformer = eventTransformer
@@ -48,9 +46,7 @@ class StateMachinesCompiler implements Compiler {
 		statemachineTransformer.eventTransformer = eventTransformer
 		statemachineTransformer.stateTransformer = stateTransformer
 		stateTransformer.stateMachineTransformer = statemachineTransformer
-		stateTransformer.transitionTransformer = transitionTransformer
-		transitionTransformer.stateMachineTransformer = statemachineTransformer
-		transitionTransformer.stateTransformer = stateTransformer
+		stateTransformer.customEventTransformer = eventTransformer
 		
 		// Calling the transformation
 		val link = transformer.transform(input)

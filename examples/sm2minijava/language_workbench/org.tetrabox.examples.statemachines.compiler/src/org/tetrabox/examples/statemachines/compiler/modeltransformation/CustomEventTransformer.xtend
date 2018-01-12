@@ -12,6 +12,9 @@ import org.tetrabox.minijava.xtext.miniJava.Interface
 import org.tetrabox.minijava.xtext.miniJava.Method
 import org.tetrabox.minijava.xtext.miniJava.MiniJavaFactory
 import statemachines.CustomEvent
+import statemachines.almostuml.Pseudostate
+import statemachines.almostuml.PseudostateKind
+import statemachines.almostuml.FinalState
 
 class CustomEventTransformer {
 	
@@ -42,7 +45,7 @@ class CustomEventTransformer {
 				access = AccessLevel::PUBLIC;
 			]
 			result.targetElements.add(
-				createAnnotatedElement(result, stateInterfaceMethod, event.name + "_interfaceMethod"))
+				createAnnotatedElement(result, stateInterfaceMethod, "interfaceMethod"))
 
 			// Output: concrete private method for the state machine class
 			val currentFieldAccess1 = MiniJavaFactory::eINSTANCE.createFieldAccess => [
@@ -67,7 +70,7 @@ class CustomEventTransformer {
 				body = stateMachineMethodBody
 			]
 			result.targetElements.add(
-				createAnnotatedElement(result, stateMachineMethod, event.name + "_method"))
+				createAnnotatedElement(result, stateMachineMethod, "method"))
 
 			// Output: conditional for the handler
 			val stateMachineConditionnalExpression = MiniJavaFactory::eINSTANCE.createEquality => [
@@ -85,7 +88,10 @@ class CustomEventTransformer {
 				elseBlock = MiniJavaFactory::eINSTANCE.createBlock
 			]
 			result.targetElements.add(
-				createAnnotatedElement(result, stateMachineConditionnal, event.name + "_conditionnal"))
+				createAnnotatedElement(result, stateMachineConditionnal, "conditionnal"))
+				
+			
+		
 
 			// Transform state machine and connect stuff
 			val stateMachineLink = transform(event.stateMachine)

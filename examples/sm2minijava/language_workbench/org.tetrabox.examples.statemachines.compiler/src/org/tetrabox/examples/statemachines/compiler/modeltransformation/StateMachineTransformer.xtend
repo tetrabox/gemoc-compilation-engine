@@ -120,19 +120,19 @@ class StateMachineTransformer {
 				val link = transform(e)
 				// event concrete method
 				val Method eventMethod = link.targetElements.
-					findFirst[it.annotation == e.name + "_method"].element as Method
+					findFirst[it.annotation == "method"].element as Method
 				stateMachineClass.members.add(eventMethod)
 
 				// event conditional
 				val IfStatement eventConditionnal = link.targetElements.findFirst [
-					it.annotation == e.name + "_conditionnal"
+					it.annotation == "conditionnal"
 				].element as IfStatement
 				val block = handleRootConditionnalBlock.endOfConditionnalElseChain
 				block.statements.add(eventConditionnal)
 
 				// event interface method
 				val Method eventInterfaceMethod = link.targetElements.findFirst [
-					it.annotation == e.name + "_interfaceMethod"
+					it.annotation == "interfaceMethod"
 				].element as Method
 				stateInterface.members.add(eventInterfaceMethod)
 
