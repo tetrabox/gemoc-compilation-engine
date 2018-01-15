@@ -16,6 +16,7 @@ import statemachines.almostuml.State
 import statemachines.almostuml.Transition
 import java.util.HashSet
 import org.tetrabox.minijava.xtext.miniJava.NewObject
+import java.util.Optional
 
 class StateTransformer {
 
@@ -34,32 +35,33 @@ class StateTransformer {
 	def Link transform(State state) {
 
 		var result = getExistingLink(state)
-		if (result === null) {
+		if (!result.present) {
 			// Create trace
-			result = GemoctraceabilityFactory::eINSTANCE.createLink
-			result.sourceElements.add(createAnnotatedElement(result, state))
-			mapping.links.add(result)
+			val newLink = GemoctraceabilityFactory::eINSTANCE.createLink
+			newLink.sourceElements.add(createAnnotatedElement(newLink, state))
+			mapping.links.add(newLink)
 
 			// Output: state class
 			val stateClass = MiniJavaFactory::eINSTANCE.createClass => [name = state.name]
-			result.targetElements.add(createAnnotatedElement(result, stateClass))
+			newLink.targetElements.add(createAnnotatedElement(newLink, stateClass))
 
 			// Output: one method per event
 			val postponedNews = new HashMap<Transition, NewObject>
 			val postponedMethodTypes = new HashSet<ClassRef>
 			for (event : state.stateMachine.events) {
 				val eventMethodBodyreturnStatement = MiniJavaFactory::eINSTANCE.createReturn
-				val matchingTransition = event.stateMachine.region.head.transition.findFirst [
+
+				val matchingTransition = Optional::ofNullable(event.stateMachine.region.head.transition.findFirst [
 					it.trigger.exists[it.event == event]
-				]
+				])
 				// if state is final, return null
 				if (state instanceof FinalState) {
 					eventMethodBodyreturnStatement.expression = MiniJavaFactory::eINSTANCE.createNull
 				} else // if a transition exists with the even, return the new state
-				if (matchingTransition !== null) {
+				if (matchingTransition.present) {
 					val expr = MiniJavaFactory::eINSTANCE.createNewObject
 					eventMethodBodyreturnStatement.expression = expr
-					postponedNews.put(matchingTransition, expr)
+					postponedNews.put(matchingTransition.get, expr)
 				} else {
 					eventMethodBodyreturnStatement.expression = MiniJavaFactory::eINSTANCE.createThis
 				}
@@ -92,9 +94,11 @@ class StateTransformer {
 			for (cr : postponedMethodTypes) {
 				cr.referencedClass = stateInterface
 			}
+			return newLink
 
+		} else {
+			return result.get
 		}
 
-		return result
 	}
 }

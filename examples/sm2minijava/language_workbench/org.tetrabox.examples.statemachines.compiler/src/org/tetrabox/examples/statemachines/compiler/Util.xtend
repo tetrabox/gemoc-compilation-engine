@@ -14,6 +14,7 @@ import statemachines.almostuml.State
 import statemachines.almostuml.StateMachine
 import gemoctraceability.TraceabilityModel
 import org.eclipse.emf.ecore.EClass
+import java.util.Optional
 
 class Util {
 
@@ -24,8 +25,8 @@ class Util {
 
 	}
 
-	public def Link getExistingLink(EObject o) {
-		mapping.links.findFirst[it.sourceElements.map[element].contains(o)]
+	public def Optional<Link> getExistingLink(EObject o) {
+		Optional::ofNullable(mapping.links.findFirst[it.sourceElements.map[element].contains(o)])
 	}
 
 	public def Set<EObject> findTargetElementsOfType(EClass c) {
@@ -63,16 +64,16 @@ class Util {
 //			typeRef = MiniJavaFactory::eINSTANCE.createClassRef => [referencedClass = stateInterface]
 //		]
 //	}
-	public def Block endOfConditionnalElseChain(Block conditionnal) {
+	public def Optional<Block> endOfConditionnalElseChain(Block conditionnal) {
 		if (!conditionnal.statements.empty) {
 			val nextStatement = conditionnal.statements.head
 			if (nextStatement instanceof IfStatement) {
 				return nextStatement.elseBlock.endOfConditionnalElseChain
 			} else {
-				return null
+				return Optional::empty
 			}
 		} else {
-			return conditionnal
+			return Optional::of(conditionnal)
 		}
 	}
 

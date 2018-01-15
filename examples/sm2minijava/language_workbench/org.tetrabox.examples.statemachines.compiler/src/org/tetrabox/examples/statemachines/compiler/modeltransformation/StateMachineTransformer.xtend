@@ -27,8 +27,6 @@ class StateMachineTransformer {
 		mapping = model
 		util = new org.tetrabox.examples.statemachines.compiler.Util(mapping)
 	}
-	
-
 
 	/**
 	 *    class <state machine name> {
@@ -46,16 +44,16 @@ class StateMachineTransformer {
 	def Link transform(StateMachine stateMachine) {
 
 		var result = getExistingLink(stateMachine)
-		if (result === null) {
+		if (!result.present) {
 
 			// Create trace
-			result = GemoctraceabilityFactory::eINSTANCE.createLink
-			result.sourceElements.add(createAnnotatedElement(result, stateMachine))
-			mapping.links.add(result)
+			val newLink = GemoctraceabilityFactory::eINSTANCE.createLink
+			newLink.sourceElements.add(createAnnotatedElement(newLink, stateMachine))
+			mapping.links.add(newLink)
 
 			// Output: unique state interface
 			val stateInterface = MiniJavaFactory::eINSTANCE.createInterface => [name = "State"]
-			result.targetElements.add(createAnnotatedElement(result, stateInterface, "stateInterface"))
+			newLink.targetElements.add(createAnnotatedElement(newLink, stateInterface, "stateInterface"))
 
 			// Output: current field
 			val currentField = MiniJavaFactory::eINSTANCE.createField => [
@@ -66,7 +64,7 @@ class StateMachineTransformer {
 
 			// Output: state machine class
 			val stateMachineClass = MiniJavaFactory::eINSTANCE.createClass => [name = stateMachine.name.toFirstUpper]
-			result.targetElements.add(createAnnotatedElement(result, stateMachineClass, "stateMachineClass"))
+			newLink.targetElements.add(createAnnotatedElement(newLink, stateMachineClass, "stateMachineClass"))
 			stateMachineClass.members.add(currentField)
 
 			// Output: constructor
@@ -119,8 +117,7 @@ class StateMachineTransformer {
 			for (e : stateMachine.events) {
 				val link = transform(e)
 				// event concrete method
-				val Method eventMethod = link.targetElements.
-					findFirst[it.annotation == "method"].element as Method
+				val Method eventMethod = link.targetElements.findFirst[it.annotation == "method"].element as Method
 				stateMachineClass.members.add(eventMethod)
 
 				// event conditional
@@ -128,7 +125,9 @@ class StateMachineTransformer {
 					it.annotation == "conditionnal"
 				].element as IfStatement
 				val block = handleRootConditionnalBlock.endOfConditionnalElseChain
-				block.statements.add(eventConditionnal)
+				if (block.isPresent) {
+					block.get.statements.add(eventConditionnal)
+				}
 
 				// event interface method
 				val Method eventInterfaceMethod = link.targetElements.findFirst [
@@ -150,12 +149,13 @@ class StateMachineTransformer {
 				}
 			}
 			constructorCall.type = initClass
-
+			return newLink
 		// Transform the transitions TODO or not? 
 //			for (t : stateMachine.region.head.transition) {
 //				transform(t)
 //			}
+		} else {
+			return result.get
 		}
-		return result
 	}
 }

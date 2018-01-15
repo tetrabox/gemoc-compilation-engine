@@ -17,12 +17,12 @@ import statemachines.almostuml.PseudostateKind
 import statemachines.almostuml.FinalState
 
 class CustomEventTransformer {
-	
+
 	private var TraceabilityModel mapping
 	private extension var Util util
 	@Accessors(PUBLIC_SETTER,PUBLIC_GETTER)
 	private extension var StateMachineTransformer stateMachineTransformer
-		
+
 	new(TraceabilityModel model) {
 		mapping = model
 		util = new Util(mapping)
@@ -32,20 +32,19 @@ class CustomEventTransformer {
 	def Link transform(CustomEvent event) {
 
 		var result = getExistingLink(event)
-		if (result === null) {
+		if (!result.isPresent) {
 
 			// Create trace
-			result = GemoctraceabilityFactory::eINSTANCE.createLink
-			result.sourceElements.add(createAnnotatedElement(result, event))
-			mapping.links.add(result)
+			val newLink = GemoctraceabilityFactory::eINSTANCE.createLink
+			newLink.sourceElements.add(createAnnotatedElement(newLink, event))
+			mapping.links.add(newLink)
 
 			// Output: empty method for the state interface
 			val stateInterfaceMethod = MiniJavaFactory::eINSTANCE.createMethod => [
 				name = event.name;
 				access = AccessLevel::PUBLIC;
 			]
-			result.targetElements.add(
-				createAnnotatedElement(result, stateInterfaceMethod, "interfaceMethod"))
+			newLink.targetElements.add(createAnnotatedElement(newLink, stateInterfaceMethod, "interfaceMethod"))
 
 			// Output: concrete private method for the state machine class
 			val currentFieldAccess1 = MiniJavaFactory::eINSTANCE.createFieldAccess => [
@@ -69,8 +68,7 @@ class CustomEventTransformer {
 				access = AccessLevel::PRIVATE;
 				body = stateMachineMethodBody
 			]
-			result.targetElements.add(
-				createAnnotatedElement(result, stateMachineMethod, "method"))
+			newLink.targetElements.add(createAnnotatedElement(newLink, stateMachineMethod, "method"))
 
 			// Output: conditional for the handler
 			val stateMachineConditionnalExpression = MiniJavaFactory::eINSTANCE.createEquality => [
@@ -87,18 +85,15 @@ class CustomEventTransformer {
 				thenBlock = stateMachineConditionnalThenBlock;
 				elseBlock = MiniJavaFactory::eINSTANCE.createBlock
 			]
-			result.targetElements.add(
-				createAnnotatedElement(result, stateMachineConditionnal, "conditionnal"))
-				
-			
-		
+			newLink.targetElements.add(createAnnotatedElement(newLink, stateMachineConditionnal, "conditionnal"))
 
 			// Transform state machine and connect stuff
 			val stateMachineLink = transform(event.stateMachine)
-			val stateMachineClass = stateMachineLink.targetElements.
-				findFirst[it.annotation == "stateMachineClass"].element as Class
+			val stateMachineClass = stateMachineLink.targetElements.findFirst[it.annotation == "stateMachineClass"].
+				element as Class
 			val stateMachineHandle = stateMachineClass.members.findFirst[it.name == "handle"] as Method
-			val stateInterface = stateMachineLink.targetElements.findFirst[it.annotation == "stateInterface"].element as Interface
+			val stateInterface = stateMachineLink.targetElements.findFirst[it.annotation == "stateInterface"].
+				element as Interface
 			val stateMachineCurrentField = stateMachineClass.members.findFirst[it.name == "current"] as Field
 			currentFieldAccess1.field = stateMachineCurrentField
 			currentFieldAccess2.field = stateMachineCurrentField
@@ -108,7 +103,9 @@ class CustomEventTransformer {
 			stateMachineConditionnalExpression.left = MiniJavaFactory::eINSTANCE.createSymbolRef => [
 				symbol = stateMachineHandle.params.head
 			]
+			return newLink
+		} else {
+			return result.get
 		}
-		return result
 	}
 }

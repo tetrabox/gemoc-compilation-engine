@@ -33,12 +33,12 @@ class CustomSystemTransformer {
 	def Link transform(CustomSystem system) {
 
 		var result = getExistingLink(system)
-		if (result === null) {
+		if (!result.present) {
 
 			// Create trace
-			result = GemoctraceabilityFactory::eINSTANCE.createLink
-			result.sourceElements.add(createAnnotatedElement(result, system))
-			mapping.links.add(result)
+			val newLink = GemoctraceabilityFactory::eINSTANCE.createLink
+			newLink.sourceElements.add(createAnnotatedElement(newLink, system))
+			mapping.links.add(newLink)
 
 			// 'machine' variable declaration
 			val machineVarDecl = MiniJavaFactory::eINSTANCE.createVariableDeclaration => [name = "machine"]
@@ -114,11 +114,11 @@ class CustomSystemTransformer {
 				progression = progressionI
 				block = loopBody
 			]
-			result.targetElements.add(createAnnotatedElement(result, forLoop))
+			newLink.targetElements.add(createAnnotatedElement(newLink, forLoop))
 
 			// Output: main method body
 			val mainBody = MiniJavaFactory::eINSTANCE.createBlock
-			result.targetElements.add(createAnnotatedElement(result, mainBody))
+			newLink.targetElements.add(createAnnotatedElement(newLink, mainBody))
 			mainBody.statements.add(machineVarDeclAssignment)
 			mainBody.statements.add(forLoop)
 
@@ -130,12 +130,12 @@ class CustomSystemTransformer {
 				body = mainBody;
 				access = AccessLevel::PUBLIC
 			]
-			result.targetElements.add(createAnnotatedElement(result, mainMethod))
+			newLink.targetElements.add(createAnnotatedElement(newLink, mainMethod))
 			mainMethod.params.add(args)
 
 			// Output: main class
 			val mainClass = MiniJavaFactory::eINSTANCE.createClass => [name = "Main"]
-			result.targetElements.add(createAnnotatedElement(result, mainClass))
+			newLink.targetElements.add(createAnnotatedElement(newLink, mainClass))
 			mainClass.members.add(mainMethod)
 
 			// Transform events
@@ -163,10 +163,12 @@ class CustomSystemTransformer {
 			// Create the output program
 			val program = MiniJavaFactory::eINSTANCE.createProgram => [name = "DefaultProgramName"]
 			program.classes.addAll(types)
-			result.targetElements.add(createAnnotatedElement(result, program))
+			newLink.targetElements.add(createAnnotatedElement(newLink, program))
+			return newLink
 
+		} else {
+			return result.get
 		}
-		return result
 
 	}
 }
