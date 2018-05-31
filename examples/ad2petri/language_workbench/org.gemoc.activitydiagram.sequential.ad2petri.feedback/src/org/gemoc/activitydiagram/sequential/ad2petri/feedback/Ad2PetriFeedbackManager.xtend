@@ -57,11 +57,10 @@ class Ad2PetriFeedbackManager implements FeedbackManager {
 	}
 
 	def AnnotatedElement getAnnotatedElement(EObject o) {
-		//mapping.eAllContents.filter(AnnotatedElement).findFirst[it.element == o]
 		efficientAnnotatedMapping.get(o)
 	}
 
-	def void feedbackState() {
+	override feedbackState() {
 		val changes = listener.getChanges(this)
 		for (change : changes.filter(FieldModelChange)) {
 
@@ -105,7 +104,6 @@ class Ad2PetriFeedbackManager implements FeedbackManager {
 	}
 
 	override processTargetStepEnd(Step<?> targetStep) {
-		feedbackState()
 		feedbackEngine.feedbackEndStep()
 		if (targetStep.mseoccurrence.mse.action.name.endsWith("fire")) {
 			val annotatedTransition = getAnnotatedElement(targetStep.mseoccurrence.mse.caller as Transition)
