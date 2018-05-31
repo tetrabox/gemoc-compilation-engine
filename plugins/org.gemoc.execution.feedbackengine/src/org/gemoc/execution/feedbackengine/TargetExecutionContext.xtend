@@ -3,7 +3,7 @@ package org.gemoc.execution.feedbackengine
 import fr.inria.diverse.melange.resource.MelangeResourceImpl
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.Resource
-import org.eclipse.gemoc.executionframework.engine.commons.MelangeHelper
+import org.eclipse.gemoc.executionframework.engine.commons.DslHelper
 import org.eclipse.gemoc.executionframework.engine.core.ExecutionWorkspace
 import org.eclipse.gemoc.xdsmlframework.api.core.ExecutionMode
 import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionContext
@@ -20,21 +20,22 @@ class TargetExecutionContext implements IExecutionContext {
 
 	val IExecutionPlatform executionPlatform
 	val IRunConfiguration runConfiguration
-	val Bundle melangeBundle
 	val Resource targetStaticModel
 	val Resource targetDynamicModel
 	val IExecutionWorkspace executionWorkspace;
+	val Bundle dslBundle;
 
 	new(Resource targetStaticModel, FeedbackConfiguration conf) {
 		this.executionPlatform = new TargetExecutionPlatform()
-		this.runConfiguration = new TargetRunConfiguration(targetStaticModel.URI,
-			conf.getTargetEntryPoint(), conf.getTargetLanguageName(), conf.getTargetInitializationMethod())
+		this.runConfiguration = new TargetRunConfiguration(targetStaticModel.URI, conf.getTargetEntryPoint(),
+			conf.getTargetLanguageName(), conf.getTargetInitializationMethod())
 		this.targetStaticModel = targetStaticModel
-		this.melangeBundle = MelangeHelper.getMelangeBundle(conf.getTargetLanguageName())
 		executionWorkspace = new ExecutionWorkspace(runConfiguration.getExecutedModelURI());
-		val String melangeURIString = targetStaticModel.URI.toString().replace("platform:/", "melange:/") + runConfiguration.melangeQuery;
+		val String melangeURIString = targetStaticModel.URI.toString().replace("platform:/", "melange:/") +
+			runConfiguration.melangeQuery;
 		val melangeURI = URI::createURI(melangeURIString);
-		targetDynamicModel = new MelangeResourceImpl(targetStaticModel.resourceSet, melangeURI) 
+		targetDynamicModel = new MelangeResourceImpl(targetStaticModel.resourceSet, melangeURI)
+		dslBundle = DslHelper::getDslBundle(runConfiguration.getLanguageName());
 	}
 
 	override getExecutionMode() {
@@ -43,10 +44,6 @@ class TargetExecutionContext implements IExecutionContext {
 
 	override getExecutionPlatform() {
 		return executionPlatform
-	}
-
-	override getMelangeBundle() {
-		return melangeBundle
 	}
 
 	override getResourceModel() {
@@ -75,6 +72,10 @@ class TargetExecutionContext implements IExecutionContext {
 
 	override getMSEModel() {
 		throw new UnsupportedOperationException()
+	}
+
+	override getDslBundle() {
+		return dslBundle;
 	}
 
 }
