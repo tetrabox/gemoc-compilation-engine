@@ -7,8 +7,8 @@ external language ActivityDiagram {
 language CompiledActivityDiagram inherits ActivityDiagram {
 	syntax "platform:/resource/org.gemoc.activitydiagram.sequential.model.dynamic/model/dynamic.ecore"
 	with org.gemoc.activitydiagram.sequential.ad2petri.interpreter.*
-	annotation "compiler": "ad2petri"
-	annotation "feedback": "ad2petri-feedback"
+//	annotation "compiler": "ad2petri"
+//	annotation "feedback": "ad2petri-feedback"
 }
 
 language InterpretedActivityDiagram inherits ActivityDiagram {

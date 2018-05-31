@@ -3,7 +3,6 @@ package org.gemoc.activitydiagram.sequential.ad2petri.interpretedactivitydiagram
 import org.gemoc.activitydiagram.sequential.ad2petri.interpretedactivitydiagram.activitydiagram.Activity;
 import org.gemoc.activitydiagram.sequential.ad2petri.interpretedactivitydiagram.activitydiagram.ActivityNode;
 import org.gemoc.activitydiagram.sequential.ad2petri.interpretedactivitydiagram.activitydiagram.InitialNode;
-import com.google.common.base.Objects;
 import com.google.common.collect.Iterables;
 import org.gemoc.activitydiagram.sequential.ad2petri.interpretedactivitydiagram.activitydiagram.ActivitydiagramFactory;
 import org.gemoc.activitydiagram.sequential.ad2petri.interpretedactivitydiagram.activitydiagram.ControlToken;
@@ -76,7 +75,7 @@ public class ActivityAspect {
   
   protected static void _privk3_execute(final ActivityAspectActivityAspectProperties _self_, final Activity _self) {
     ActivityNode node = ActivityAspect.findReadyNode(_self);
-    while ((!Objects.equal(node, null))) {
+    while ((node != null)) {
       {
         ActivityNodeAspect.execute(node);
         node = ActivityAspect.findReadyNode(_self);
