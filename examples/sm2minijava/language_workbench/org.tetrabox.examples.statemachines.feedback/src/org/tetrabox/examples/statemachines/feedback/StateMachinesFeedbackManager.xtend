@@ -10,6 +10,21 @@ import org.eclipse.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.Bat
 import org.gemoc.execution.feedbackengine.FeedbackEngine
 import org.gemoc.execution.feedbackengine.FeedbackManager
 
+
+/**
+ * 
+ *
+ * main(program)
+ *  └─evaluateStatement()
+ *  └─evaluateStatement()
+ *  └─evaluateStatement()
+ * 
+ *  run(state machine)
+ *	   └─handle(state)
+ *	   │   └─fire(transition)
+ *     └─handle(state)
+ *	       └─fire(transition)
+ */
 class StateMachinesFeedbackManager implements FeedbackManager {
 
 	private val TraceabilityModel mapping
@@ -30,12 +45,23 @@ class StateMachinesFeedbackManager implements FeedbackManager {
 		}
 	}
 	
+	
+	
 	override processTargetStepStart(Step<?> targetStep) {
+		
+		//TODO main program == run system + run state machine
+		
+		//TODO evaluate methodcall 
+		
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 
 	override processTargetStepEnd(Step<?> targetStep) {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	override feedbackState() {
+		
 	}
 
 }

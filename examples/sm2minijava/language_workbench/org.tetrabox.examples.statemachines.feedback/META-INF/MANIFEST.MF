@@ -17,4 +17,6 @@ Require-Bundle: com.google.guava,
  org.eclipse.emf.transaction;bundle-version="1.9.0",
  org.gemoc.execution.feedbackengine;bundle-version="1.0.0",
  org.gemoc.execution.traceability.model;bundle-version="1.0.0",
- fr.inria.diverse.k3.al.annotationprocessor.plugin;bundle-version="3.2.1"
+ fr.inria.diverse.k3.al.annotationprocessor.plugin;bundle-version="3.2.1",
+ org.tetrabox.minijava.xminijava;bundle-version="0.1.0",
+ org.tetrabox.examples.statemachines.compiledstatemachines;bundle-version="0.1.0"
