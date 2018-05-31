@@ -8,4 +8,6 @@ interface FeedbackManager {
 
 	def void processTargetStepEnd(Step<?> targetStep)
 	
+	def void feedbackState()
+	
 }

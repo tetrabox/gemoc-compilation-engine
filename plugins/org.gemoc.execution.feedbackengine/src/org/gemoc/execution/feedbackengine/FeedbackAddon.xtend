@@ -13,11 +13,17 @@ class FeedbackAddon implements IEngineAddon {
 	}
 
 	override aboutToExecuteStep(IExecutionEngine engine, Step<?> step) {
+		feedbackInterpreter.feedbackState
 		feedbackInterpreter.processTargetStepStart(step)
 	}
 
 	override stepExecuted(IExecutionEngine engine, Step<?> step) {
+		feedbackInterpreter.feedbackState
 		feedbackInterpreter.processTargetStepEnd(step)
+	}
+
+	override engineInitialized(IExecutionEngine executionEngine) {
+		feedbackInterpreter.feedbackState
 	}
 
 }
