@@ -26,14 +26,13 @@ import org.eclipse.gemoc.commons.eclipse.messagingsystem.api.MessagingSystem;
 import org.eclipse.gemoc.commons.eclipse.ui.ViewHelper;
 import org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger;
 import org.eclipse.gemoc.dsl.debug.ide.event.DSLDebugEventDispatcher;
-import org.gemoc.execution.feedbackengine.FeedbackEngine;
 import org.eclipse.gemoc.execution.sequential.javaengine.SequentialModelExecutionContext;
-import org.eclipse.gemoc.execution.sequential.javaengine.ui.debug.GenericSequentialModelDebugger;
-import org.eclipse.gemoc.execution.sequential.javaengine.ui.debug.OmniscientGenericSequentialModelDebugger;
 import org.eclipse.gemoc.executionframework.debugger.AbstractGemocDebugger;
 import org.eclipse.gemoc.executionframework.debugger.AnnotationMutableFieldExtractor;
+import org.eclipse.gemoc.executionframework.debugger.GenericSequentialModelDebugger;
 import org.eclipse.gemoc.executionframework.debugger.IMutableFieldExtractor;
 import org.eclipse.gemoc.executionframework.debugger.IntrospectiveMutableFieldExtractor;
+import org.eclipse.gemoc.executionframework.debugger.OmniscientGenericSequentialModelDebugger;
 import org.eclipse.gemoc.executionframework.engine.commons.EngineContextException;
 import org.eclipse.gemoc.executionframework.engine.commons.ModelExecutionContext;
 import org.eclipse.gemoc.executionframework.engine.ui.commons.RunConfiguration;
@@ -42,11 +41,12 @@ import org.eclipse.gemoc.executionframework.ui.views.engine.EnginesStatusView;
 import org.eclipse.gemoc.trace.commons.model.launchconfiguration.LaunchConfiguration;
 import org.eclipse.gemoc.trace.commons.model.launchconfiguration.LaunchConfigurationParameter;
 import org.eclipse.gemoc.trace.commons.model.launchconfiguration.LaunchconfigurationPackage;
-import org.eclipse.gemoc.trace.commons.model.trace.MSEOccurrence;
+import org.eclipse.gemoc.trace.commons.model.trace.Step;
 import org.eclipse.gemoc.trace.gemoc.api.IMultiDimensionalTraceAddon;
 import org.eclipse.gemoc.xdsmlframework.api.core.ExecutionMode;
 import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine;
 import org.eclipse.gemoc.xdsmlframework.api.core.IRunConfiguration;
+import org.gemoc.execution.feedbackengine.FeedbackEngine;
 import org.gemoc.execution.feedbackengine.ui.Activator;
 
 public class Launcher extends AbstractSequentialGemocLauncher {
@@ -70,10 +70,10 @@ public class Launcher extends AbstractSequentialGemocLauncher {
 	protected IDSLDebugger getDebugger(ILaunchConfiguration configuration, DSLDebugEventDispatcher dispatcher,
 			EObject firstInstruction, IProgressMonitor monitor) {
 
-		IExecutionEngine engine = (IExecutionEngine) _executionEngine;
+		IExecutionEngine engine = (IExecutionEngine) getExecutionEngine();
 		AbstractGemocDebugger res;
 		@SuppressWarnings("rawtypes")
-		Set<IMultiDimensionalTraceAddon> traceAddons = _executionEngine
+		Set<IMultiDimensionalTraceAddon> traceAddons = getExecutionEngine()
 				.getAddonsTypedBy(IMultiDimensionalTraceAddon.class);
 
 		// We don't want to use trace managers that only work with a subset of
@@ -94,16 +94,16 @@ public class Launcher extends AbstractSequentialGemocLauncher {
 		extractors.add(new AnnotationMutableFieldExtractor());
 		// Then introspection
 		extractors.add(new IntrospectiveMutableFieldExtractor(
-				_executionEngine.getExecutionContext().getRunConfiguration().getLanguageName()));
+				getExecutionEngine().getExecutionContext().getRunConfiguration().getLanguageName()));
 		res.setMutableFieldExtractors(extractors);
 
 		// If in the launch configuration it is asked to pause at the start,
 		// we add this dummy break
 		try {
 			if (configuration.getAttribute(RunConfiguration.LAUNCH_BREAK_START, false)) {
-				res.addPredicateBreak(new BiPredicate<IExecutionEngine, MSEOccurrence>() {
+				res.addPredicateBreak(new BiPredicate<IExecutionEngine, Step<?>>() {
 					@Override
-					public boolean test(IExecutionEngine t, MSEOccurrence u) {
+					public boolean test(IExecutionEngine t, Step<?> u) {
 						return true;
 					}
 				});
@@ -112,7 +112,7 @@ public class Launcher extends AbstractSequentialGemocLauncher {
 			Activator.error(e.getMessage(), e);
 		}
 
-		_executionEngine.getExecutionContext().getExecutionPlatform().addEngineAddon(res);
+		getExecutionEngine().getExecutionContext().getExecutionPlatform().addEngineAddon(res);
 		return res;
 	}
 
