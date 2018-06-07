@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.gemoc.execution.feedbackengine.feedback">
+      <feedback
+            class="org.tetrabox.examples.statemachines.feedback.StateMachinesFeedbackConfiguration"
+            id="statemachines-feedback">
+      </feedback>
+   </extension>
+
+</plugin>
