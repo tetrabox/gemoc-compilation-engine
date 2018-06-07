@@ -29,6 +29,7 @@ import org.eclipse.gemoc.commons.eclipse.emf.URIHelper;
 import org.eclipse.gemoc.commons.eclipse.ui.dialogs.SelectAnyIFileDialog;
 import org.eclipse.gemoc.dsl.debug.ide.launch.AbstractDSLLaunchConfigurationDelegate;
 import org.eclipse.gemoc.dsl.debug.ide.sirius.ui.launch.AbstractDSLLaunchConfigurationDelegateSiriusUI;
+import org.eclipse.gemoc.executionframework.engine.commons.DslHelper;
 import org.eclipse.gemoc.executionframework.engine.commons.MelangeHelper;
 import org.eclipse.gemoc.executionframework.engine.ui.commons.RunConfiguration;
 import org.eclipse.gemoc.xdsmlframework.ui.utils.dialogs.SelectAIRDIFileDialog;
@@ -269,7 +270,7 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 		_languageCombo = new Combo(parent, SWT.NONE);
 		_languageCombo.setLayoutData(createStandardLayout());
 
-		List<String> languagesNames = MelangeHelper.getAllLanguages();
+		List<String> languagesNames = DslHelper.getAllLanguages();
 		String[] empty = {};
 		_languageCombo.setItems(languagesNames.toArray(empty));
 		_languageCombo.addSelectionListener(new SelectionAdapter() {
