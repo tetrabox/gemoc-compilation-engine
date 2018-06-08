@@ -20,3 +20,4 @@ Require-Bundle: com.google.guava,
  fr.inria.diverse.k3.al.annotationprocessor.plugin;bundle-version="3.2.1",
  org.tetrabox.minijava.xminijava;bundle-version="0.1.0",
  org.tetrabox.examples.statemachines.compiledstatemachines;bundle-version="0.1.0"
+Automatic-Module-Name: org.tetrabox.examples.statemachines.feedback
