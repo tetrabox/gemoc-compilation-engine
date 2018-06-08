@@ -52,7 +52,6 @@ import org.eclipse.swt.widgets.Text;
 import org.gemoc.execution.feedbackengine.ui.Activator;
 import org.gemoc.execution.feedbackengine.ui.launcher.LauncherMessages;
 
-
 /**
  * Sequential engine launch configuration main tab
  * 
@@ -63,12 +62,12 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 	protected Composite _parent;
 
 	protected Text _modelLocationText;
+	protected Text _modelInitializationArgumentsText;
 	protected Text _siriusRepresentationLocationText;
 	protected Button _animateButton;
 	protected Text _delayText;
 	protected Text _melangeQueryText;
 	protected Button _animationFirstBreak;
-
 
 	protected Combo _languageCombo;
 
@@ -126,6 +125,8 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 			_animationFirstBreak.setSelection(runConfiguration.getBreakStart());
 
 			_languageCombo.setText(runConfiguration.getLanguageName());
+			_modelInitializationArgumentsText.setText(runConfiguration.getModelInitializationArguments());
+
 			updateLaunchConfigurationDialog();
 		} catch (CoreException e) {
 			Activator.error(e.getMessage(), e);
@@ -142,6 +143,8 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 		configuration.setAttribute(RunConfiguration.LAUNCH_SELECTED_LANGUAGE, _languageCombo.getText());
 		configuration.setAttribute(RunConfiguration.LAUNCH_MELANGE_QUERY, _melangeQueryText.getText());
 		configuration.setAttribute(RunConfiguration.LAUNCH_BREAK_START, _animationFirstBreak.getSelection());
+		configuration.setAttribute(RunConfiguration.LAUNCH_INITIALIZATION_ARGUMENTS,
+				_modelInitializationArgumentsText.getText());
 		// DebugModelID for sequential engine
 		configuration.setAttribute(RunConfiguration.DEBUG_MODEL_ID, Activator.DEBUG_MODEL_ID);
 	}
@@ -197,7 +200,22 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 				}
 			}
 		});
-		
+		createTextLabelLayout(parent, "Model initialization arguments");
+		_modelInitializationArgumentsText = new Text(parent, SWT.MULTI | SWT.BORDER | SWT.WRAP | SWT.V_SCROLL);
+		_modelInitializationArgumentsText.setToolTipText("one argument per line");
+		GridData gridData = new GridData(GridData.FILL_BOTH);
+		gridData.heightHint = 40;
+		_modelInitializationArgumentsText.setLayoutData(gridData);
+		// _modelInitializationArgumentsText.setLayoutData(createStandardLayout());
+		_modelInitializationArgumentsText.setFont(font);
+		_modelInitializationArgumentsText.setEditable(true);
+		_modelInitializationArgumentsText.addModifyListener(new ModifyListener() {
+			@Override
+			public void modifyText(ModifyEvent e) {
+				updateLaunchConfigurationDialog();
+			}
+		});
+		createTextLabelLayout(parent, "");
 		return parent;
 	}
 
@@ -290,7 +308,6 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 
 		return parent;
 	}
-	
 
 	@Override
 	protected void updateLaunchConfigurationDialog() {
@@ -300,8 +317,8 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 
 	/**
 	 * compute the Melange query for loading the given model as the requested
-	 * language If the language is already the good one, the query will be
-	 * empty. (ie. melange downcast is not used)
+	 * language If the language is already the good one, the query will be empty.
+	 * (ie. melange downcast is not used)
 	 * 
 	 * @return
 	 */
@@ -315,10 +332,10 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 				// TODO this version consider only the first native language, we
 				// need to think about models containing elements coming from
 				// several languages
-//				String languageMT = MelangeHelper.getModelType(languageName);
-//				if (languageMT == null) {
-//					languageMT = languageName + "MT";
-//				}
+				// String languageMT = MelangeHelper.getModelType(languageName);
+				// if (languageMT == null) {
+				// languageMT = languageName + "MT";
+				// }
 
 				// result="?lang="+languageName+"&mt="+languageMT;
 				result = "?lang=" + languageName; // we need a simple downcast
@@ -328,10 +345,9 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 		return result;
 	}
 
-
 	/**
-	 * caches the current model resource in order to avoid to reload it many
-	 * times use {@link getModel()} in order to access it.
+	 * caches the current model resource in order to avoid to reload it many times
+	 * use {@link getModel()} in order to access it.
 	 */
 	private Resource currentModelResource;
 
@@ -357,8 +373,7 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.debug.ui.AbstractLaunchConfigurationTab#isValid(org.eclipse.
+	 * @see org.eclipse.debug.ui.AbstractLaunchConfigurationTab#isValid(org.eclipse.
 	 * debug.core.ILaunchConfiguration)
 	 */
 	@Override
@@ -394,13 +409,12 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 		if (languageName.length() == 0) {
 			setErrorMessage(LauncherMessages.SequentialMainTab_Language_not_specified);
 			return false;
-		} 
-		
-//		else if (MelangeHelper.getEntryPoints(languageName).isEmpty()) {
-//			setErrorMessage(LauncherMessages.SequentialMainTab_Language_main_methods_dont_exist);
-//			return false;
-//		}
+		}
 
+		// else if (MelangeHelper.getEntryPoints(languageName).isEmpty()) {
+		// setErrorMessage(LauncherMessages.SequentialMainTab_Language_main_methods_dont_exist);
+		// return false;
+		// }
 
 		return true;
 	}
