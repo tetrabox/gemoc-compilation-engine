@@ -44,6 +44,8 @@ class StateMachinesCompiler implements Compiler {
 		transformer.eventTransformer = eventTransformer
 		transformer.stateTransformer = stateTransformer
 		eventTransformer.stateMachineTransformer = statemachineTransformer
+		eventTransformer.stateTransformer = stateTransformer
+		eventTransformer.transitionTransformer = transitionTransformer
 		statemachineTransformer.eventTransformer = eventTransformer
 		statemachineTransformer.stateTransformer = stateTransformer
 		stateTransformer.stateMachineTransformer = statemachineTransformer
