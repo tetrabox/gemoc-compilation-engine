@@ -10,16 +10,20 @@ import org.eclipse.gemoc.trace.commons.model.trace.Step
 import org.eclipse.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.BatchModelChangeListener
 import org.gemoc.execution.feedbackengine.FeedbackEngine
 import org.gemoc.execution.feedbackengine.FeedbackManager
+import org.tetrabox.examples.statemachines.compiledstatemachines.statemachines.CustomEvent
 import org.tetrabox.examples.statemachines.compiledstatemachines.statemachines.CustomSystem
 import org.tetrabox.examples.statemachines.compiledstatemachines.statemachines.almostuml.Transition
 import org.tetrabox.minijava.xminijava.aspects.FrameAspect
+import org.tetrabox.minijava.xminijava.miniJava.Method
 import org.tetrabox.minijava.xminijava.miniJava.ObjectInstance
 import org.tetrabox.minijava.xminijava.miniJava.Program
 import org.tetrabox.minijava.xminijava.miniJava.Return
 import org.tetrabox.minijava.xminijava.miniJava.State
 import org.tetrabox.minijava.xminijava.miniJava.Statement
-import org.tetrabox.minijava.xminijava.miniJava.Method
-import org.tetrabox.examples.statemachines.compiledstatemachines.statemachines.CustomEvent
+import java.util.Optional
+import java.util.Set
+import java.util.HashSet
+import java.util.Collections
 
 /**
  * 
@@ -41,7 +45,7 @@ class StateMachinesFeedbackManager implements FeedbackManager {
 	private val TraceabilityModel mapping
 	private val FeedbackEngine feedbackEngine
 	private val BatchModelChangeListener listener
-	private val Map<EObject, AnnotatedElement> efficientAnnotatedMapping = new HashMap
+	private val Map<EObject, Set<AnnotatedElement>> efficientAnnotatedMapping = new HashMap
 
 	private var State targetModelState
 
@@ -54,9 +58,11 @@ class StateMachinesFeedbackManager implements FeedbackManager {
 		listener.registerObserver(this)
 
 		for (annot : mapping.eAllContents.filter(AnnotatedElement).toSet) {
-			efficientAnnotatedMapping.put(annot.element, annot)
+			if (!efficientAnnotatedMapping.containsKey(annot.element)) {
+				efficientAnnotatedMapping.put(annot.element, new HashSet)
+			}
+			efficientAnnotatedMapping.get(annot.element).add(annot)
 		}
-
 	}
 
 	override initialize() {
@@ -71,31 +77,31 @@ class StateMachinesFeedbackManager implements FeedbackManager {
 		step.mseoccurrence.mse.caller
 	}
 
-//	def AnnotatedElement getAnnotatedElement(Step<?> step) {
-//		efficientAnnotatedMapping.get(step.mseoccurrence.mse.caller)
-//	}
-	def AnnotatedElement getAnnotatedElement(EObject o) {
-		efficientAnnotatedMapping.get(o)
+	def Set<AnnotatedElement> getAnnotatedElements(EObject o) {
+		if (efficientAnnotatedMapping.containsKey(o))
+			return efficientAnnotatedMapping.get(o)
+		else
+			return Collections::emptySet()
 	}
 
 	def Collection<? extends EObject> getSourceElements(EObject targetElement) {
-		val annotatedElement = getAnnotatedElement(targetElement)
+		return getSourceAnnotatedElements(targetElement).map[it.element].toSet
+	}
+
+	def Collection<? extends AnnotatedElement> getSourceAnnotatedElements(EObject targetElement) {
+		val annotatedElement = getAnnotatedElements(targetElement)
 		if (annotatedElement === null) {
 			return emptySet
 		}
-		val link = annotatedElement.link
-		val result = link.sourceElements.map[it.element].toSet
-		return result
+		return annotatedElement.map[it.link].map[it.sourceElements].flatten.toSet
 	}
 
 	def Collection<? extends EObject> getTargetElements(EObject sourceElement) {
-		val annotatedElement = getAnnotatedElement(sourceElement)
+		val annotatedElement = getAnnotatedElements(sourceElement)
 		if (annotatedElement === null) {
 			return emptySet
 		}
-		val link = annotatedElement.link
-		val result = link.targetElements.map[it.element].toSet
-		return result
+		return annotatedElement.map[it.link].map[it.targetElements].flatten.toSet
 	}
 
 	var Step<?> currentExecuteStep
@@ -107,21 +113,21 @@ class StateMachinesFeedbackManager implements FeedbackManager {
 		} else if (targetStep.match("main")) {
 			val system = targetStep.caller.sourceElements.head as CustomSystem
 			feedbackEngine.feedbackStartStep(system, "run")
-		} else if (targetStep.match("execute")) {
-			val targetMethod = targetStep.caller as Method // TODO retrieve event and pass it as arg to handle
-			val targetEvent = targetMethod.sourceElements.get(0) as CustomEvent
+		} else if (targetStep.match("call")) {
 			val targetObject = FrameAspect::findCurrentFrame(targetModelState.rootFrame).instance as ObjectInstance
 			val targetType = targetObject.type
-			if (targetType.implements.exists[it.name == "State"]) { // TODO find State using traceability links
+			val targetMethod = targetStep.caller as Method
+			val annotatedTargetMethod = Optional::ofNullable(targetMethod.annotatedElements.findFirst [
+				it.annotation.endsWith("_method")
+			])
+			if (annotatedTargetMethod.isPresent) {
+				val sourceEvent = annotatedTargetMethod.get.element.sourceElements.get(0) as CustomEvent
 				val sourceState = targetType.sourceElements.
 					head as org.tetrabox.examples.statemachines.compiledstatemachines.statemachines.almostuml.State
 				currentExecuteStep = targetStep
-				feedbackEngine.feedbackStartStep(sourceState, "handle", #[targetEvent])
-
+				feedbackEngine.feedbackStartStep(sourceState, "handle", #[sourceEvent])
 			}
-
-		} else if (targetStep.match("evaluateStatement") || targetStep.match("evaluateExpression")) {
-
+		} else if (targetStep.match("evaluateStatement")) {
 			val targetStatement = targetStep.caller as Statement
 			if (targetStatement instanceof Return) {
 				val candidateTransition = targetStatement.expression.sourceElements.head
