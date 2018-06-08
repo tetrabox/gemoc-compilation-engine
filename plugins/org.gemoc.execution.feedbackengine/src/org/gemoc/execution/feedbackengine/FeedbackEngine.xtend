@@ -16,6 +16,7 @@ import org.eclipse.gemoc.dsl.Dsl
 import org.eclipse.gemoc.executionframework.engine.core.AbstractExecutionEngine
 import org.eclipse.gemoc.executionframework.engine.core.AbstractSequentialExecutionEngine
 import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionContext
+import java.util.List
 
 class FeedbackEngine extends AbstractSequentialExecutionEngine {
 
@@ -33,13 +34,21 @@ class FeedbackEngine extends AbstractSequentialExecutionEngine {
 		beforeExecutionStep(caller, className, operationName);
 	}
 
+	public def void feedbackStartStep(EObject caller, String operationName) {
+		beforeExecutionStep(caller, caller.eClass.name, operationName);
+	}
+	
+	public def void feedbackStartStep(EObject caller, String operationName, List<Object> args) {
+		beforeExecutionStep(caller, caller.eClass.name, operationName, args);
+	}
+
 	public def void feedbackEndStep() {
 		afterExecutionStep
 	}
 
 	override protected prepareEntryPoint(IExecutionContext executionContext) {
 
-		// Reading melange model to find compiler and feedback identifiers
+		// Reading language declaration to find compiler and feedback identifiers
 		val Dsl language = getLanguageDefinition(executionContext)
 		val String compilerID = language.entries.findFirst[key.equals(annotationCompilerKey)].value
 		val String feedbackID = language.entries.findFirst[key.equals(annotationFeedbackKey)].value
@@ -70,7 +79,8 @@ class FeedbackEngine extends AbstractSequentialExecutionEngine {
 		val feedbackConfiguration = getExtension(feedbackExtensionPoint, feedbackID) as FeedbackConfiguration
 
 		// Creating the target engine
-		val exeContext = new TargetExecutionContext(targetResource, feedbackConfiguration)
+		val exeContext = new TargetExecutionContext(targetResource, feedbackConfiguration,
+			executionContext.getRunConfiguration().getModelInitializationArguments())
 		targetEngine = feedbackConfiguration.createTargetEngine() as AbstractExecutionEngine
 		targetEngine.initialize(exeContext);
 		targetEngine.stopOnAddonError = true;
@@ -149,11 +159,14 @@ class FeedbackEngine extends AbstractSequentialExecutionEngine {
 	}
 
 	override protected prepareInitializeModel(IExecutionContext executionContext) {
-		// Nothing to do
 	}
 
 	public def disableFeedback() {
 		this.feedback = false
+	}
+
+	public def getTargetEngine() {
+		return targetEngine
 	}
 
 }

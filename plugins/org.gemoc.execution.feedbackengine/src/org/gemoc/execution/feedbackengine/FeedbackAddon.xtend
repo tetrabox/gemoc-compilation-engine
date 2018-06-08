@@ -23,7 +23,10 @@ class FeedbackAddon implements IEngineAddon {
 	}
 
 	override engineInitialized(IExecutionEngine executionEngine) {
+		feedbackInterpreter.initialize
 		feedbackInterpreter.feedbackState
 	}
+	
+	
 
 }

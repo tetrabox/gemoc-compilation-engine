@@ -1,5 +1,6 @@
 package org.gemoc.execution.feedbackengine
 
+import java.util.List
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.ResourceSet
@@ -13,13 +14,15 @@ class TargetRunConfiguration implements IRunConfiguration {
 	val String entryPoint
 	val String languageName
 	val String initMethod
+	val String initArguments
 
-	new(URI staticModelURI, String entryPoint, String languageName, String initMethod) {
+	new(URI staticModelURI, String entryPoint, String languageName, String initMethod, String initArguments) {
 		this.staticModelURI = staticModelURI
 		this.melangeQuery = "?lang=" + languageName
 		this.entryPoint = entryPoint
 		this.languageName = languageName
 		this.initMethod = initMethod
+		this.initArguments = initArguments
 	}
 
 	override getAnimationDelay() {
@@ -76,7 +79,7 @@ class TargetRunConfiguration implements IRunConfiguration {
 	}
 
 	override getModelInitializationArguments() {
-		""
+		initArguments
 	}
 
 	override getModelInitializationMethod() {

@@ -11,6 +11,7 @@ import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionPlatform
 import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionWorkspace
 import org.eclipse.gemoc.xdsmlframework.api.core.IRunConfiguration
 import org.osgi.framework.Bundle
+import java.util.List
 
 /**
  * Simpler context relying on some existing ResourceSet, which
@@ -25,10 +26,10 @@ class TargetExecutionContext implements IExecutionContext {
 	val IExecutionWorkspace executionWorkspace;
 	val Bundle dslBundle;
 
-	new(Resource targetStaticModel, FeedbackConfiguration conf) {
+	new(Resource targetStaticModel, FeedbackConfiguration conf, String initArguments) {
 		this.executionPlatform = new TargetExecutionPlatform()
 		this.runConfiguration = new TargetRunConfiguration(targetStaticModel.URI, conf.getTargetEntryPoint(),
-			conf.getTargetLanguageName(), conf.getTargetInitializationMethod())
+			conf.getTargetLanguageName(), conf.getTargetInitializationMethod(), initArguments)
 		this.targetStaticModel = targetStaticModel
 		executionWorkspace = new ExecutionWorkspace(runConfiguration.getExecutedModelURI());
 		val String melangeURIString = targetStaticModel.URI.toString().replace("platform:/", "melange:/") +
