@@ -41,13 +41,13 @@ class Ad2PetriFeedbackManager implements FeedbackManager {
 		for (link : mapping.links) {
 			val place = link.targetElements.map[element].filter(Place).head
 			if (place !== null) {
-			val tokenHolder = link.sourceElements.head.element as NamedElement
+				val tokenHolder = link.sourceElements.head.element as NamedElement
 				efficientPlaceMapping.put(place, tokenHolder)
 			}
 		}
-		
+
 		for (annot : mapping.eAllContents.filter(AnnotatedElement).toSet) {
-			efficientAnnotatedMapping.put(annot.element,annot)
+			efficientAnnotatedMapping.put(annot.element, annot)
 		}
 
 	}
@@ -116,4 +116,8 @@ class Ad2PetriFeedbackManager implements FeedbackManager {
 			}
 		}
 	}
+
+	override initialize() {
+	}
+
 }
