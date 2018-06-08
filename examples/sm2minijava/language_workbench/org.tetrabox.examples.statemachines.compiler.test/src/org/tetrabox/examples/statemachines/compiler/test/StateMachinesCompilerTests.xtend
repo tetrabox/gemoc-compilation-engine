@@ -9,18 +9,26 @@ import statemachines.CustomSystem
 
 class StateMachinesCompilerTests {
 
-	@Test
-	def void test() {
+	private def void genericTest(String name) {
 		val ResourceSet rs = new XtextResourceSet
-		val resource = rs.getResource(URI::createFileURI("input/test1.statemachines"), true)
+		val resource = rs.getResource(URI::createFileURI("input/" + name + ".statemachines"), true)
 		val root = resource.contents.head as CustomSystem
 		val compiler = new StateMachinesCompiler()
 		val result = compiler.compile(root)
-		val out = rs.createResource(URI::createFileURI("tmp/test1.minijava"))
-			out.contents.add(result.targetModelRoot)
+		val out = rs.createResource(URI::createFileURI("tmp/" + name + ".minijava"))
+
+		out.contents.add(result.targetModelRoot)
 		out.save(null)
-		
 
 	}
 
+	@Test
+	def void test1() {
+		genericTest("test1")
+	}
+
+	@Test
+	def void test2() {
+		genericTest("test2")
+	}
 }

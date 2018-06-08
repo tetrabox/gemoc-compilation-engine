@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<statemachines:CustomSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:almostuml="almostuml" xmlns:statemachines="statemachines">
+  <statemachine name="test1">
+    <region>
+      <subvertex xsi:type="almostuml:Pseudostate" name="init"/>
+      <subvertex xsi:type="almostuml:FinalState" name="final"/>
+      <subvertex xsi:type="almostuml:State" name="middle"/>
+      <transition name="t1" source="//@statemachine/@region.0/@subvertex.0" target="//@statemachine/@region.0/@subvertex.2">
+        <trigger name="trigger1" event="//@events.0"/>
+      </transition>
+      <transition name="t2" source="//@statemachine/@region.0/@subvertex.2" target="//@statemachine/@region.0/@subvertex.1">
+        <trigger name="trigger2" event="//@events.1"/>
+      </transition>
+    </region>
+  </statemachine>
+  <events name="e1"/>
+  <events name="e2"/>
+</statemachines:CustomSystem>
