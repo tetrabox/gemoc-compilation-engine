@@ -12,9 +12,6 @@ import org.tetrabox.minijava.xtext.miniJava.Interface
 import org.tetrabox.minijava.xtext.miniJava.Method
 import org.tetrabox.minijava.xtext.miniJava.MiniJavaFactory
 import statemachines.CustomEvent
-import statemachines.almostuml.Pseudostate
-import statemachines.almostuml.PseudostateKind
-import statemachines.almostuml.FinalState
 
 class CustomEventTransformer {
 
