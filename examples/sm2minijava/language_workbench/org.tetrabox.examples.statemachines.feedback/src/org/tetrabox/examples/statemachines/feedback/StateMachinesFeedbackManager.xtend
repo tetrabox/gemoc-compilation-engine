@@ -3,11 +3,16 @@ package org.tetrabox.examples.statemachines.feedback
 import gemoctraceability.AnnotatedElement
 import gemoctraceability.TraceabilityModel
 import java.util.Collection
+import java.util.Collections
 import java.util.HashMap
+import java.util.HashSet
 import java.util.Map
+import java.util.Optional
+import java.util.Set
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.gemoc.trace.commons.model.trace.Step
 import org.eclipse.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.BatchModelChangeListener
+import org.eclipse.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.FieldModelChange
 import org.gemoc.execution.feedbackengine.FeedbackEngine
 import org.gemoc.execution.feedbackengine.FeedbackManager
 import org.tetrabox.examples.statemachines.compiledstatemachines.statemachines.CustomEvent
@@ -20,10 +25,6 @@ import org.tetrabox.minijava.xminijava.miniJava.Program
 import org.tetrabox.minijava.xminijava.miniJava.Return
 import org.tetrabox.minijava.xminijava.miniJava.State
 import org.tetrabox.minijava.xminijava.miniJava.Statement
-import java.util.Optional
-import java.util.Set
-import java.util.HashSet
-import java.util.Collections
 
 /**
  * 
@@ -135,7 +136,6 @@ class StateMachinesFeedbackManager implements FeedbackManager {
 					if (candidateTransition instanceof Transition) {
 						feedbackEngine.feedbackStartStep(candidateTransition, "fire")
 					}
-
 				}
 			}
 		} else {
@@ -153,6 +153,13 @@ class StateMachinesFeedbackManager implements FeedbackManager {
 	}
 
 	override feedbackState() {
+		val changes = listener.getChanges(this)
+		for (change : changes.filter(FieldModelChange)) {
+			val yay = change.changedField
+//			if (change.changedField === AlmostumlPackage::eINSTANCE.stateMachine_Queue) {
+//				// TODO 
+//			} else if (change.changedField === AlmostumlPackage::eINSTANCE.region_CurrentState) {
+//			}
+		}
 	}
-
 }
