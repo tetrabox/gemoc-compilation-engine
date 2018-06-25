@@ -12,19 +12,22 @@ import java.util.Set
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.gemoc.trace.commons.model.trace.Step
 import org.eclipse.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.BatchModelChangeListener
-import org.eclipse.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.FieldModelChange
 import org.gemoc.execution.feedbackengine.FeedbackEngine
 import org.gemoc.execution.feedbackengine.FeedbackManager
 import org.tetrabox.examples.statemachines.compiledstatemachines.statemachines.CustomEvent
 import org.tetrabox.examples.statemachines.compiledstatemachines.statemachines.CustomSystem
 import org.tetrabox.examples.statemachines.compiledstatemachines.statemachines.almostuml.Transition
 import org.tetrabox.minijava.xminijava.aspects.FrameAspect
+import org.tetrabox.minijava.xminijava.miniJava.ArrayRefValue
+import org.tetrabox.minijava.xminijava.miniJava.FieldBinding
+import org.tetrabox.minijava.xminijava.miniJava.IntegerValue
 import org.tetrabox.minijava.xminijava.miniJava.Method
 import org.tetrabox.minijava.xminijava.miniJava.ObjectInstance
 import org.tetrabox.minijava.xminijava.miniJava.Program
 import org.tetrabox.minijava.xminijava.miniJava.Return
 import org.tetrabox.minijava.xminijava.miniJava.State
 import org.tetrabox.minijava.xminijava.miniJava.Statement
+import org.tetrabox.minijava.xminijava.miniJava.SymbolBinding
 
 /**
  * 
@@ -154,12 +157,81 @@ class StateMachinesFeedbackManager implements FeedbackManager {
 
 	override feedbackState() {
 		val changes = listener.getChanges(this)
-		for (change : changes.filter(FieldModelChange)) {
-			val yay = change.changedField
-//			if (change.changedField === AlmostumlPackage::eINSTANCE.stateMachine_Queue) {
-//				// TODO 
-//			} else if (change.changedField === AlmostumlPackage::eINSTANCE.region_CurrentState) {
+		for (change : changes) {
+			val changedObject = change.changedObject
+
+			// TODO remove logging
+//			switch (change) {
+//				FieldModelChange:
+//					println(
+//						"FieldModelChange: object <" + change.changedObject + "> field <" + change.changedField.name +
+//							"> to <" + change.changedObject.eGet(change.changedField) + ">")
+//				NewObjectModelChange:
+//					println("NewObjectModelChange" + change.changedObject)
+//				RemovedObjectModelChange:
+//					println("RemovedObjectModelChange" + change.changedObject)
 //			}
+			switch (changedObject) {
+				SymbolBinding: {
+					val symbolName = changedObject.symbol.name
+					if (symbolName == "eventName") {
+						println("Altered eventName binding")
+						println("eventName value: "+changedObject.value)
+						// get i first elements from args
+						val iBinding = targetModelState.rootFrame.rootContext.childContext.childContext.bindings.findFirst[it.symbol.name == "i"]
+						val ivalue = (iBinding.value as IntegerValue).value
+						val argsBinding = targetModelState.rootFrame.rootContext.bindings.findFirst[it.symbol.name == "args"]
+						val argsValue = (argsBinding.value as ArrayRefValue).instance
+						println("emptying queue")
+						for (var int i = ivalue; i >=0 ; i--) {
+							println("===== queue element:" + argsValue.value.get(i))
+						}
+					}
+				}
+				FieldBinding: {
+					val fieldName = changedObject.field.name
+					if (fieldName == "current") {
+						println("Altered currentBinding")
+						println("currentBinding value: "+changedObject.value)
+					}
+				}
+			}
+
+//			switch (change) {
+//				NewObjectModelChange:
+//					switch (changedObject) {
+//						SymbolBinding: {
+//							val symbolName = changedObject.symbol.name
+//							if (symbolName == "eventName") {
+//								println("Created eventName binding")
+//							}
+//						}
+//						FieldBinding: {
+//							val fieldName = changedObject.field.name
+//							if (fieldName == "current") {
+//								println("Created currentBinding")
+//							}
+//						}
+//					}
+//				FieldModelChange:
+//					switch (changedObject) {
+//						SymbolBinding: {
+//							val symbolName = changedObject.symbol.name
+//							if (symbolName == "eventName") {
+//								println("Changed eventName binding")
+//							}
+//						}
+//						FieldBinding: {
+//							val fieldName = changedObject.field.name
+//							if (fieldName == "current") {
+//								println("Changed currentBinding")
+//							}
+//						}
+//					}
 		}
+
+	// TODO detect change in "eventName" local variable -> update queue
+	// TODO detect change in "current" class member -> update current state
+	// WARNING: first value == new object ; value change == field change
 	}
 }
