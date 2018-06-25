@@ -117,7 +117,5 @@ class Ad2PetriFeedbackManager implements FeedbackManager {
 		}
 	}
 
-	override initialize() {
-	}
 
 }

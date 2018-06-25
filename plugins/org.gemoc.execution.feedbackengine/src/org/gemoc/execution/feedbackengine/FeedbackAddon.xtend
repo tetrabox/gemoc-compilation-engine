@@ -22,10 +22,6 @@ class FeedbackAddon implements IEngineAddon {
 		feedbackInterpreter.processTargetStepEnd(step)
 	}
 
-	override engineInitialized(IExecutionEngine executionEngine) {
-		feedbackInterpreter.initialize
-		feedbackInterpreter.feedbackState
-	}
 	
 	
 

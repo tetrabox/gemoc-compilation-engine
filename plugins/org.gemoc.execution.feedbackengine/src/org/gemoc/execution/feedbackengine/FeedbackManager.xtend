@@ -10,6 +10,4 @@ interface FeedbackManager {
 	
 	def void feedbackState()
 	
-	def void initialize()
-	
 }
