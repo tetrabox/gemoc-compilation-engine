@@ -12,32 +12,35 @@ import java.util.Set
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.gemoc.trace.commons.model.trace.Step
 import org.eclipse.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.BatchModelChangeListener
+import org.eclipse.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.NewObjectModelChange
 import org.gemoc.execution.feedbackengine.FeedbackEngine
 import org.gemoc.execution.feedbackengine.FeedbackManager
 import org.tetrabox.examples.statemachines.compiledstatemachines.statemachines.CustomEvent
 import org.tetrabox.examples.statemachines.compiledstatemachines.statemachines.CustomSystem
+import org.tetrabox.examples.statemachines.compiledstatemachines.statemachines.StatemachinesFactory
 import org.tetrabox.examples.statemachines.compiledstatemachines.statemachines.almostuml.Transition
 import org.tetrabox.minijava.xminijava.aspects.FrameAspect
 import org.tetrabox.minijava.xminijava.miniJava.ArrayRefValue
 import org.tetrabox.minijava.xminijava.miniJava.FieldBinding
-import org.tetrabox.minijava.xminijava.miniJava.IntegerValue
+import org.tetrabox.minijava.xminijava.miniJava.ForStatement
 import org.tetrabox.minijava.xminijava.miniJava.Method
 import org.tetrabox.minijava.xminijava.miniJava.ObjectInstance
+import org.tetrabox.minijava.xminijava.miniJava.ObjectRefValue
 import org.tetrabox.minijava.xminijava.miniJava.Program
 import org.tetrabox.minijava.xminijava.miniJava.Return
 import org.tetrabox.minijava.xminijava.miniJava.State
 import org.tetrabox.minijava.xminijava.miniJava.Statement
-import org.tetrabox.minijava.xminijava.miniJava.SymbolBinding
+import org.tetrabox.minijava.xminijava.miniJava.StringValue
 
 /**
  * 
- * initialize(program)
+ * initialize(program)    <--- does not set the initial state!
  * main(program)
- *  └─evaluateStatement()
+ *  └─evaluateStatement() <--- the initial state is set around here!
  *  └─evaluateStatement()
  *  └─evaluateStatement()
  * 
- *  initialize(state machine)
+ *  initialize(state machine) <--- should set the initial state!
  *  run(state machine)
  *    └─handle(state)
  *    │   └─fire(transition)
@@ -52,6 +55,7 @@ class StateMachinesFeedbackManager implements FeedbackManager {
 	private val Map<EObject, Set<AnnotatedElement>> efficientAnnotatedMapping = new HashMap
 
 	private var State targetModelState
+	private var CustomSystem sourceModel
 
 	new(TraceabilityModel traceabilityModel, FeedbackEngine feedbackEngine) {
 		this.mapping = traceabilityModel
@@ -67,10 +71,6 @@ class StateMachinesFeedbackManager implements FeedbackManager {
 			}
 			efficientAnnotatedMapping.get(annot.element).add(annot)
 		}
-	}
-
-	override initialize() {
-		targetModelState = (feedbackEngine.targetEngine.executionContext.resourceModel.contents.head as Program).state
 	}
 
 	static def boolean match(Step<?> step, String stepName) {
@@ -114,9 +114,21 @@ class StateMachinesFeedbackManager implements FeedbackManager {
 		if (targetStep.match("initialize")) {
 			val system = targetStep.caller.sourceElements.head as CustomSystem
 			feedbackEngine.feedbackStartStep(system, "initialize")
-		} else if (targetStep.match("main")) {
-			val system = targetStep.caller.sourceElements.head as CustomSystem
-			feedbackEngine.feedbackStartStep(system, "run")
+		} else if (targetStep.match("evaluateStatement")) {
+			val targetStatement = targetStep.caller as Statement
+			if (targetStatement instanceof Return) {
+				val candidateTransition = targetStatement.expression.sourceElements.head
+				if (candidateTransition !== null) {
+					if (candidateTransition instanceof Transition) {
+						feedbackEngine.feedbackStartStep(candidateTransition, "fire")
+					}
+				}
+			} else if (targetStatement instanceof ForStatement) {
+				// End of initialize
+				feedbackEngine.feedbackEndStep
+				// Start of run
+				feedbackEngine.feedbackStartStep(sourceModel, "run")
+			}
 		} else if (targetStep.match("call")) {
 			val targetObject = FrameAspect::findCurrentFrame(targetModelState.rootFrame).instance as ObjectInstance
 			val targetType = targetObject.type
@@ -131,23 +143,11 @@ class StateMachinesFeedbackManager implements FeedbackManager {
 				currentExecuteStep = targetStep
 				feedbackEngine.feedbackStartStep(sourceState, "handle", #[sourceEvent])
 			}
-		} else if (targetStep.match("evaluateStatement")) {
-			val targetStatement = targetStep.caller as Statement
-			if (targetStatement instanceof Return) {
-				val candidateTransition = targetStatement.expression.sourceElements.head
-				if (candidateTransition !== null) {
-					if (candidateTransition instanceof Transition) {
-						feedbackEngine.feedbackStartStep(candidateTransition, "fire")
-					}
-				}
-			}
-		} else {
-			println("Unsupported step: " + targetStep)
 		}
 	}
 
 	override processTargetStepEnd(Step<?> targetStep) {
-		if (targetStep.match("initialize") || targetStep.match("main")) {
+		if (targetStep.match("run")) {
 			feedbackEngine.feedbackEndStep
 		} else if (targetStep === currentExecuteStep) {
 			feedbackEngine.feedbackEndStep
@@ -156,82 +156,50 @@ class StateMachinesFeedbackManager implements FeedbackManager {
 	}
 
 	override feedbackState() {
-		val changes = listener.getChanges(this)
-		for (change : changes) {
-			val changedObject = change.changedObject
 
-			// TODO remove logging
-//			switch (change) {
-//				FieldModelChange:
-//					println(
-//						"FieldModelChange: object <" + change.changedObject + "> field <" + change.changedField.name +
-//							"> to <" + change.changedObject.eGet(change.changedField) + ">")
-//				NewObjectModelChange:
-//					println("NewObjectModelChange" + change.changedObject)
-//				RemovedObjectModelChange:
-//					println("RemovedObjectModelChange" + change.changedObject)
-//			}
-			switch (changedObject) {
-				SymbolBinding: {
-					val symbolName = changedObject.symbol.name
-					if (symbolName == "eventName") {
-						println("Altered eventName binding")
-						println("eventName value: "+changedObject.value)
-						// get i first elements from args
-						val iBinding = targetModelState.rootFrame.rootContext.childContext.childContext.bindings.findFirst[it.symbol.name == "i"]
-						val ivalue = (iBinding.value as IntegerValue).value
-						val argsBinding = targetModelState.rootFrame.rootContext.bindings.findFirst[it.symbol.name == "args"]
-						val argsValue = (argsBinding.value as ArrayRefValue).instance
-						println("emptying queue")
-						for (var int i = ivalue; i >=0 ; i--) {
-							println("===== queue element:" + argsValue.value.get(i))
+		// Get source and target states, if needed
+		if (targetModelState === null)
+			targetModelState = (feedbackEngine.targetEngine.executionContext.resourceModel.contents.head as Program).
+				state
+		if (sourceModel === null)
+			sourceModel = feedbackEngine.executionContext.resourceModel.contents.get(0) as CustomSystem
+
+		// If both target and source states are available, then we feedback
+		if (targetModelState !== null && sourceModel !== null) {
+			val changes = listener.getChanges(this)
+			for (change : changes) {
+				val changedObject = change.changedObject
+				// If the MiniJava State object was created, we find the args and recreate a SM queue 
+				if (change instanceof NewObjectModelChange) {
+					if (changedObject instanceof State) {
+						val argsBinding = changedObject.rootFrame.rootContext.bindings.findFirst [
+							it.symbol.name == "args"
+						]
+						val argsValues = (argsBinding.value as ArrayRefValue).instance
+						for (argsValue : argsValues.value.filter(StringValue).map[value]) {
+							val correspondingEvent = sourceModel.events.findFirst[it.name == argsValue]
+							if (correspondingEvent !== null) {
+								val occurrence = StatemachinesFactory::eINSTANCE.createEventOccurrence => [
+									event = correspondingEvent
+								]
+								sourceModel.statemachine.queue.add(occurrence)
+							}
 						}
 					}
 				}
-				FieldBinding: {
+
+				// If a field called "current" was changed in MiniJava, we change the SM current state 
+				if (changedObject instanceof FieldBinding) {
 					val fieldName = changedObject.field.name
 					if (fieldName == "current") {
-						println("Altered currentBinding")
-						println("currentBinding value: "+changedObject.value)
+						val stateRef = changedObject.value as ObjectRefValue
+						val stateType = stateRef.instance.type
+						val sourceSMState = stateType.sourceElements.
+							head as org.tetrabox.examples.statemachines.compiledstatemachines.statemachines.almostuml.State
+						sourceModel.statemachine.region.head.currentState = sourceSMState
 					}
 				}
 			}
-
-//			switch (change) {
-//				NewObjectModelChange:
-//					switch (changedObject) {
-//						SymbolBinding: {
-//							val symbolName = changedObject.symbol.name
-//							if (symbolName == "eventName") {
-//								println("Created eventName binding")
-//							}
-//						}
-//						FieldBinding: {
-//							val fieldName = changedObject.field.name
-//							if (fieldName == "current") {
-//								println("Created currentBinding")
-//							}
-//						}
-//					}
-//				FieldModelChange:
-//					switch (changedObject) {
-//						SymbolBinding: {
-//							val symbolName = changedObject.symbol.name
-//							if (symbolName == "eventName") {
-//								println("Changed eventName binding")
-//							}
-//						}
-//						FieldBinding: {
-//							val fieldName = changedObject.field.name
-//							if (fieldName == "current") {
-//								println("Changed currentBinding")
-//							}
-//						}
-//					}
 		}
-
-	// TODO detect change in "eventName" local variable -> update queue
-	// TODO detect change in "current" class member -> update current state
-	// WARNING: first value == new object ; value change == field change
 	}
 }
