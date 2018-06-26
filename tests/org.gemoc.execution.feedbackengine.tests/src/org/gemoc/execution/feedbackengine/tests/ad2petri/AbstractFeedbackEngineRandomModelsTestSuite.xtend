@@ -1,4 +1,4 @@
-package org.gemoc.execution.feedbackengine.tests
+package org.gemoc.execution.feedbackengine.tests.ad2petri
 
 import java.util.ArrayList
 import java.util.Collection
@@ -17,10 +17,15 @@ abstract class AbstractFeedbackEngineRandomModelsTestSuite {
 	public static val ad2petriModelsPlugin = "org.gemoc.activitydiagram.sequential.ad2petri.models"
 	public static val ad2petriGeneratedModelsPlugin = "org.modelexecution.activitydiagram.generator.test"
 
+	protected int sizeNumber;
+	protected String size;
+	protected String model;
+
+	abstract def void genericInternalTest(String plugin, String folder, String model)
+
 	@Parameters(name="{1}")
 	public static def Collection<Object[]> data() {
 		val amountPerSize = 1
-//val sizes = #[10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
 		val sizes = #[100]
 		val result = new ArrayList<Object[]>
 
@@ -45,10 +50,6 @@ abstract class AbstractFeedbackEngineRandomModelsTestSuite {
 		return result
 	}
 
-	protected int sizeNumber;
-	protected String size;
-	protected String model;
-
 	new(int size, String model) {
 		this.size = format(size, 3)
 		this.sizeNumber = size
@@ -59,8 +60,6 @@ abstract class AbstractFeedbackEngineRandomModelsTestSuite {
 	def void test() {
 		genericInternalTest(ad2petriGeneratedModelsPlugin, '''/models/«size»''', model)
 	}
-
-	abstract def void genericInternalTest(String string, String string2, String string3)
 
 	// @After
 	static def void cleanup() {

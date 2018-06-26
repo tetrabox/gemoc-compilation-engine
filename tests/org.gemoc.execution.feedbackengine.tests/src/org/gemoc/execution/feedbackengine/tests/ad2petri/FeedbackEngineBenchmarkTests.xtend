@@ -1,4 +1,4 @@
-package org.gemoc.execution.feedbackengine.tests
+package org.gemoc.execution.feedbackengine.tests.ad2petri
 
 import java.io.File
 import java.io.FileOutputStream

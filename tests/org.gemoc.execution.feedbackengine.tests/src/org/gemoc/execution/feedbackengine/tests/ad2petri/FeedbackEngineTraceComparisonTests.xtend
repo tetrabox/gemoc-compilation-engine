@@ -1,23 +1,20 @@
-package org.gemoc.execution.feedbackengine.tests
+package org.gemoc.execution.feedbackengine.tests.ad2petri
 
-import org.eclipse.gemoc.trace.commons.EMFCompareUtil
-import org.eclipse.gemoc.trace.commons.model.generictrace.GenericDimension
-import org.eclipse.gemoc.trace.commons.model.generictrace.ManyReferenceValue
 import java.util.Collection
 import java.util.HashSet
 import org.eclipse.emf.compare.Diff
 import org.eclipse.emf.compare.ReferenceChange
+import org.eclipse.gemoc.execution.sequential.javaengine.tests.wrapper.JavaEngineWrapper
+import org.eclipse.gemoc.executionframework.test.lib.impl.TestHelper
+import org.eclipse.gemoc.executionframework.test.lib.impl.TestModel
+import org.eclipse.gemoc.trace.commons.EMFCompareUtil
+import org.eclipse.gemoc.trace.commons.model.generictrace.GenericDimension
+import org.eclipse.gemoc.trace.commons.model.generictrace.ManyReferenceValue
 import org.gemoc.execution.feedbackengine.tests.languages.CompiledActivityDiagram
 import org.gemoc.execution.feedbackengine.tests.languages.InterpretedActivityDiagram
 import org.gemoc.execution.feedbackengine.tests.util.DynToStaticTrace
 import org.gemoc.execution.feedbackengine.tests.wrapper.FeedbackEngineWrapper
-import org.eclipse.gemoc.execution.sequential.javaengine.tests.wrapper.JavaEngineWrapper
-import org.eclipse.gemoc.executionframework.test.lib.impl.TestHelper
-import org.eclipse.gemoc.executionframework.test.lib.impl.TestModel
 import org.junit.Assert
-import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
-
 
 class FeedbackEngineTraceComparisonTests extends AbstractFeedbackEngineRandomModelsTestSuite {
 
