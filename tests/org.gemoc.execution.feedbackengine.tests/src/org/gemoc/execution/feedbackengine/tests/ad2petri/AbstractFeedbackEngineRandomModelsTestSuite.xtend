@@ -14,7 +14,6 @@ import static org.gemoc.execution.feedbackengine.tests.Util.*
 @RunWith(Parameterized)
 abstract class AbstractFeedbackEngineRandomModelsTestSuite {
 
-	public static val ad2petriModelsPlugin = "org.gemoc.activitydiagram.sequential.ad2petri.models"
 	public static val ad2petriGeneratedModelsPlugin = "org.modelexecution.activitydiagram.generator.test"
 
 	protected int sizeNumber;
