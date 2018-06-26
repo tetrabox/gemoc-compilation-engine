@@ -20,4 +20,5 @@ Require-Bundle: com.google.guava,
  org.eclipse.gemoc.executionframework.extensions.sirius,
  org.gemoc.execution.traceability.model
 Export-Package: org.gemoc.execution.feedbackengine
+Automatic-Module-Name: org.gemoc.execution.feedbackengine
 

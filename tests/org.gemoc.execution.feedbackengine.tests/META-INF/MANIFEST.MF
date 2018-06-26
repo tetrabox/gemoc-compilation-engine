@@ -19,4 +19,5 @@ Require-Bundle: org.eclipse.gemoc.executionframework.test.lib;bundle-version="1.
  org.eclipse.gemoc.execution.sequential.javaengine.tests;bundle-version="1.0.0",
  org.eclipse.gemoc.trace.commons;bundle-version="2.3.0",
  fr.inria.diverse.melange.resource;bundle-version="0.2.0"
+Automatic-Module-Name: org.gemoc.execution.feedbackengine.tests
 

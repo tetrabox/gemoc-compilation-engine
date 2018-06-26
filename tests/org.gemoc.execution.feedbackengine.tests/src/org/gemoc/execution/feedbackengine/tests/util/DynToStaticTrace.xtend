@@ -1,6 +1,7 @@
 package org.gemoc.execution.feedbackengine.tests.util
 
 import fr.inria.diverse.melange.resource.MelangeResource
+import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.gemoc.trace.commons.model.generictrace.GenericDimension
 import org.eclipse.gemoc.trace.commons.model.generictrace.GenericTracedObject
 import org.eclipse.gemoc.trace.commons.model.generictrace.ManyReferenceValue
@@ -8,7 +9,6 @@ import org.eclipse.gemoc.trace.commons.model.generictrace.SingleReferenceValue
 import org.eclipse.gemoc.trace.commons.model.trace.GenericMSE
 import org.eclipse.gemoc.trace.commons.model.trace.MSEModel
 import org.eclipse.gemoc.trace.commons.model.trace.Trace
-import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine
 
 class DynToStaticTrace {
@@ -21,10 +21,10 @@ class DynToStaticTrace {
 
 			// Replace "originalObject" refs
 			for (tracedObject : trace.tracedObjects.filter(GenericTracedObject)) {
-				if (tracedObject.originalObject != null) {
+				if (tracedObject.originalObject !== null) {
 					val obj = tracedObject.originalObject
 
-					val realObject = entrySet.findFirst[it.value == obj].key
+					val realObject = entrySet.findFirst[it.value === obj].key
 					tracedObject.originalObject = realObject
 
 				}
@@ -32,8 +32,8 @@ class DynToStaticTrace {
 
 			// Replace "SingleRef" refs
 			for (SingleReferenceValue singleRef : allTraceElements.filter(SingleReferenceValue)) {
-				val entry = entrySet.findFirst[it.value == singleRef.referenceValue]
-				if (entry != null) {
+				val entry = entrySet.findFirst[it.value === singleRef.referenceValue]
+				if (entry !== null) {
 					val realObject = entry.key
 					singleRef.referenceValue = realObject
 				}
@@ -43,8 +43,8 @@ class DynToStaticTrace {
 			for (ManyReferenceValue manyref : allTraceElements.filter(ManyReferenceValue)) {
 				val objs = manyref.referenceValues
 				for (obj : objs) {
-					val entry = entrySet.findFirst[it.value == obj]
-					if (entry != null) {
+					val entry = entrySet.findFirst[it.value === obj]
+					if (entry !== null) {
 						val realObject = entry.key
 						objs.set(objs.indexOf(obj), realObject)
 					}
@@ -65,8 +65,8 @@ class DynToStaticTrace {
 			for (GenericMSE mse : mseModelAllContent.filter(GenericMSE)) {
 				mse.actionReference = null
 				val obj = mse.callerReference
-				val entry = entrySet.findFirst[it.value == obj]
-				if (entry != null) {
+				val entry = entrySet.findFirst[it.value === obj]
+				if (entry !== null) {
 					val realObject = entry.key
 					mse.callerReference = realObject
 				}

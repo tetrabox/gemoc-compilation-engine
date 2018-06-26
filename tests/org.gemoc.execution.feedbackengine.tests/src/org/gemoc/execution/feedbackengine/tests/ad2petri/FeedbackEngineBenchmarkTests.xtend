@@ -59,7 +59,7 @@ class FeedbackEngineBenchmarkTests extends AbstractFeedbackEngineRandomModelsTes
 
 	static def List<Long> runBench(IEngineWrapper engine, ILanguageWrapper language, IExecutableModel model) {
 		val out = new ArrayList<Long>
-		for (_ : 1 .. 25) {
+		for (x : 1 .. 25) {
 			out.add(TestHelper::testWithoutExtraAddons(engine, language, model, true).executionDuration)
 			cleanup()
 		}

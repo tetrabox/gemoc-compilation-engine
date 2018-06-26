@@ -11,7 +11,6 @@ import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionPlatform
 import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionWorkspace
 import org.eclipse.gemoc.xdsmlframework.api.core.IRunConfiguration
 import org.osgi.framework.Bundle
-import java.util.List
 
 /**
  * Simpler context relying on some existing ResourceSet, which
