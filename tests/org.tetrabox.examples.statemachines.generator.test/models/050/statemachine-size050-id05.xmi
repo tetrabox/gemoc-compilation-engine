@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="ASCII"?>
+<statemachines:CustomSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:almostuml="almostuml" xmlns:statemachines="statemachines">
+  <statemachine name="statemachine_50_10">
+    <region name="uniqueregion">
+      <subvertex xsi:type="almostuml:State" name="state0"/>
+      <subvertex xsi:type="almostuml:State" name="state1"/>
+      <subvertex xsi:type="almostuml:State" name="state2"/>
+      <subvertex xsi:type="almostuml:State" name="state3"/>
+      <subvertex xsi:type="almostuml:State" name="state4"/>
+      <subvertex xsi:type="almostuml:State" name="state5"/>
+      <subvertex xsi:type="almostuml:State" name="state6"/>
+      <subvertex xsi:type="almostuml:State" name="state7"/>
+      <subvertex xsi:type="almostuml:State" name="state8"/>
+      <subvertex xsi:type="almostuml:State" name="state9"/>
+      <subvertex xsi:type="almostuml:State" name="state10"/>
+      <subvertex xsi:type="almostuml:State" name="state11"/>
+      <subvertex xsi:type="almostuml:State" name="state12"/>
+      <subvertex xsi:type="almostuml:State" name="state13"/>
+      <subvertex xsi:type="almostuml:State" name="state14"/>
+      <subvertex xsi:type="almostuml:State" name="state15"/>
+      <subvertex xsi:type="almostuml:State" name="state16"/>
+      <subvertex xsi:type="almostuml:State" name="state17"/>
+      <subvertex xsi:type="almostuml:State" name="state18"/>
+      <subvertex xsi:type="almostuml:State" name="state19"/>
+      <subvertex xsi:type="almostuml:State" name="state20"/>
+      <subvertex xsi:type="almostuml:State" name="state21"/>
+      <subvertex xsi:type="almostuml:State" name="state22"/>
+      <subvertex xsi:type="almostuml:State" name="state23"/>
+      <subvertex xsi:type="almostuml:State" name="state24"/>
+      <subvertex xsi:type="almostuml:State" name="state25"/>
+      <subvertex xsi:type="almostuml:State" name="state26"/>
+      <subvertex xsi:type="almostuml:State" name="state27"/>
+      <subvertex xsi:type="almostuml:State" name="state28"/>
+      <subvertex xsi:type="almostuml:State" name="state29"/>
+      <subvertex xsi:type="almostuml:State" name="state30"/>
+      <subvertex xsi:type="almostuml:State" name="state31"/>
+      <subvertex xsi:type="almostuml:State" name="state32"/>
+      <subvertex xsi:type="almostuml:State" name="state33"/>
+      <subvertex xsi:type="almostuml:State" name="state34"/>
+      <subvertex xsi:type="almostuml:State" name="state35"/>
+      <subvertex xsi:type="almostuml:State" name="state36"/>
+      <subvertex xsi:type="almostuml:State" name="state37"/>
+      <subvertex xsi:type="almostuml:State" name="state38"/>
+      <subvertex xsi:type="almostuml:State" name="state39"/>
+      <subvertex xsi:type="almostuml:State" name="state40"/>
+      <subvertex xsi:type="almostuml:State" name="state41"/>
+      <subvertex xsi:type="almostuml:State" name="state42"/>
+      <subvertex xsi:type="almostuml:State" name="state43"/>
+      <subvertex xsi:type="almostuml:State" name="state44"/>
+      <subvertex xsi:type="almostuml:State" name="state45"/>
+      <subvertex xsi:type="almostuml:State" name="state46"/>
+      <subvertex xsi:type="almostuml:State" name="state47"/>
+      <subvertex xsi:type="almostuml:State" name="state48"/>
+      <subvertex xsi:type="almostuml:State" name="state49"/>
+      <subvertex xsi:type="almostuml:State" name="state50"/>
+      <subvertex xsi:type="almostuml:Pseudostate" name="initial"/>
+      <subvertex xsi:type="almostuml:FinalState" name="final"/>
+      <transition name="state34_to_state25" source="//@statemachine/@region.0/@subvertex.34" target="//@statemachine/@region.0/@subvertex.25">
+        <trigger name="trigger_state34_event4" event="//@events.4"/>
+      </transition>
+      <transition name="state44_to_state34" source="//@statemachine/@region.0/@subvertex.44" target="//@statemachine/@region.0/@subvertex.34">
+        <trigger name="trigger_state44_event3" event="//@events.3"/>
+      </transition>
+      <transition name="state43_to_state44" source="//@statemachine/@region.0/@subvertex.43" target="//@statemachine/@region.0/@subvertex.44">
+        <trigger name="trigger_state43_event3" event="//@events.3"/>
+      </transition>
+      <transition name="state6_to_state43" source="//@statemachine/@region.0/@subvertex.6" target="//@statemachine/@region.0/@subvertex.43">
+        <trigger name="trigger_state6_event1" event="//@events.1"/>
+      </transition>
+      <transition name="state24_to_state6" source="//@statemachine/@region.0/@subvertex.24" target="//@statemachine/@region.0/@subvertex.6">
+        <trigger name="trigger_state24_event3" event="//@events.3"/>
+      </transition>
+      <transition name="state13_to_state24" source="//@statemachine/@region.0/@subvertex.13" target="//@statemachine/@region.0/@subvertex.24">
+        <trigger name="trigger_state13_event9" event="//@events.9"/>
+      </transition>
+      <transition name="state10_to_state13" source="//@statemachine/@region.0/@subvertex.10" target="//@statemachine/@region.0/@subvertex.13">
+        <trigger name="trigger_state10_event9" event="//@events.9"/>
+      </transition>
+      <transition name="state27_to_state10" source="//@statemachine/@region.0/@subvertex.27" target="//@statemachine/@region.0/@subvertex.10">
+        <trigger name="trigger_state27_event3" event="//@events.3"/>
+      </transition>
+      <transition name="state36_to_state27" source="//@statemachine/@region.0/@subvertex.36" target="//@statemachine/@region.0/@subvertex.27">
+        <trigger name="trigger_state36_event2" event="//@events.2"/>
+      </transition>
+      <transition name="state0_to_state36" source="//@statemachine/@region.0/@subvertex.0" target="//@statemachine/@region.0/@subvertex.36">
+        <trigger name="trigger_state0_event10" event="//@events.10"/>
+      </transition>
+      <transition name="state15_to_state0" source="//@statemachine/@region.0/@subvertex.15" target="//@statemachine/@region.0/@subvertex.0">
+        <trigger name="trigger_state15_event2" event="//@events.2"/>
+      </transition>
+      <transition name="state37_to_state15" source="//@statemachine/@region.0/@subvertex.37" target="//@statemachine/@region.0/@subvertex.15">
+        <trigger name="trigger_state37_event3" event="//@events.3"/>
+      </transition>
+      <transition name="state31_to_state37" source="//@statemachine/@region.0/@subvertex.31" target="//@statemachine/@region.0/@subvertex.37">
+        <trigger name="trigger_state31_event0" event="//@events.0"/>
+      </transition>
+      <transition name="state47_to_state31" source="//@statemachine/@region.0/@subvertex.47" target="//@statemachine/@region.0/@subvertex.31">
+        <trigger name="trigger_state47_event4" event="//@events.4"/>
+      </transition>
+      <transition name="state45_to_state47" source="//@statemachine/@region.0/@subvertex.45" target="//@statemachine/@region.0/@subvertex.47">
+        <trigger name="trigger_state45_event4" event="//@events.4"/>
+      </transition>
+      <transition name="state18_to_state45" source="//@statemachine/@region.0/@subvertex.18" target="//@statemachine/@region.0/@subvertex.45">
+        <trigger name="trigger_state18_event5" event="//@events.5"/>
+      </transition>
+      <transition name="state8_to_state18" source="//@statemachine/@region.0/@subvertex.8" target="//@statemachine/@region.0/@subvertex.18">
+        <trigger name="trigger_state8_event10" event="//@events.10"/>
+      </transition>
+      <transition name="state4_to_state8" source="//@statemachine/@region.0/@subvertex.4" target="//@statemachine/@region.0/@subvertex.8">
+        <trigger name="trigger_state4_event4" event="//@events.4"/>
+      </transition>
+      <transition name="state38_to_state4" source="//@statemachine/@region.0/@subvertex.38" target="//@statemachine/@region.0/@subvertex.4">
+        <trigger name="trigger_state38_event4" event="//@events.4"/>
+      </transition>
+      <transition name="initial_to_state38" source="//@statemachine/@region.0/@subvertex.51" target="//@statemachine/@region.0/@subvertex.38">
+        <trigger name="trigger_initial_event8" event="//@events.8"/>
+      </transition>
+      <transition name="state25_to_state45" source="//@statemachine/@region.0/@subvertex.25" target="//@statemachine/@region.0/@subvertex.45">
+        <trigger name="trigger_state25_event4" event="//@events.4"/>
+      </transition>
+      <transition name="state45_to_state29" source="//@statemachine/@region.0/@subvertex.45" target="//@statemachine/@region.0/@subvertex.29">
+        <trigger name="trigger_state45_event9" event="//@events.9"/>
+      </transition>
+      <transition name="state29_to_state32" source="//@statemachine/@region.0/@subvertex.29" target="//@statemachine/@region.0/@subvertex.32">
+        <trigger name="trigger_state29_event6" event="//@events.6"/>
+      </transition>
+      <transition name="state32_to_state16" source="//@statemachine/@region.0/@subvertex.32" target="//@statemachine/@region.0/@subvertex.16">
+        <trigger name="trigger_state32_event0" event="//@events.0"/>
+      </transition>
+      <transition name="state16_to_state25" source="//@statemachine/@region.0/@subvertex.16" target="//@statemachine/@region.0/@subvertex.25">
+        <trigger name="trigger_state16_event1" event="//@events.1"/>
+      </transition>
+      <transition name="state25_to_state37" source="//@statemachine/@region.0/@subvertex.25" target="//@statemachine/@region.0/@subvertex.37">
+        <trigger name="trigger_state25_event3" event="//@events.3"/>
+      </transition>
+      <transition name="state37_to_state50" source="//@statemachine/@region.0/@subvertex.37" target="//@statemachine/@region.0/@subvertex.50">
+        <trigger name="trigger_state37_event2" event="//@events.2"/>
+      </transition>
+      <transition name="state50_to_state33" source="//@statemachine/@region.0/@subvertex.50" target="//@statemachine/@region.0/@subvertex.33">
+        <trigger name="trigger_state50_event6" event="//@events.6"/>
+      </transition>
+      <transition name="state33_to_state8" source="//@statemachine/@region.0/@subvertex.33" target="//@statemachine/@region.0/@subvertex.8">
+        <trigger name="trigger_state33_event4" event="//@events.4"/>
+      </transition>
+      <transition name="state8_to_state13" source="//@statemachine/@region.0/@subvertex.8" target="//@statemachine/@region.0/@subvertex.13">
+        <trigger name="trigger_state8_event4" event="//@events.4"/>
+      </transition>
+      <transition name="state13_to_state35" source="//@statemachine/@region.0/@subvertex.13" target="//@statemachine/@region.0/@subvertex.35">
+        <trigger name="trigger_state13_event0" event="//@events.0"/>
+      </transition>
+      <transition name="state35_to_state4" source="//@statemachine/@region.0/@subvertex.35" target="//@statemachine/@region.0/@subvertex.4">
+        <trigger name="trigger_state35_event7" event="//@events.7"/>
+      </transition>
+      <transition name="state4_to_state6" source="//@statemachine/@region.0/@subvertex.4" target="//@statemachine/@region.0/@subvertex.6">
+        <trigger name="trigger_state4_event10" event="//@events.10"/>
+      </transition>
+      <transition name="state6_to_state27" source="//@statemachine/@region.0/@subvertex.6" target="//@statemachine/@region.0/@subvertex.27">
+        <trigger name="trigger_state6_event3" event="//@events.3"/>
+      </transition>
+      <transition name="state27_to_state5" source="//@statemachine/@region.0/@subvertex.27" target="//@statemachine/@region.0/@subvertex.5">
+        <trigger name="trigger_state27_event1" event="//@events.1"/>
+      </transition>
+      <transition name="state5_to_state10" source="//@statemachine/@region.0/@subvertex.5" target="//@statemachine/@region.0/@subvertex.10">
+        <trigger name="trigger_state5_event3" event="//@events.3"/>
+      </transition>
+      <transition name="state10_to_state34" source="//@statemachine/@region.0/@subvertex.10" target="//@statemachine/@region.0/@subvertex.34">
+        <trigger name="trigger_state10_event8" event="//@events.8"/>
+      </transition>
+      <transition name="state34_to_state2" source="//@statemachine/@region.0/@subvertex.34" target="//@statemachine/@region.0/@subvertex.2">
+        <trigger name="trigger_state34_event2" event="//@events.2"/>
+      </transition>
+      <transition name="state2_to_state21" source="//@statemachine/@region.0/@subvertex.2" target="//@statemachine/@region.0/@subvertex.21">
+        <trigger name="trigger_state2_event4" event="//@events.4"/>
+      </transition>
+      <transition name="state21_to_state28" source="//@statemachine/@region.0/@subvertex.21" target="//@statemachine/@region.0/@subvertex.28">
+        <trigger name="trigger_state21_event4" event="//@events.4"/>
+      </transition>
+      <transition name="state28_to_state17" source="//@statemachine/@region.0/@subvertex.28" target="//@statemachine/@region.0/@subvertex.17">
+        <trigger name="trigger_state28_event5" event="//@events.5"/>
+      </transition>
+      <transition name="state17_to_state1" source="//@statemachine/@region.0/@subvertex.17" target="//@statemachine/@region.0/@subvertex.1">
+        <trigger name="trigger_state17_event7" event="//@events.7"/>
+      </transition>
+      <transition name="state1_to_state36" source="//@statemachine/@region.0/@subvertex.1" target="//@statemachine/@region.0/@subvertex.36">
+        <trigger name="trigger_state1_event9" event="//@events.9"/>
+      </transition>
+      <transition name="state36_to_state15" source="//@statemachine/@region.0/@subvertex.36" target="//@statemachine/@region.0/@subvertex.15">
+        <trigger name="trigger_state36_event4" event="//@events.4"/>
+      </transition>
+      <transition name="state15_to_state20" source="//@statemachine/@region.0/@subvertex.15" target="//@statemachine/@region.0/@subvertex.20">
+        <trigger name="trigger_state15_event8" event="//@events.8"/>
+      </transition>
+      <transition name="state20_to_state48" source="//@statemachine/@region.0/@subvertex.20" target="//@statemachine/@region.0/@subvertex.48">
+        <trigger name="trigger_state20_event8" event="//@events.8"/>
+      </transition>
+      <transition name="state48_to_state47" source="//@statemachine/@region.0/@subvertex.48" target="//@statemachine/@region.0/@subvertex.47">
+        <trigger name="trigger_state48_event5" event="//@events.5"/>
+      </transition>
+      <transition name="state47_to_state12" source="//@statemachine/@region.0/@subvertex.47" target="//@statemachine/@region.0/@subvertex.12">
+        <trigger name="trigger_state47_event9" event="//@events.9"/>
+      </transition>
+      <transition name="state12_to_state18" source="//@statemachine/@region.0/@subvertex.12" target="//@statemachine/@region.0/@subvertex.18">
+        <trigger name="trigger_state12_event1" event="//@events.1"/>
+      </transition>
+      <transition name="state18_to_state44" source="//@statemachine/@region.0/@subvertex.18" target="//@statemachine/@region.0/@subvertex.44">
+        <trigger name="trigger_state18_event6" event="//@events.6"/>
+      </transition>
+      <transition name="state44_to_state40" source="//@statemachine/@region.0/@subvertex.44" target="//@statemachine/@region.0/@subvertex.40">
+        <trigger name="trigger_state44_event7" event="//@events.7"/>
+      </transition>
+      <transition name="state40_to_state9" source="//@statemachine/@region.0/@subvertex.40" target="//@statemachine/@region.0/@subvertex.9">
+        <trigger name="trigger_state40_event6" event="//@events.6"/>
+      </transition>
+      <transition name="state9_to_state30" source="//@statemachine/@region.0/@subvertex.9" target="//@statemachine/@region.0/@subvertex.30">
+        <trigger name="trigger_state9_event2" event="//@events.2"/>
+      </transition>
+      <transition name="state30_to_state46" source="//@statemachine/@region.0/@subvertex.30" target="//@statemachine/@region.0/@subvertex.46">
+        <trigger name="trigger_state30_event8" event="//@events.8"/>
+      </transition>
+      <transition name="state46_to_state42" source="//@statemachine/@region.0/@subvertex.46" target="//@statemachine/@region.0/@subvertex.42">
+        <trigger name="trigger_state46_event4" event="//@events.4"/>
+      </transition>
+      <transition name="state42_to_state22" source="//@statemachine/@region.0/@subvertex.42" target="//@statemachine/@region.0/@subvertex.22">
+        <trigger name="trigger_state42_event6" event="//@events.6"/>
+      </transition>
+      <transition name="state22_to_state3" source="//@statemachine/@region.0/@subvertex.22" target="//@statemachine/@region.0/@subvertex.3">
+        <trigger name="trigger_state22_event6" event="//@events.6"/>
+      </transition>
+      <transition name="state3_to_state43" source="//@statemachine/@region.0/@subvertex.3" target="//@statemachine/@region.0/@subvertex.43">
+        <trigger name="trigger_state3_event10" event="//@events.10"/>
+      </transition>
+      <transition name="state43_to_state39" source="//@statemachine/@region.0/@subvertex.43" target="//@statemachine/@region.0/@subvertex.39">
+        <trigger name="trigger_state43_event7" event="//@events.7"/>
+      </transition>
+      <transition name="state39_to_state7" source="//@statemachine/@region.0/@subvertex.39" target="//@statemachine/@region.0/@subvertex.7">
+        <trigger name="trigger_state39_event7" event="//@events.7"/>
+      </transition>
+      <transition name="state7_to_state49" source="//@statemachine/@region.0/@subvertex.7" target="//@statemachine/@region.0/@subvertex.49">
+        <trigger name="trigger_state7_event10" event="//@events.10"/>
+      </transition>
+      <transition name="state49_to_state23" source="//@statemachine/@region.0/@subvertex.49" target="//@statemachine/@region.0/@subvertex.23">
+        <trigger name="trigger_state49_event10" event="//@events.10"/>
+      </transition>
+      <transition name="state23_to_state38" source="//@statemachine/@region.0/@subvertex.23" target="//@statemachine/@region.0/@subvertex.38">
+        <trigger name="trigger_state23_event9" event="//@events.9"/>
+      </transition>
+      <transition name="state38_to_state31" source="//@statemachine/@region.0/@subvertex.38" target="//@statemachine/@region.0/@subvertex.31">
+        <trigger name="trigger_state38_event2" event="//@events.2"/>
+      </transition>
+      <transition name="state31_to_state11" source="//@statemachine/@region.0/@subvertex.31" target="//@statemachine/@region.0/@subvertex.11">
+        <trigger name="trigger_state31_event7" event="//@events.7"/>
+      </transition>
+      <transition name="state11_to_state19" source="//@statemachine/@region.0/@subvertex.11" target="//@statemachine/@region.0/@subvertex.19">
+        <trigger name="trigger_state11_event4" event="//@events.4"/>
+      </transition>
+      <transition name="state19_to_state41" source="//@statemachine/@region.0/@subvertex.19" target="//@statemachine/@region.0/@subvertex.41">
+        <trigger name="trigger_state19_event0" event="//@events.0"/>
+      </transition>
+      <transition name="state41_to_state14" source="//@statemachine/@region.0/@subvertex.41" target="//@statemachine/@region.0/@subvertex.14">
+        <trigger name="trigger_state41_event8" event="//@events.8"/>
+      </transition>
+      <transition name="state14_to_state0" source="//@statemachine/@region.0/@subvertex.14" target="//@statemachine/@region.0/@subvertex.0">
+        <trigger name="trigger_state14_event2" event="//@events.2"/>
+      </transition>
+      <transition name="state0_to_state26" source="//@statemachine/@region.0/@subvertex.0" target="//@statemachine/@region.0/@subvertex.26">
+        <trigger name="trigger_state0_event6" event="//@events.6"/>
+      </transition>
+      <transition name="state26_to_state24" source="//@statemachine/@region.0/@subvertex.26" target="//@statemachine/@region.0/@subvertex.24">
+        <trigger name="trigger_state26_event5" event="//@events.5"/>
+      </transition>
+      <transition name="state24_to_final" source="//@statemachine/@region.0/@subvertex.24" target="//@statemachine/@region.0/@subvertex.52">
+        <trigger name="trigger_state24_event6" event="//@events.6"/>
+      </transition>
+      <transition name="state40_to_state2" source="//@statemachine/@region.0/@subvertex.40" target="//@statemachine/@region.0/@subvertex.2">
+        <trigger name="trigger_state40_event4" event="//@events.4"/>
+      </transition>
+      <transition name="state15_to_state40" source="//@statemachine/@region.0/@subvertex.15" target="//@statemachine/@region.0/@subvertex.40">
+        <trigger name="trigger_state15_event0" event="//@events.0"/>
+      </transition>
+      <transition name="state4_to_state22" source="//@statemachine/@region.0/@subvertex.4" target="//@statemachine/@region.0/@subvertex.22">
+        <trigger name="trigger_state4_event2" event="//@events.2"/>
+      </transition>
+      <transition name="state50_to_state21" source="//@statemachine/@region.0/@subvertex.50" target="//@statemachine/@region.0/@subvertex.21">
+        <trigger name="trigger_state50_event4" event="//@events.4"/>
+      </transition>
+      <transition name="state44_to_state50" source="//@statemachine/@region.0/@subvertex.44" target="//@statemachine/@region.0/@subvertex.50">
+        <trigger name="trigger_state44_event1" event="//@events.1"/>
+      </transition>
+      <transition name="state38_to_state41" source="//@statemachine/@region.0/@subvertex.38" target="//@statemachine/@region.0/@subvertex.41">
+        <trigger name="trigger_state38_event7" event="//@events.7"/>
+      </transition>
+      <transition name="state24_to_state28" source="//@statemachine/@region.0/@subvertex.24" target="//@statemachine/@region.0/@subvertex.28">
+        <trigger name="trigger_state24_event9" event="//@events.9"/>
+      </transition>
+      <transition name="state43_to_state32" source="//@statemachine/@region.0/@subvertex.43" target="//@statemachine/@region.0/@subvertex.32">
+        <trigger name="trigger_state43_event9" event="//@events.9"/>
+      </transition>
+      <transition name="state42_to_state16" source="//@statemachine/@region.0/@subvertex.42" target="//@statemachine/@region.0/@subvertex.16">
+        <trigger name="trigger_state42_event4" event="//@events.4"/>
+      </transition>
+      <transition name="state49_to_state42" source="//@statemachine/@region.0/@subvertex.49" target="//@statemachine/@region.0/@subvertex.42">
+        <trigger name="trigger_state49_event8" event="//@events.8"/>
+      </transition>
+      <transition name="state41_to_state49" source="//@statemachine/@region.0/@subvertex.41" target="//@statemachine/@region.0/@subvertex.49">
+        <trigger name="trigger_state41_event9" event="//@events.9"/>
+      </transition>
+      <transition name="state37_to_state1" source="//@statemachine/@region.0/@subvertex.37" target="//@statemachine/@region.0/@subvertex.1">
+        <trigger name="trigger_state37_event9" event="//@events.9"/>
+      </transition>
+      <transition name="state27_to_state19" source="//@statemachine/@region.0/@subvertex.27" target="//@statemachine/@region.0/@subvertex.19">
+        <trigger name="trigger_state27_event5" event="//@events.5"/>
+      </transition>
+      <transition name="state5_to_state35" source="//@statemachine/@region.0/@subvertex.5" target="//@statemachine/@region.0/@subvertex.35">
+        <trigger name="trigger_state5_event6" event="//@events.6"/>
+      </transition>
+      <transition name="state4_to_state5" source="//@statemachine/@region.0/@subvertex.4" target="//@statemachine/@region.0/@subvertex.5">
+        <trigger name="trigger_state4_event0" event="//@events.0"/>
+      </transition>
+      <transition name="state26_to_state20" source="//@statemachine/@region.0/@subvertex.26" target="//@statemachine/@region.0/@subvertex.20">
+        <trigger name="trigger_state26_event2" event="//@events.2"/>
+      </transition>
+      <transition name="state9_to_state26" source="//@statemachine/@region.0/@subvertex.9" target="//@statemachine/@region.0/@subvertex.26">
+        <trigger name="trigger_state9_event0" event="//@events.0"/>
+      </transition>
+      <transition name="state4_to_state9" source="//@statemachine/@region.0/@subvertex.4" target="//@statemachine/@region.0/@subvertex.9">
+        <trigger name="trigger_state4_event6" event="//@events.6"/>
+      </transition>
+      <transition name="state37_to_state17" source="//@statemachine/@region.0/@subvertex.37" target="//@statemachine/@region.0/@subvertex.17">
+        <trigger name="trigger_state37_event1" event="//@events.1"/>
+      </transition>
+      <transition name="state21_to_state29" source="//@statemachine/@region.0/@subvertex.21" target="//@statemachine/@region.0/@subvertex.29">
+        <trigger name="trigger_state21_event8" event="//@events.8"/>
+      </transition>
+      <transition name="state7_to_state14" source="//@statemachine/@region.0/@subvertex.7" target="//@statemachine/@region.0/@subvertex.14">
+        <trigger name="trigger_state7_event7" event="//@events.7"/>
+      </transition>
+      <transition name="state23_to_state7" source="//@statemachine/@region.0/@subvertex.23" target="//@statemachine/@region.0/@subvertex.7">
+        <trigger name="trigger_state23_event0" event="//@events.0"/>
+      </transition>
+      <transition name="state5_to_state23" source="//@statemachine/@region.0/@subvertex.5" target="//@statemachine/@region.0/@subvertex.23">
+        <trigger name="trigger_state5_event1" event="//@events.1"/>
+      </transition>
+      <transition name="state10_to_state30" source="//@statemachine/@region.0/@subvertex.10" target="//@statemachine/@region.0/@subvertex.30">
+        <trigger name="trigger_state10_event2" event="//@events.2"/>
+      </transition>
+      <transition name="state35_to_state48" source="//@statemachine/@region.0/@subvertex.35" target="//@statemachine/@region.0/@subvertex.48">
+        <trigger name="trigger_state35_event5" event="//@events.5"/>
+      </transition>
+      <transition name="state24_to_state11" source="//@statemachine/@region.0/@subvertex.24" target="//@statemachine/@region.0/@subvertex.11">
+        <trigger name="trigger_state24_event7" event="//@events.7"/>
+      </transition>
+      <transition name="initial_to_state3" source="//@statemachine/@region.0/@subvertex.51" target="//@statemachine/@region.0/@subvertex.3">
+        <trigger name="trigger_initial_event2" event="//@events.2"/>
+      </transition>
+      <transition name="state24_to_state12" source="//@statemachine/@region.0/@subvertex.24" target="//@statemachine/@region.0/@subvertex.12">
+        <trigger name="trigger_state24_event10" event="//@events.10"/>
+      </transition>
+      <transition name="state6_to_state33" source="//@statemachine/@region.0/@subvertex.6" target="//@statemachine/@region.0/@subvertex.33">
+        <trigger name="trigger_state6_event10" event="//@events.10"/>
+      </transition>
+      <transition name="state3_to_state39" source="//@statemachine/@region.0/@subvertex.3" target="//@statemachine/@region.0/@subvertex.39">
+        <trigger name="trigger_state3_event6" event="//@events.6"/>
+      </transition>
+      <transition name="state0_to_state46" source="//@statemachine/@region.0/@subvertex.0" target="//@statemachine/@region.0/@subvertex.46">
+        <trigger name="trigger_state0_event5" event="//@events.5"/>
+      </transition>
+    </region>
+  </statemachine>
+  <events name="event0"/>
+  <events name="event1"/>
+  <events name="event2"/>
+  <events name="event3"/>
+  <events name="event4"/>
+  <events name="event5"/>
+  <events name="event6"/>
+  <events name="event7"/>
+  <events name="event8"/>
+  <events name="event9"/>
+  <events name="event10"/>
+</statemachines:CustomSystem>
