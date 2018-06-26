@@ -1,17 +1,21 @@
 package org.gemoc.execution.feedbackengine.tests.sm2java
 
+import java.io.BufferedReader
 import java.io.File
 import java.io.FileOutputStream
+import java.io.InputStreamReader
 import java.io.PrintWriter
 import java.text.SimpleDateFormat
 import java.util.ArrayList
 import java.util.Calendar
 import java.util.List
+import java.util.stream.Collectors
 import org.eclipse.gemoc.executionframework.test.lib.IEngineWrapper
 import org.eclipse.gemoc.executionframework.test.lib.IExecutableModel
 import org.eclipse.gemoc.executionframework.test.lib.ILanguageWrapper
 import org.eclipse.gemoc.executionframework.test.lib.impl.TestHelper
 import org.eclipse.gemoc.executionframework.test.lib.impl.TestModel
+import org.eclipse.gemoc.executionframework.test.lib.impl.TestUtil
 import org.gemoc.execution.feedbackengine.tests.languages.CompiledStateMachines
 import org.gemoc.execution.feedbackengine.tests.util.CSVLine
 import org.gemoc.execution.feedbackengine.tests.wrapper.FeedbackEngineWrapper
@@ -51,8 +55,8 @@ class FeedbackEngineSm2JavaBenchmarkTests extends AbstractSm2JavaFeedbackEngineR
 		outputCSVWriter.close
 	}
 
-	new(int size, String model) {
-		super(size, model)
+	new(int size, String model, int scenarioID) {
+		super(size, model, scenarioID)
 	}
 
 	static def List<Long> runBench(IEngineWrapper engine, ILanguageWrapper language, IExecutableModel model) {
@@ -66,11 +70,20 @@ class FeedbackEngineSm2JavaBenchmarkTests extends AbstractSm2JavaFeedbackEngineR
 	}
 
 	def long testGeneric(String name, IEngineWrapper engine, ILanguageWrapper language, String plugin, String folder,
-		String model) {
+		String model, int scenarioID) {
 
-		val numbers = runBench(engine, language, new TestModel(plugin, folder, model, "", null))
+		// Copy model to execute in WS
+		val path = model.replace(".xmi", "_scenarios.txt")
+		val scenarioStream = TestUtil::openFileFromPlugin(plugin, folder + "/" + path)
 
-		println(name + " - " + model + ":")
+		val List<String> allScenarios = new BufferedReader(new InputStreamReader(scenarioStream)).lines().collect(
+			Collectors.toList());
+		scenarioStream.close
+		val String scenario = allScenarios.get(scenarioID).replaceAll(",", "\n")
+
+		val numbers = runBench(engine, language, new TestModel(plugin, folder, model, scenario, null))
+
+		println('''«name» - «model» - scenario «scenarioID» :''')
 		println("- numbers: " + numbers)
 		// println("- mean: " + mean(numbers))
 		println("- median: " + median(numbers))
@@ -78,30 +91,30 @@ class FeedbackEngineSm2JavaBenchmarkTests extends AbstractSm2JavaFeedbackEngineR
 		return median(numbers)
 	}
 
-	def long testCompiled(String plugin, String folder, String model) {
+	def long testCompiled(String plugin, String folder, String model, int scenarioID) {
 		val compiledEngine = new FeedbackEngineWrapper()
-		return testGeneric("compiled", compiledEngine, new CompiledStateMachines, plugin, folder, model)
+		return testGeneric("compiled", compiledEngine, new CompiledStateMachines, plugin, folder, model, scenarioID)
 	}
 
 //	def long testInterpreted(String plugin, String folder, String model) {
 //		val interpretedEngine = new JavaEngineWrapper()
 //		return testGeneric("interpreted", interpretedEngine, new InterpretedStateMachines, plugin, folder, model)
 //	}
-
-	def long testNoFeedback(String plugin, String folder, String model) {
+	def long testNoFeedback(String plugin, String folder, String model, int scenarioID) {
 		val noFeedback = new FeedbackEngineWrapper(true)
-		return testGeneric("noFeedback", noFeedback, new CompiledStateMachines, plugin, folder, model)
+		return testGeneric("noFeedback", noFeedback, new CompiledStateMachines, plugin, folder, model, scenarioID)
 	}
 
-	override genericInternalTest(String plugin, String folder, String model) {
+	override genericInternalTest(String plugin, String folder, String model, int scenarioID) {
 		val line = new CSVLine
 
 		line.modelName = model
 		line.modelSize = sizeNumber
+		line.scenarioID = scenarioID
 
-		line.timeCompiledNoFeedback = testNoFeedback(plugin, folder, model)
+		line.timeCompiledNoFeedback = testNoFeedback(plugin, folder, model, scenarioID)
 //		line.timeInterpreted = testInterpreted(plugin, folder, model)
-		line.timeCompiled = testCompiled(plugin, folder, model)
+		line.timeCompiled = testCompiled(plugin, folder, model, scenarioID)
 
 		outputCSVWriter.println(line.customToString)
 

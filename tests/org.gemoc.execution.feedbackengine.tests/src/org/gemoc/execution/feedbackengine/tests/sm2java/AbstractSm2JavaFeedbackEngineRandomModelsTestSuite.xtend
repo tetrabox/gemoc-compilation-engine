@@ -14,51 +14,53 @@ import static org.gemoc.execution.feedbackengine.tests.Util.*
 @RunWith(Parameterized)
 abstract class AbstractSm2JavaFeedbackEngineRandomModelsTestSuite {
 
-	public static val sm2javaModelsPlugin = "org.tetrabox.examples.statemachines.models"
+	public static val sm2javaModelsPlugin = "org.tetrabox.examples.statemachines.generator.test"
 
 	protected int sizeNumber;
 	protected String size;
-	protected String model;
+	protected String modelFileName;
+	protected int scenarioID;
 
-	abstract def void genericInternalTest(String plugin, String folder, String model)
+	abstract def void genericInternalTest(String plugin, String folder, String model, int scenarioID)
 
-	@Parameters(name="{1}")
+	new(int size, String modelFileName, int scenarioID) {
+		this.size = format(size, 3)
+		this.sizeNumber = size
+		this.modelFileName = modelFileName
+		this.scenarioID = scenarioID
+	}
+
+	@Parameters(name="{1} - scenario {2}")
 	public static def Collection<Object[]> data() {
-		val amountPerSize = 3
+		val amountPerSize = 11
+		val nbScenarios = 10
 		val sizes = #[100]
 		val result = new ArrayList<Object[]>
 
 		var first = true
 
 		for (size : sizes) {
-			val names = (1 .. amountPerSize).map [
-				//'''sm-size«format(size,3)»-id«format(it,2)».xmi'''
-				'''test«it».xmi'''
+			val names = (0 .. amountPerSize - 1).map [
+				'''statemachine-size«format(size,3)»-id«format(it,2)».xmi'''
 			]
 			for (name : names) {
-				result.add(#[size, name])
-				// TODO we put the first one first, since it will give terrible results the first time 
-				if (first) {
-					result.add(#[size, name])
-					first = false
+				for (scenarioID : 0 .. nbScenarios - 1) {
+					result.add(#[size, name, scenarioID])
+					// TODO we put the first one twice, since it will give terrible results the first time 
+					if (first) {
+						result.add(#[size, name, scenarioID])
+						first = false
+					}
+
 				}
-
 			}
-
 		}
 		return result
 	}
 
-	new(int size, String model) {
-		this.size = format(size, 3)
-		this.sizeNumber = size
-		this.model = model
-	}
-
 	@Test
 	def void test() {
-		//genericInternalTest(sm2javaModelsPlugin, '''/models/«size»''', model)
-		genericInternalTest(sm2javaModelsPlugin, '''/models''', model)
+		genericInternalTest(sm2javaModelsPlugin, '''/models/«size»''', modelFileName, scenarioID)
 	}
 
 	// @After
