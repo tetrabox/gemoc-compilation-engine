@@ -1,12 +1,17 @@
 package org.tetrabox.examples.statemachines.generator
 
+import java.util.ArrayList
 import java.util.Collection
+import java.util.Collections
 import java.util.HashSet
+import java.util.Iterator
+import java.util.List
 import java.util.Random
 import java.util.Set
 import statemachines.CustomSystem
 import statemachines.StatemachinesFactory
 import statemachines.almostuml.AlmostumlFactory
+import statemachines.almostuml.Event
 import statemachines.almostuml.FinalState
 import statemachines.almostuml.Pseudostate
 import statemachines.almostuml.PseudostateKind
@@ -17,9 +22,9 @@ class StateMachinesGenerator {
 
 	static val factory1 = StatemachinesFactory.eINSTANCE
 	static val factory2 = AlmostumlFactory.eINSTANCE
-	static val random = new Random
+	private static val random = new Random
 
-	protected def static <T> T randomPoll(Collection<T> collection) {
+	private def static <T> T randomPoll(Collection<T> collection) {
 		val index = random.nextInt(collection.size)
 		return collection.get(index)
 	}
@@ -96,15 +101,33 @@ class StateMachinesGenerator {
 		return system
 	}
 
+	public def generateScenario(CustomSystem system) {
+//		// Generate scenarios
+//		for (int i : 0..nbScenarios) {
+		val List<Event> scenario = new ArrayList
+		var State current = system.statemachine.region.head.subvertex.filter(Pseudostate).get(0)
+		var State final = system.statemachine.region.head.subvertex.filter(FinalState).get(0)
+		while (current != final) {
+			val transition = current.outTransitions.randomPoll
+			scenario.add(transition.trigger.head.event)
+			current = transition.target as State
+		}
+		return scenario
+//		}
+	}
+
 	protected def void reverseConnectToInit(Set<State> connectedToInit, Set<State> allButFinalStates, State initial,
 		State state) {
 		val visitedStates = new HashSet<State>
 		var State currentToInit = state
+		val shuffled = allButFinalStates.toList
+		Collections::shuffle(shuffled)
+		val Iterator<State> i = shuffled.iterator
 		while (currentToInit != initial && !connectedToInit.contains(currentToInit)) {
 			val currentToInit_final = currentToInit
 			visitedStates.add(currentToInit)
 
-			val randomState = allButFinalStates.randomPoll
+			val randomState = i.next
 			val region = currentToInit_final.container
 			val system = region.stateMachine.eContainer as CustomSystem
 
@@ -140,11 +163,14 @@ class StateMachinesGenerator {
 	protected def void connectToFinal(Set<State> connectedToFinal, Set<State> allButInitialStates, State finl,
 		State state) {
 		val visitedStates = new HashSet<State>
+		val shuffled = allButInitialStates.toList
+		Collections::shuffle(shuffled)
+		val Iterator<State> i = shuffled.iterator
 		var State currentToFinal = state
 		while (currentToFinal != finl && !connectedToFinal.contains(currentToFinal)) {
 			val currentToFinal_final = currentToFinal
 			visitedStates.add(currentToFinal)
-			val randomState = allButInitialStates.randomPoll
+			val randomState = i.next
 			val region = currentToFinal_final.container
 			val system = region.stateMachine.eContainer as CustomSystem
 
