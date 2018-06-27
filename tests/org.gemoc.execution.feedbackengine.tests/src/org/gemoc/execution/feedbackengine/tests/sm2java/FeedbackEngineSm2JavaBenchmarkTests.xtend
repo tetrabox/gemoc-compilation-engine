@@ -10,6 +10,7 @@ import java.util.ArrayList
 import java.util.Calendar
 import java.util.List
 import java.util.stream.Collectors
+import org.eclipse.gemoc.execution.sequential.javaengine.tests.wrapper.JavaEngineWrapper
 import org.eclipse.gemoc.executionframework.test.lib.IEngineWrapper
 import org.eclipse.gemoc.executionframework.test.lib.IExecutableModel
 import org.eclipse.gemoc.executionframework.test.lib.ILanguageWrapper
@@ -17,6 +18,7 @@ import org.eclipse.gemoc.executionframework.test.lib.impl.TestHelper
 import org.eclipse.gemoc.executionframework.test.lib.impl.TestModel
 import org.eclipse.gemoc.executionframework.test.lib.impl.TestUtil
 import org.gemoc.execution.feedbackengine.tests.languages.CompiledStateMachines
+import org.gemoc.execution.feedbackengine.tests.languages.InterpretedStateMachines
 import org.gemoc.execution.feedbackengine.tests.util.CSVLine
 import org.gemoc.execution.feedbackengine.tests.wrapper.FeedbackEngineWrapper
 import org.junit.AfterClass
@@ -96,10 +98,10 @@ class FeedbackEngineSm2JavaBenchmarkTests extends AbstractSm2JavaFeedbackEngineR
 		return testGeneric("compiled", compiledEngine, new CompiledStateMachines, plugin, folder, model, scenarioID)
 	}
 
-//	def long testInterpreted(String plugin, String folder, String model) {
-//		val interpretedEngine = new JavaEngineWrapper()
-//		return testGeneric("interpreted", interpretedEngine, new InterpretedStateMachines, plugin, folder, model)
-//	}
+	def long testInterpreted(String plugin, String folder, String model) {
+		val interpretedEngine = new JavaEngineWrapper()
+		return testGeneric("interpreted", interpretedEngine, new InterpretedStateMachines, plugin, folder, model, scenarioID)
+	}
 	def long testNoFeedback(String plugin, String folder, String model, int scenarioID) {
 		val noFeedback = new FeedbackEngineWrapper(true)
 		return testGeneric("noFeedback", noFeedback, new CompiledStateMachines, plugin, folder, model, scenarioID)
@@ -113,7 +115,7 @@ class FeedbackEngineSm2JavaBenchmarkTests extends AbstractSm2JavaFeedbackEngineR
 		line.scenarioID = scenarioID
 
 		line.timeCompiledNoFeedback = testNoFeedback(plugin, folder, model, scenarioID)
-//		line.timeInterpreted = testInterpreted(plugin, folder, model)
+		line.timeInterpreted = testInterpreted(plugin, folder, model)
 		line.timeCompiled = testCompiled(plugin, folder, model, scenarioID)
 
 		outputCSVWriter.println(line.customToString)
