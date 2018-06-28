@@ -74,8 +74,14 @@ abstract class AbstractSm2JavaFeedbackEngineRandomModelsTestSuite {
 	}
 
 	static def void cleanup() {
+		gemocCleanUp()
+		k3CleanUp()
+		xtextCleanUp()
+	}
 
-		// GEMOC cleanup
+	static Set<Map<?, ?>> k3Maps = new HashSet
+
+	static def void gemocCleanUp() {
 		val stoppedEnginesEntries = Activator.getDefault().gemocRunningEngineRegistry.getRunningEngines().entrySet().
 			filter[it.value.getRunningStatus == EngineStatus.RunStatus.Stopped]
 		val resourceSets = new HashSet<ResourceSet>
@@ -92,24 +98,9 @@ abstract class AbstractSm2JavaFeedbackEngineRandomModelsTestSuite {
 		for (resourceSet : resourceSets) {
 			resourceSet.resources.clear
 		}
-
-		// K3 cleanup
-		cleanK3Maps()
-
-		// Xtext cleanup (by reading private fields)
-		val valueCacheField = SimpleAttributeResolver.getDeclaredField("valueCache")
-		val attributeCacheField = SimpleAttributeResolver.getDeclaredField("attributeCache")
-		valueCacheField.accessible = true
-		attributeCacheField.accessible = true
-		val valueCache = valueCacheField.get(SimpleAttributeResolver::NAME_RESOLVER) as SimpleCache<?, ?>
-		val attributeCache = attributeCacheField.get(SimpleAttributeResolver::NAME_RESOLVER) as SimpleCache<?, ?>
-		valueCache.clear
-		attributeCache.clear
 	}
 
-	static Set<Map<?, ?>> k3Maps = new HashSet
-
-	static def void cleanK3Maps() {
+	static def void k3CleanUp() {
 
 		// find all k3 maps
 		if (k3Maps.empty) {
@@ -134,6 +125,17 @@ abstract class AbstractSm2JavaFeedbackEngineRandomModelsTestSuite {
 		for (m : k3Maps) {
 			m.clear
 		}
+	}
+
+	static def void xtextCleanUp() {
+		val valueCacheField = SimpleAttributeResolver.getDeclaredField("valueCache")
+		val attributeCacheField = SimpleAttributeResolver.getDeclaredField("attributeCache")
+		valueCacheField.accessible = true
+		attributeCacheField.accessible = true
+		val valueCache = valueCacheField.get(SimpleAttributeResolver::NAME_RESOLVER) as SimpleCache<?, ?>
+		val attributeCache = attributeCacheField.get(SimpleAttributeResolver::NAME_RESOLVER) as SimpleCache<?, ?>
+		valueCache.clear
+		attributeCache.clear
 	}
 
 	@AfterClass
