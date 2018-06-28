@@ -1,9 +1,17 @@
 package org.gemoc.execution.feedbackengine.tests.sm2java
 
+import java.net.URL
 import java.util.ArrayList
 import java.util.Collection
+import java.util.HashSet
+import java.util.Map
+import java.util.Set
+import org.eclipse.core.runtime.Platform
+import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.gemoc.executionframework.engine.Activator
+import org.eclipse.gemoc.executionframework.test.lib.impl.TestUtil
 import org.eclipse.gemoc.xdsmlframework.api.core.EngineStatus
+import org.junit.AfterClass
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
@@ -32,9 +40,9 @@ abstract class AbstractSm2JavaFeedbackEngineRandomModelsTestSuite {
 
 	@Parameters(name="{1} - scenario {2}")
 	public static def Collection<Object[]> data() {
-		val amountPerSize = 11
-		val nbScenarios = 10
-		val sizes = #[100]
+		val amountPerSize = 1 // real number is 11
+		val nbScenarios = 10 // real number is 10
+		val sizes = #[10] // real list is #[10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
 		val result = new ArrayList<Object[]>
 
 		var first = true
@@ -63,13 +71,15 @@ abstract class AbstractSm2JavaFeedbackEngineRandomModelsTestSuite {
 		genericInternalTest(sm2javaModelsPlugin, '''/models/«size»''', modelFileName, scenarioID)
 	}
 
-	// @After
 	static def void cleanup() {
 
+		// GEMOC cleanup
 		val stoppedEnginesEntries = Activator.getDefault().gemocRunningEngineRegistry.getRunningEngines().entrySet().
 			filter[it.value.getRunningStatus == EngineStatus.RunStatus.Stopped]
+		val resourceSets = new HashSet<ResourceSet>
 		for (stopped : stoppedEnginesEntries) {
 			val resourceSet = stopped.getValue().executionContext.resourceModel.resourceSet
+			resourceSets.add(resourceSet)
 			for (resource : resourceSet.resources) {
 				resource.eAdapters.clear()
 				resource.unload()
@@ -77,6 +87,45 @@ abstract class AbstractSm2JavaFeedbackEngineRandomModelsTestSuite {
 			stopped.getValue().dispose();
 			Activator.getDefault().gemocRunningEngineRegistry.unregisterEngine(stopped.getKey());
 		}
+		for (resourceSet : resourceSets) {
+			resourceSet.resources.clear
+		}
 
+		// K3 cleanup
+		cleanK3Maps()
+	}
+
+	static Set<Map<?, ?>> k3Maps = new HashSet
+
+	static def void cleanK3Maps() {
+
+		// find all k3 maps
+		if (k3Maps.empty) {
+			val bundle = Platform::getBundle("org.tetrabox.minijava.xminijava")
+			val bundleIterator = bundle.findEntries("/", "*Context.class", true)
+			while (bundleIterator.hasMoreElements) {
+				val URL bundleElement = bundleIterator.nextElement
+				val className = bundleElement.file.replaceFirst("/bin/", "").replaceFirst(".class", "").
+					replaceAll("/", ".")
+				val Class<?> c = bundle.loadClass(className)
+				if (c.fields.exists[it.name == "INSTANCE"]) {
+					val instanceField = c.getField("INSTANCE")
+					val instance = instanceField.get(c)
+					val mapGetter = instance.class.methods.findFirst[it.name == "getMap"]
+					val map = mapGetter.invoke(instance) as Map<?, ?>
+					k3Maps.add(map)
+				}
+			}
+		}
+
+		// clear all maps
+		for (m : k3Maps) {
+			m.clear
+		}
+	}
+
+	@AfterClass
+	static def void pause() {
+		TestUtil::waitForJobsThenWindowClosed
 	}
 }
