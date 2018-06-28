@@ -11,6 +11,8 @@ import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.gemoc.executionframework.engine.Activator
 import org.eclipse.gemoc.executionframework.test.lib.impl.TestUtil
 import org.eclipse.gemoc.xdsmlframework.api.core.EngineStatus
+import org.eclipse.xtext.util.SimpleAttributeResolver
+import org.eclipse.xtext.util.SimpleCache
 import org.junit.AfterClass
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -40,9 +42,9 @@ abstract class AbstractSm2JavaFeedbackEngineRandomModelsTestSuite {
 
 	@Parameters(name="{1} - scenario {2}")
 	public static def Collection<Object[]> data() {
-		val amountPerSize = 1 // real number is 11
-		val nbScenarios = 10 // real number is 10
-		val sizes = #[10] // real list is #[10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+		val amountPerSize = 3 // max number is 11
+		val nbScenarios = 3 // max number is 10
+		val sizes = #[20, 30, 40, 50] // real list is #[10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
 		val result = new ArrayList<Object[]>
 
 		var first = true
@@ -93,6 +95,16 @@ abstract class AbstractSm2JavaFeedbackEngineRandomModelsTestSuite {
 
 		// K3 cleanup
 		cleanK3Maps()
+
+		// Xtext cleanup (by reading private fields)
+		val valueCacheField = SimpleAttributeResolver.getDeclaredField("valueCache")
+		val attributeCacheField = SimpleAttributeResolver.getDeclaredField("attributeCache")
+		valueCacheField.accessible = true
+		attributeCacheField.accessible = true
+		val valueCache = valueCacheField.get(SimpleAttributeResolver::NAME_RESOLVER) as SimpleCache<?, ?>
+		val attributeCache = attributeCacheField.get(SimpleAttributeResolver::NAME_RESOLVER) as SimpleCache<?, ?>
+		valueCache.clear
+		attributeCache.clear
 	}
 
 	static Set<Map<?, ?>> k3Maps = new HashSet
