@@ -20,6 +20,7 @@ import org.junit.runners.Parameterized
 import org.junit.runners.Parameterized.Parameters
 
 import static org.gemoc.execution.feedbackengine.tests.Util.*
+import org.eclipse.ui.PlatformUI
 
 @RunWith(Parameterized)
 abstract class AbstractSm2JavaFeedbackEngineRandomModelsTestSuite {
@@ -77,6 +78,7 @@ abstract class AbstractSm2JavaFeedbackEngineRandomModelsTestSuite {
 		gemocCleanUp()
 		k3CleanUp()
 		xtextCleanUp()
+		eclipseCleanUp()
 	}
 
 	static Set<Map<?, ?>> k3Maps = new HashSet
@@ -136,6 +138,12 @@ abstract class AbstractSm2JavaFeedbackEngineRandomModelsTestSuite {
 		val attributeCache = attributeCacheField.get(SimpleAttributeResolver::NAME_RESOLVER) as SimpleCache<?, ?>
 		valueCache.clear
 		attributeCache.clear
+	}
+
+	static def void eclipseCleanUp() {
+		val workbench = (PlatformUI::workbench as org.eclipse.ui.internal.Workbench)
+		val context = workbench.getContext() as org.eclipse.e4.core.internal.contexts.EclipseContext
+		context.cleanup
 	}
 
 	@AfterClass
