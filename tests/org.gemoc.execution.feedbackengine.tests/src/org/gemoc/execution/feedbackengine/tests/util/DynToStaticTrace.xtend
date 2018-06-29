@@ -23,9 +23,13 @@ class DynToStaticTrace {
 			for (tracedObject : trace.tracedObjects.filter(GenericTracedObject)) {
 				if (tracedObject.originalObject !== null) {
 					val obj = tracedObject.originalObject
-
-					val realObject = entrySet.findFirst[it.value === obj].key
-					tracedObject.originalObject = realObject
+					val entry = entrySet.findFirst[it.value === obj]
+					if (entry !== null) {
+						val realObject = entry.key
+						tracedObject.originalObject = realObject
+					} else {
+						tracedObject.originalObject = null
+					}
 
 				}
 			}
