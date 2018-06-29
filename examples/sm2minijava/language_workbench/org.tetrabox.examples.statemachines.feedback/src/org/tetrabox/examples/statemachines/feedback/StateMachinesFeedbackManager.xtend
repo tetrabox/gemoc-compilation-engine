@@ -31,6 +31,7 @@ import org.tetrabox.minijava.xminijava.miniJava.Return
 import org.tetrabox.minijava.xminijava.miniJava.State
 import org.tetrabox.minijava.xminijava.miniJava.Statement
 import org.tetrabox.minijava.xminijava.miniJava.StringValue
+import org.tetrabox.minijava.xminijava.miniJava.SymbolBinding
 
 /**
  * 
@@ -127,7 +128,7 @@ class StateMachinesFeedbackManager implements FeedbackManager {
 				// End of initialize
 				feedbackEngine.feedbackEndStep
 				// Start of run
-				feedbackEngine.feedbackStartStep(sourceModel, "run")
+				feedbackEngine.feedbackStartStep(sourceModel.statemachine, "run")
 			}
 		} else if (targetStep.match("call")) {
 			val targetObject = FrameAspect::findCurrentFrame(targetModelState.rootFrame).instance as ObjectInstance
@@ -136,6 +137,7 @@ class StateMachinesFeedbackManager implements FeedbackManager {
 			val annotatedTargetMethod = Optional::ofNullable(targetMethod.annotatedElements.findFirst [
 				it.annotation.endsWith("_method")
 			])
+
 			if (annotatedTargetMethod.isPresent) {
 				val sourceEvent = annotatedTargetMethod.get.element.sourceElements.get(0) as CustomEvent
 				val sourceState = targetType.sourceElements.
@@ -149,9 +151,15 @@ class StateMachinesFeedbackManager implements FeedbackManager {
 	override processTargetStepEnd(Step<?> targetStep) {
 		if (targetStep.match("run")) {
 			feedbackEngine.feedbackEndStep
-		} else if (targetStep === currentExecuteStep) {
-			feedbackEngine.feedbackEndStep
-			feedbackEngine.feedbackEndStep
+		} else if (targetStep.match("call")) {
+			val targetMethod = targetStep.caller as Method
+			val annotatedStateMachineTargetMethod = Optional::ofNullable(targetMethod.annotatedElements.findFirst [
+				it.annotation == "method"
+			])
+			if (annotatedStateMachineTargetMethod.isPresent) {
+				feedbackEngine.feedbackEndStep
+				feedbackEngine.feedbackEndStep
+			}
 		}
 	}
 
@@ -184,6 +192,18 @@ class StateMachinesFeedbackManager implements FeedbackManager {
 								]
 								sourceModel.statemachine.queue.add(occurrence)
 							}
+						}
+					}
+				}
+
+				// If the "eventName" variable is changed, we remove the corresponding event from the queue
+				if (changedObject instanceof SymbolBinding) {
+					val symbolName = changedObject.symbol.name
+					if (symbolName == "eventName") {
+						val eventName = (changedObject.value as StringValue).value
+						val correspondingEvent = sourceModel.events.findFirst[it.name == eventName]
+						if (sourceModel.statemachine.queue.head.event == correspondingEvent) {
+							sourceModel.statemachine.queue.remove(sourceModel.statemachine.queue.head)
 						}
 					}
 				}
