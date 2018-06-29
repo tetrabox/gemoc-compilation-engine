@@ -1,16 +1,23 @@
 package org.gemoc.execution.feedbackengine.tests.sm2java
 
+import java.io.BufferedReader
+import java.io.InputStreamReader
 import java.net.URL
 import java.util.ArrayList
 import java.util.Collection
 import java.util.HashSet
+import java.util.List
 import java.util.Map
 import java.util.Set
+import java.util.stream.Collectors
 import org.eclipse.core.runtime.Platform
+import org.eclipse.e4.core.internal.contexts.EclipseContext
 import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.gemoc.executionframework.engine.Activator
 import org.eclipse.gemoc.executionframework.test.lib.impl.TestUtil
 import org.eclipse.gemoc.xdsmlframework.api.core.EngineStatus
+import org.eclipse.ui.PlatformUI
+import org.eclipse.ui.internal.Workbench
 import org.eclipse.xtext.util.SimpleAttributeResolver
 import org.eclipse.xtext.util.SimpleCache
 import org.junit.AfterClass
@@ -20,7 +27,6 @@ import org.junit.runners.Parameterized
 import org.junit.runners.Parameterized.Parameters
 
 import static org.gemoc.execution.feedbackengine.tests.Util.*
-import org.eclipse.ui.PlatformUI
 
 @RunWith(Parameterized)
 abstract class AbstractSm2JavaFeedbackEngineRandomModelsTestSuite {
@@ -40,12 +46,23 @@ abstract class AbstractSm2JavaFeedbackEngineRandomModelsTestSuite {
 		this.modelFileName = modelFileName
 		this.scenarioID = scenarioID
 	}
+	
+	protected static def String findScenario(String model, String plugin, String folder, int scenarioID) {
+		val path = model.replace(".xmi", "_scenarios.txt")
+		val scenarioStream = TestUtil::openFileFromPlugin(plugin, folder + "/" + path)
+		
+		val List<String> allScenarios = new BufferedReader(new InputStreamReader(scenarioStream)).lines().collect(
+			Collectors.toList());
+		scenarioStream.close
+		val String scenario = allScenarios.get(scenarioID).replaceAll(",", "\n")
+		scenario
+	}
 
 	@Parameters(name="{1} - scenario {2}")
 	public static def Collection<Object[]> data() {
 		val amountPerSize = 3 // max number is 11
 		val nbScenarios = 3 // max number is 10
-		val sizes = #[20, 30, 40, 50] // real list is #[10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+		val sizes = #[10, 20, 30, 40, 50, 60, 70, 80, 90, 100] // real list is #[10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
 		val result = new ArrayList<Object[]>
 
 		var first = true
@@ -141,8 +158,8 @@ abstract class AbstractSm2JavaFeedbackEngineRandomModelsTestSuite {
 	}
 
 	static def void eclipseCleanUp() {
-		val workbench = (PlatformUI::workbench as org.eclipse.ui.internal.Workbench)
-		val context = workbench.getContext() as org.eclipse.e4.core.internal.contexts.EclipseContext
+		val workbench = (PlatformUI::workbench as Workbench)
+		val context = workbench.getContext() as EclipseContext
 		context.cleanup
 	}
 

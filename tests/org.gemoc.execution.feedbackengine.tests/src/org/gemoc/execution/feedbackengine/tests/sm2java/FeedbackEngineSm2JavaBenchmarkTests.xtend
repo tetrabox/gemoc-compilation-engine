@@ -1,22 +1,18 @@
 package org.gemoc.execution.feedbackengine.tests.sm2java
 
-import java.io.BufferedReader
 import java.io.File
 import java.io.FileOutputStream
-import java.io.InputStreamReader
 import java.io.PrintWriter
 import java.text.SimpleDateFormat
 import java.util.ArrayList
 import java.util.Calendar
 import java.util.List
-import java.util.stream.Collectors
 import org.eclipse.gemoc.execution.sequential.javaengine.tests.wrapper.JavaEngineWrapper
 import org.eclipse.gemoc.executionframework.test.lib.IEngineWrapper
 import org.eclipse.gemoc.executionframework.test.lib.IExecutableModel
 import org.eclipse.gemoc.executionframework.test.lib.ILanguageWrapper
 import org.eclipse.gemoc.executionframework.test.lib.impl.TestHelper
 import org.eclipse.gemoc.executionframework.test.lib.impl.TestModel
-import org.eclipse.gemoc.executionframework.test.lib.impl.TestUtil
 import org.gemoc.execution.feedbackengine.tests.languages.CompiledStateMachines
 import org.gemoc.execution.feedbackengine.tests.languages.InterpretedStateMachines
 import org.gemoc.execution.feedbackengine.tests.util.CSVLine
@@ -74,15 +70,7 @@ class FeedbackEngineSm2JavaBenchmarkTests extends AbstractSm2JavaFeedbackEngineR
 	def long testGeneric(String name, IEngineWrapper engine, ILanguageWrapper language, String plugin, String folder,
 		String model, int scenarioID) {
 
-		// Copy model to execute in WS
-		val path = model.replace(".xmi", "_scenarios.txt")
-		val scenarioStream = TestUtil::openFileFromPlugin(plugin, folder + "/" + path)
-
-		val List<String> allScenarios = new BufferedReader(new InputStreamReader(scenarioStream)).lines().collect(
-			Collectors.toList());
-		scenarioStream.close
-		val String scenario = allScenarios.get(scenarioID).replaceAll(",", "\n")
-
+		val scenario = findScenario(model, plugin, folder, scenarioID)
 		val numbers = runBench(engine, language, new TestModel(plugin, folder, model, scenario, null))
 
 		println('''«name» - «model» - scenario «scenarioID» :''')
@@ -92,6 +80,8 @@ class FeedbackEngineSm2JavaBenchmarkTests extends AbstractSm2JavaFeedbackEngineR
 
 		return median(numbers)
 	}
+	
+	
 
 	def long testCompiled(String plugin, String folder, String model, int scenarioID) {
 		val compiledEngine = new FeedbackEngineWrapper()
