@@ -12,18 +12,21 @@ class FeedbackEngineSm2JavaSimpleTests {
 	@Test
 	def void test1() {
 		TestHelper::testWithoutExtraAddons(new FeedbackEngineWrapper(), new CompiledStateMachines(),
-			new TestModel(sm2javaModelsPlugin, "/models", "test1.xmi", "", "?lang=org.tetrabox.examples.statemachines.CompiledStateMachines"))
+			new TestModel(sm2javaModelsPlugin, "/models", "test1.xmi", "",
+				"?lang=org.tetrabox.examples.statemachines.CompiledStateMachines"))
 	}
-	
+
 	@Test
 	def void test1GenericTrace() {
 		TestHelper::testWithGenericTrace(new FeedbackEngineWrapper(), new CompiledStateMachines(),
-			new TestModel(sm2javaModelsPlugin, "/models", "test1.xmi", "", "?lang=org.tetrabox.examples.statemachines.CompiledStateMachines"))
+			new TestModel(sm2javaModelsPlugin, "/models", "test1.xmi", "",
+				"?lang=org.tetrabox.examples.statemachines.CompiledStateMachines"))
 	}
-	
-		@Test
+
+	@Test
 	def void test2() {
 		TestHelper::testWithoutExtraAddons(new FeedbackEngineWrapper(), new CompiledStateMachines(),
-			new TestModel(sm2javaModelsPlugin, "/models", "test2.xmi", "", "?lang=org.tetrabox.examples.statemachines.CompiledStateMachines"))
+			new TestModel(sm2javaModelsPlugin, "/models", "test2.xmi", "",
+				"?lang=org.tetrabox.examples.statemachines.CompiledStateMachines"))
 	}
 }

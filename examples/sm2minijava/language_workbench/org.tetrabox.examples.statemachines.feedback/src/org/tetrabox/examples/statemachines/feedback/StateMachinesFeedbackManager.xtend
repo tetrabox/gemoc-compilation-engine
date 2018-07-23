@@ -149,7 +149,7 @@ class StateMachinesFeedbackManager implements FeedbackManager {
 	}
 
 	override processTargetStepEnd(Step<?> targetStep) {
-		if (targetStep.match("run")) {
+		if (targetStep.match("main")) {
 			feedbackEngine.feedbackEndStep
 		} else if (targetStep.match("call")) {
 			val targetMethod = targetStep.caller as Method

@@ -6,6 +6,7 @@ class CSVLine {
 	public String modelName = ""
 	public int scenarioID = -1
 	public int modelSize = -1
+	public int amountSteps = -1
 	public Long timeCompiled = new Long(0)
 	public Long timeInterpreted = new Long(0)
 	public Long timeCompiledNoFeedback = new Long(0) 

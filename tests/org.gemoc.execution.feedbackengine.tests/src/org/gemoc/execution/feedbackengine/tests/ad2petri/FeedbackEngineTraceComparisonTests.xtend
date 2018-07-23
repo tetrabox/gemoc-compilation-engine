@@ -4,44 +4,48 @@ import java.util.Collection
 import java.util.HashSet
 import org.eclipse.emf.compare.Diff
 import org.eclipse.emf.compare.ReferenceChange
-import org.eclipse.gemoc.execution.sequential.javaengine.tests.wrapper.JavaEngineWrapper
-import org.eclipse.gemoc.executionframework.test.lib.impl.TestHelper
-import org.eclipse.gemoc.executionframework.test.lib.impl.TestModel
-import org.eclipse.gemoc.trace.commons.EMFCompareUtil
 import org.eclipse.gemoc.trace.commons.model.generictrace.GenericDimension
 import org.eclipse.gemoc.trace.commons.model.generictrace.ManyReferenceValue
+import org.gemoc.execution.feedbackengine.tests.AbstractFeedbackEngineTraceComparisonTestSuite
 import org.gemoc.execution.feedbackengine.tests.languages.CompiledActivityDiagram
 import org.gemoc.execution.feedbackengine.tests.languages.InterpretedActivityDiagram
-import org.gemoc.execution.feedbackengine.tests.util.DynToStaticTrace
-import org.gemoc.execution.feedbackengine.tests.wrapper.FeedbackEngineWrapper
-import org.junit.Assert
+import org.junit.runner.RunWith
+import org.junit.runners.Parameterized
+import org.junit.runners.Parameterized.Parameters
 
-class FeedbackEngineTraceComparisonTests extends AbstractFeedbackEngineRandomModelsTestSuite {
+@RunWith(Parameterized)
+class FeedbackEngineTraceComparisonTests extends AbstractFeedbackEngineTraceComparisonTestSuite {
 
-	new(int size, String model) {
-		super(size, model)
+	new(int size, String model, int scenarioID) {
+		super(size, model, scenarioID)
 	}
 
-	override genericInternalTest(String plugin, String folder, String model) {
-		val engine1 = new FeedbackEngineWrapper()
-		val engine2 = new JavaEngineWrapper()
-		val testmodel = new TestModel(plugin, folder, model, "", null)
-		val testResult1 = TestHelper::testWithGenericTrace(engine1, new CompiledActivityDiagram(), testmodel, true)
-		val testResult2 = TestHelper::testWithGenericTrace(engine2, new InterpretedActivityDiagram(), testmodel, true)
-		DynToStaticTrace::execute(engine1.realEngine, testResult1.trace)
-		DynToStaticTrace::execute(engine2.realEngine, testResult2.trace)
+	@Parameters(name="{1}")
+	public static def Collection<Object[]> data() {
+		return Ad2PetriTestData::data
+	}
 
-		val diffs = EMFCompareUtil::compare(testResult1.trace, testResult2.trace)
-		filterDiffs(diffs)
+	override getSemanticsPlugin() {
+		"fr.inria.diverse.sample.petrinetv1.xdsml.xpetrinetv1"
+	}
 
-		Assert::assertTrue(diffs.empty)
+	override getPluginName() {
+		"org.modelexecution.activitydiagram.generator.test"
+	}
+
+	override getCompiledDSL() {
+		new CompiledActivityDiagram
+	}
+
+	override getInterpretedDSL() {
+		new InterpretedActivityDiagram
 	}
 
 	/**
 	 * Removes the diffs due to a mismatch between token elements,
 	 * as long as the amount of "heldTokens" is the same.
 	 */
-	private static def void filterDiffs(Collection<Diff> diffs) {
+	override filterDiffs(Collection<Diff> diffs) {
 		val toRemove = new HashSet<Diff>
 		for (diff : diffs.filter(ReferenceChange)) {
 			if (diff.reference.name.equals("referenceValues")) {

@@ -19,11 +19,18 @@
     <modeltype id="org.gemoc.activitydiagram.sequential.ad2petri.ActivityDiagramMT" uri="http://org.gemoc.activitydiagram.sequential.ad2petri.activitydiagrammt/"/>
     <modeltype id="org.gemoc.activitydiagram.sequential.ad2petri.CompiledActivityDiagramMT" uri="http://org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagrammt/">
       <subtyping modeltypeId="org.gemoc.activitydiagram.sequential.ad2petri.ActivityDiagramMT"/>
+      <subtyping modeltypeId="org.gemoc.activitydiagram.sequential.ad2petri.InterpretedActivityDiagramMT"/>
+    </modeltype>
+    <modeltype id="org.gemoc.activitydiagram.sequential.ad2petri.InterpretedActivityDiagramMT" uri="http://org.gemoc.activitydiagram.sequential.ad2petri.interpretedactivitydiagrammt/">
+      <subtyping modeltypeId="org.gemoc.activitydiagram.sequential.ad2petri.ActivityDiagramMT"/>
+      <subtyping modeltypeId="org.gemoc.activitydiagram.sequential.ad2petri.CompiledActivityDiagramMT"/>
     </modeltype>
   </extension>
   <extension point="fr.inria.diverse.melange.language">
     <language aspects="" entryPoints="" exactType="org.gemoc.activitydiagram.sequential.ad2petri.ActivityDiagramMT" id="org.gemoc.activitydiagram.sequential.ad2petri.ActivityDiagram" uri="http://activitydiagram/1.0"/>
     <language aspects="FinalNode:org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.aspects.FinalNodeAspect;ActivityEdge:org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.aspects.ActivityEdgeAspect;Activity:org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.aspects.ActivityAspect;InitialNode:org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.aspects.InitialNodeAspect;ActivityNode:org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.aspects.ActivityNodeAspect" entryPoints="org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.aspects.ActivityAspect.main(org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.Activity)" exactType="org.gemoc.activitydiagram.sequential.ad2petri.CompiledActivityDiagramMT" id="org.gemoc.activitydiagram.sequential.ad2petri.CompiledActivityDiagram" uri="http://org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram/activitydiagram/">
+    </language>
+    <language aspects="FinalNode:org.gemoc.activitydiagram.sequential.ad2petri.interpretedactivitydiagram.aspects.FinalNodeAspect;ActivityEdge:org.gemoc.activitydiagram.sequential.ad2petri.interpretedactivitydiagram.aspects.ActivityEdgeAspect;Activity:org.gemoc.activitydiagram.sequential.ad2petri.interpretedactivitydiagram.aspects.ActivityAspect;InitialNode:org.gemoc.activitydiagram.sequential.ad2petri.interpretedactivitydiagram.aspects.InitialNodeAspect;ActivityNode:org.gemoc.activitydiagram.sequential.ad2petri.interpretedactivitydiagram.aspects.ActivityNodeAspect" entryPoints="org.gemoc.activitydiagram.sequential.ad2petri.interpretedactivitydiagram.aspects.ActivityAspect.main(org.gemoc.activitydiagram.sequential.ad2petri.interpretedactivitydiagram.activitydiagram.Activity)" exactType="org.gemoc.activitydiagram.sequential.ad2petri.InterpretedActivityDiagramMT" id="org.gemoc.activitydiagram.sequential.ad2petri.InterpretedActivityDiagram" uri="http://org.gemoc.activitydiagram.sequential.ad2petri.interpretedactivitydiagram/activitydiagram/">
     </language>
   </extension>
 </plugin>

@@ -31,4 +31,10 @@ class StateMachinesCompilerTests {
 	def void test2() {
 		genericTest("test2")
 	}
+
+	@Test
+	def void test3() {
+		genericTest("test3")
+	}
+
 }

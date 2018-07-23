@@ -54,36 +54,13 @@ public class ActivityNodeAspect {
 			command.execute();
 		}
 		;
-	} else if (_self instanceof org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.ActivityFinalNode) {
-		org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.aspects.FinalNodeAspect.execute(
-				(org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.ActivityFinalNode) _self);
-	} else if (_self instanceof org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.FinalNode) {
-		org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.aspects.FinalNodeAspect.execute(
-				(org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.FinalNode) _self);
-	} else if (_self instanceof org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.MergeNode) {
+	} else if (_self instanceof org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.JoinNode) {
 		fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepCommand command = new fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepCommand() {
 			@Override
 			public void execute() {
 				org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.aspects.ActivityNodeAspect
 						._privk3_execute(_self_,
-								(org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.MergeNode) _self);
-			}
-		};
-		fr.inria.diverse.k3.al.annotationprocessor.stepmanager.IStepManager manager = fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepManagerRegistry
-				.getInstance().findStepManager(_self);
-		if (manager != null) {
-			manager.executeStep(_self, command, "ActivityNode", "execute");
-		} else {
-			command.execute();
-		}
-		;
-	} else if (_self instanceof org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.DecisionNode) {
-		fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepCommand command = new fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepCommand() {
-			@Override
-			public void execute() {
-				org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.aspects.ActivityNodeAspect
-						._privk3_execute(_self_,
-								(org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.DecisionNode) _self);
+								(org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.JoinNode) _self);
 			}
 		};
 		fr.inria.diverse.k3.al.annotationprocessor.stepmanager.IStepManager manager = fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepManagerRegistry
@@ -111,13 +88,19 @@ public class ActivityNodeAspect {
 			command.execute();
 		}
 		;
-	} else if (_self instanceof org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.JoinNode) {
+	} else if (_self instanceof org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.InitialNode) {
+		org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.aspects.InitialNodeAspect.execute(
+				(org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.InitialNode) _self);
+	} else if (_self instanceof org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.ActivityFinalNode) {
+		org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.aspects.FinalNodeAspect.execute(
+				(org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.ActivityFinalNode) _self);
+	} else if (_self instanceof org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.DecisionNode) {
 		fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepCommand command = new fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepCommand() {
 			@Override
 			public void execute() {
 				org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.aspects.ActivityNodeAspect
 						._privk3_execute(_self_,
-								(org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.JoinNode) _self);
+								(org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.DecisionNode) _self);
 			}
 		};
 		fr.inria.diverse.k3.al.annotationprocessor.stepmanager.IStepManager manager = fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepManagerRegistry
@@ -128,9 +111,26 @@ public class ActivityNodeAspect {
 			command.execute();
 		}
 		;
-	} else if (_self instanceof org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.InitialNode) {
-		org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.aspects.InitialNodeAspect.execute(
-				(org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.InitialNode) _self);
+	} else if (_self instanceof org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.FinalNode) {
+		org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.aspects.FinalNodeAspect.execute(
+				(org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.FinalNode) _self);
+	} else if (_self instanceof org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.MergeNode) {
+		fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepCommand command = new fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepCommand() {
+			@Override
+			public void execute() {
+				org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.aspects.ActivityNodeAspect
+						._privk3_execute(_self_,
+								(org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.MergeNode) _self);
+			}
+		};
+		fr.inria.diverse.k3.al.annotationprocessor.stepmanager.IStepManager manager = fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepManagerRegistry
+				.getInstance().findStepManager(_self);
+		if (manager != null) {
+			manager.executeStep(_self, command, "ActivityNode", "execute");
+		} else {
+			command.execute();
+		}
+		;
 	} else if (_self instanceof org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.ControlNode) {
 		fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepCommand command = new fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepCommand() {
 			@Override
@@ -248,36 +248,13 @@ public class ActivityNodeAspect {
 			command.execute();
 		}
 		;
-	} else if (_self instanceof org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.ActivityFinalNode) {
-		org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.aspects.FinalNodeAspect.take(
-				(org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.ActivityFinalNode) _self);
-	} else if (_self instanceof org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.FinalNode) {
-		org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.aspects.FinalNodeAspect.take(
-				(org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.FinalNode) _self);
-	} else if (_self instanceof org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.MergeNode) {
+	} else if (_self instanceof org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.JoinNode) {
 		fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepCommand command = new fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepCommand() {
 			@Override
 			public void execute() {
 				org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.aspects.ActivityNodeAspect
 						._privk3_take(_self_,
-								(org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.MergeNode) _self);
-			}
-		};
-		fr.inria.diverse.k3.al.annotationprocessor.stepmanager.IStepManager manager = fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepManagerRegistry
-				.getInstance().findStepManager(_self);
-		if (manager != null) {
-			manager.executeStep(_self, command, "ActivityNode", "take");
-		} else {
-			command.execute();
-		}
-		;
-	} else if (_self instanceof org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.DecisionNode) {
-		fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepCommand command = new fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepCommand() {
-			@Override
-			public void execute() {
-				org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.aspects.ActivityNodeAspect
-						._privk3_take(_self_,
-								(org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.DecisionNode) _self);
+								(org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.JoinNode) _self);
 			}
 		};
 		fr.inria.diverse.k3.al.annotationprocessor.stepmanager.IStepManager manager = fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepManagerRegistry
@@ -305,13 +282,13 @@ public class ActivityNodeAspect {
 			command.execute();
 		}
 		;
-	} else if (_self instanceof org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.JoinNode) {
+	} else if (_self instanceof org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.InitialNode) {
 		fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepCommand command = new fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepCommand() {
 			@Override
 			public void execute() {
 				org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.aspects.ActivityNodeAspect
 						._privk3_take(_self_,
-								(org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.JoinNode) _self);
+								(org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.InitialNode) _self);
 			}
 		};
 		fr.inria.diverse.k3.al.annotationprocessor.stepmanager.IStepManager manager = fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepManagerRegistry
@@ -322,13 +299,36 @@ public class ActivityNodeAspect {
 			command.execute();
 		}
 		;
-	} else if (_self instanceof org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.InitialNode) {
+	} else if (_self instanceof org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.ActivityFinalNode) {
+		org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.aspects.FinalNodeAspect.take(
+				(org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.ActivityFinalNode) _self);
+	} else if (_self instanceof org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.DecisionNode) {
 		fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepCommand command = new fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepCommand() {
 			@Override
 			public void execute() {
 				org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.aspects.ActivityNodeAspect
 						._privk3_take(_self_,
-								(org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.InitialNode) _self);
+								(org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.DecisionNode) _self);
+			}
+		};
+		fr.inria.diverse.k3.al.annotationprocessor.stepmanager.IStepManager manager = fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepManagerRegistry
+				.getInstance().findStepManager(_self);
+		if (manager != null) {
+			manager.executeStep(_self, command, "ActivityNode", "take");
+		} else {
+			command.execute();
+		}
+		;
+	} else if (_self instanceof org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.FinalNode) {
+		org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.aspects.FinalNodeAspect.take(
+				(org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.FinalNode) _self);
+	} else if (_self instanceof org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.MergeNode) {
+		fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepCommand command = new fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepCommand() {
+			@Override
+			public void execute() {
+				org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.aspects.ActivityNodeAspect
+						._privk3_take(_self_,
+								(org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.MergeNode) _self);
 			}
 		};
 		fr.inria.diverse.k3.al.annotationprocessor.stepmanager.IStepManager manager = fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepManagerRegistry
@@ -409,10 +409,26 @@ public class ActivityNodeAspect {
 		result = org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.aspects.ActivityNodeAspect
 				._privk3_isReady(_self_,
 						(org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.Action) _self);
+	} else if (_self instanceof org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.JoinNode) {
+		result = org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.aspects.ActivityNodeAspect
+				._privk3_isReady(_self_,
+						(org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.JoinNode) _self);
+	} else if (_self instanceof org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.ForkNode) {
+		result = org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.aspects.ActivityNodeAspect
+				._privk3_isReady(_self_,
+						(org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.ForkNode) _self);
+	} else if (_self instanceof org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.InitialNode) {
+		result = org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.aspects.InitialNodeAspect
+				.isReady(
+						(org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.InitialNode) _self);
 	} else if (_self instanceof org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.ActivityFinalNode) {
 		result = org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.aspects.ActivityNodeAspect
 				._privk3_isReady(_self_,
 						(org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.ActivityFinalNode) _self);
+	} else if (_self instanceof org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.DecisionNode) {
+		result = org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.aspects.ActivityNodeAspect
+				._privk3_isReady(_self_,
+						(org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.DecisionNode) _self);
 	} else if (_self instanceof org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.FinalNode) {
 		result = org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.aspects.ActivityNodeAspect
 				._privk3_isReady(_self_,
@@ -421,22 +437,6 @@ public class ActivityNodeAspect {
 		result = org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.aspects.ActivityNodeAspect
 				._privk3_isReady(_self_,
 						(org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.MergeNode) _self);
-	} else if (_self instanceof org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.DecisionNode) {
-		result = org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.aspects.ActivityNodeAspect
-				._privk3_isReady(_self_,
-						(org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.DecisionNode) _self);
-	} else if (_self instanceof org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.ForkNode) {
-		result = org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.aspects.ActivityNodeAspect
-				._privk3_isReady(_self_,
-						(org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.ForkNode) _self);
-	} else if (_self instanceof org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.JoinNode) {
-		result = org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.aspects.ActivityNodeAspect
-				._privk3_isReady(_self_,
-						(org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.JoinNode) _self);
-	} else if (_self instanceof org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.InitialNode) {
-		result = org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.aspects.InitialNodeAspect
-				.isReady(
-						(org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.InitialNode) _self);
 	} else if (_self instanceof org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.activitydiagram.ControlNode) {
 		result = org.gemoc.activitydiagram.sequential.ad2petri.compiledactivitydiagram.aspects.ActivityNodeAspect
 				._privk3_isReady(_self_,

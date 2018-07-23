@@ -10,6 +10,7 @@ import org.eclipse.gemoc.trace.commons.model.trace.GenericMSE
 import org.eclipse.gemoc.trace.commons.model.trace.MSEModel
 import org.eclipse.gemoc.trace.commons.model.trace.Trace
 import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine
+import org.eclipse.gemoc.trace.commons.model.trace.TracedObject
 
 class DynToStaticTrace {
 
@@ -23,6 +24,7 @@ class DynToStaticTrace {
 			for (tracedObject : trace.tracedObjects.filter(GenericTracedObject)) {
 				if (tracedObject.originalObject !== null) {
 					val obj = tracedObject.originalObject
+					if (! (obj instanceof TracedObject)) {
 					val entry = entrySet.findFirst[it.value === obj]
 					if (entry !== null) {
 						val realObject = entry.key
@@ -30,7 +32,7 @@ class DynToStaticTrace {
 					} else {
 						tracedObject.originalObject = null
 					}
-
+}
 				}
 			}
 
@@ -46,7 +48,8 @@ class DynToStaticTrace {
 			// Replace "ManyReferenceValue" refs
 			for (ManyReferenceValue manyref : allTraceElements.filter(ManyReferenceValue)) {
 				val objs = manyref.referenceValues
-				for (obj : objs) {
+				val objsToConsider = objs.filter[! (it instanceof TracedObject)].toList
+				for (obj : objsToConsider) {
 					val entry = entrySet.findFirst[it.value === obj]
 					if (entry !== null) {
 						val realObject = entry.key
