@@ -4,9 +4,9 @@ import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
-import org.eclipse.gemoc.xdsmlframework.api.core.IRunConfiguration
+import org.eclipse.gemoc.execution.sequential.javaengine.IK3RunConfiguration
 
-class TargetRunConfiguration implements IRunConfiguration {
+class TargetRunConfiguration implements IK3RunConfiguration {
 
 	val URI staticModelURI
 	val String melangeQuery
@@ -14,6 +14,7 @@ class TargetRunConfiguration implements IRunConfiguration {
 	val String languageName
 	val String initMethod
 	val String initArguments
+
 
 	new(URI staticModelURI, String entryPoint, String languageName, String initMethod, String initArguments) {
 		this.staticModelURI = staticModelURI
@@ -32,9 +33,6 @@ class TargetRunConfiguration implements IRunConfiguration {
 		null;
 	}
 
-	override getDeadlockDetectionDepth() {
-		0;
-	}
 
 	override getEngineAddonExtensions() {
 		#[]

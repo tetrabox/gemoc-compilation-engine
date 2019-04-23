@@ -17,6 +17,7 @@ import org.eclipse.gemoc.executionframework.engine.core.AbstractExecutionEngine
 import org.eclipse.gemoc.executionframework.engine.core.AbstractSequentialExecutionEngine
 import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionContext
 import java.util.List
+import org.eclipse.gemoc.execution.sequential.javaengine.K3RunConfiguration
 
 class FeedbackEngine extends AbstractSequentialExecutionEngine {
 
@@ -80,7 +81,7 @@ class FeedbackEngine extends AbstractSequentialExecutionEngine {
 
 		// Creating the target engine
 		val exeContext = new TargetExecutionContext(targetResource, feedbackConfiguration,
-			executionContext.getRunConfiguration().getModelInitializationArguments())
+			(executionContext.getRunConfiguration() as K3RunConfiguration).getModelInitializationArguments())
 		targetEngine = feedbackConfiguration.createTargetEngine() as AbstractExecutionEngine
 		targetEngine.initialize(exeContext);
 		targetEngine.stopOnAddonError = true;

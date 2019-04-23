@@ -26,6 +26,7 @@ import org.eclipse.gemoc.commons.eclipse.messagingsystem.api.MessagingSystem;
 import org.eclipse.gemoc.commons.eclipse.ui.ViewHelper;
 import org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger;
 import org.eclipse.gemoc.dsl.debug.ide.event.DSLDebugEventDispatcher;
+import org.eclipse.gemoc.execution.sequential.javaengine.K3RunConfiguration;
 import org.eclipse.gemoc.execution.sequential.javaengine.SequentialModelExecutionContext;
 import org.eclipse.gemoc.executionframework.debugger.AbstractGemocDebugger;
 import org.eclipse.gemoc.executionframework.debugger.AnnotationMutableFieldExtractor;
@@ -34,8 +35,7 @@ import org.eclipse.gemoc.executionframework.debugger.IMutableFieldExtractor;
 import org.eclipse.gemoc.executionframework.debugger.IntrospectiveMutableFieldExtractor;
 import org.eclipse.gemoc.executionframework.debugger.OmniscientGenericSequentialModelDebugger;
 import org.eclipse.gemoc.executionframework.engine.commons.EngineContextException;
-import org.eclipse.gemoc.executionframework.engine.commons.ModelExecutionContext;
-import org.eclipse.gemoc.executionframework.engine.ui.commons.RunConfiguration;
+import org.eclipse.gemoc.executionframework.engine.core.RunConfiguration;
 import org.eclipse.gemoc.executionframework.engine.ui.launcher.AbstractSequentialGemocLauncher;
 import org.eclipse.gemoc.executionframework.ui.views.engine.EnginesStatusView;
 import org.eclipse.gemoc.trace.commons.model.launchconfiguration.LaunchConfiguration;
@@ -52,12 +52,11 @@ import org.gemoc.execution.feedbackengine.ui.Activator;
 public class Launcher extends AbstractSequentialGemocLauncher {
 
 	public final static String TYPE_ID = org.gemoc.execution.feedbackengine.ui.Activator.PLUGIN_ID + ".launcher";
-
+	
 	@Override
-	protected IExecutionEngine createExecutionEngine(RunConfiguration runConfiguration, ExecutionMode executionMode)
-			throws CoreException, EngineContextException {
+	protected IExecutionEngine createExecutionEngine(IRunConfiguration runConfiguration, ExecutionMode executionMode) throws EngineContextException {
 		// create and initialize engine
-		ModelExecutionContext executioncontext = new SequentialModelExecutionContext(runConfiguration, executionMode);
+		SequentialModelExecutionContext executioncontext = new SequentialModelExecutionContext(runConfiguration, executionMode);
 		executioncontext.getExecutionPlatform().getModelLoader().setProgressMonitor(this.launchProgressMonitor);
 		executioncontext.initializeResourceModel();
 		FeedbackEngine engine = new FeedbackEngine();
@@ -101,9 +100,9 @@ public class Launcher extends AbstractSequentialGemocLauncher {
 		// we add this dummy break
 		try {
 			if (configuration.getAttribute(RunConfiguration.LAUNCH_BREAK_START, false)) {
-				res.addPredicateBreak(new BiPredicate<IExecutionEngine, Step<?>>() {
+				res.addPredicateBreak(new BiPredicate<IExecutionEngine<?>, Step<?>>() {
 					@Override
-					public boolean test(IExecutionEngine t, Step<?> u) {
+					public boolean test(IExecutionEngine<?> t, Step<?> u) {
 						return true;
 					}
 				});
@@ -143,7 +142,7 @@ public class Launcher extends AbstractSequentialGemocLauncher {
 
 	@Override
 	protected RunConfiguration parseLaunchConfiguration(ILaunchConfiguration configuration) throws CoreException {
-		return new RunConfiguration(configuration);
+		return new K3RunConfiguration(configuration);
 	}
 
 	@Override
@@ -161,7 +160,6 @@ public class Launcher extends AbstractSequentialGemocLauncher {
 
 	}
 
-	@Override
 	public Map<String, Object> parseLaunchConfiguration(LaunchConfiguration launchConfiguration) {
 		Map<String, Object> attributes = new HashMap<>();
 		for (LaunchConfigurationParameter param : launchConfiguration.getParameters()) {
@@ -176,16 +174,16 @@ public class Launcher extends AbstractSequentialGemocLauncher {
 				attributes.put("airdResource", param.getValue());
 			}
 			case LaunchconfigurationPackage.ENTRY_POINT_PARAMETER: {
-				attributes.put(IRunConfiguration.LAUNCH_METHOD_ENTRY_POINT, param.getValue());
+				attributes.put(K3RunConfiguration.LAUNCH_METHOD_ENTRY_POINT, param.getValue());
 			}
 			case LaunchconfigurationPackage.MODEL_ROOT_PARAMETER: {
-				attributes.put(IRunConfiguration.LAUNCH_MODEL_ENTRY_POINT, param.getValue());
+				attributes.put(K3RunConfiguration.LAUNCH_MODEL_ENTRY_POINT, param.getValue());
 			}
 			case LaunchconfigurationPackage.INITIALIZATION_METHOD_PARAMETER: {
-				attributes.put(IRunConfiguration.LAUNCH_INITIALIZATION_METHOD, param.getValue());
+				attributes.put(K3RunConfiguration.LAUNCH_INITIALIZATION_METHOD, param.getValue());
 			}
 			case LaunchconfigurationPackage.INITIALIZATION_ARGUMENTS_PARAMETER: {
-				attributes.put(IRunConfiguration.LAUNCH_INITIALIZATION_ARGUMENTS, param.getValue());
+				attributes.put(K3RunConfiguration.LAUNCH_INITIALIZATION_ARGUMENTS, param.getValue());
 			}
 			case LaunchconfigurationPackage.ADDON_EXTENSION_PARAMETER: {
 				attributes.put(param.getValue(), true);
@@ -194,4 +192,6 @@ public class Launcher extends AbstractSequentialGemocLauncher {
 		}
 		return attributes;
 	}
+
+
 }
