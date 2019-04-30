@@ -7,26 +7,26 @@ import org.gemoc.execution.feedbackengine.tests.wrapper.FeedbackEngineWrapper
 import org.junit.Test
 
 class FeedbackEngineSm2JavaSimpleTests {
-	public static val sm2javaModelsPlugin = "org.tetrabox.examples.statemachines.models"
+	public static val sm2javaModelsPlugin = "org.tetrabox.examples.statemachines.interpreter.test"
 
 	@Test
 	def void test1() {
 		TestHelper::testWithoutExtraAddons(new FeedbackEngineWrapper(), new CompiledStateMachines(),
-			new TestModel(sm2javaModelsPlugin, "/models", "test1.xmi", "",
+			new TestModel(sm2javaModelsPlugin, "/models", "test1.xmi", "x",
 				"?lang=org.tetrabox.examples.statemachines.CompiledStateMachines"))
 	}
 
 	@Test
 	def void test1GenericTrace() {
 		TestHelper::testWithGenericTrace(new FeedbackEngineWrapper(), new CompiledStateMachines(),
-			new TestModel(sm2javaModelsPlugin, "/models", "test1.xmi", "",
+			new TestModel(sm2javaModelsPlugin, "/models", "test1.xmi", "x",
 				"?lang=org.tetrabox.examples.statemachines.CompiledStateMachines"))
 	}
 
 	@Test
 	def void test2() {
 		TestHelper::testWithoutExtraAddons(new FeedbackEngineWrapper(), new CompiledStateMachines(),
-			new TestModel(sm2javaModelsPlugin, "/models", "test2.xmi", "",
+			new TestModel(sm2javaModelsPlugin, "/models", "test2.xmi", "x\ny\nx",
 				"?lang=org.tetrabox.examples.statemachines.CompiledStateMachines"))
 	}
 }
