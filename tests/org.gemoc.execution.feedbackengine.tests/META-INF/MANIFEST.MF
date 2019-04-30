@@ -27,6 +27,7 @@ Require-Bundle: org.eclipse.gemoc.executionframework.test.lib;bundle-version="1.
  org.eclipse.ui;bundle-version="3.109.0",
  org.eclipse.e4.core.contexts;bundle-version="1.6.0",
  org.eclipse.e4.ui.workbench;bundle-version="1.5.1",
- org.tetrabox.examples.statemachines.abstractsyntax;bundle-version="0.1.0"
+ org.tetrabox.examples.statemachines.abstractsyntax;bundle-version="0.1.0",
+ org.eclipse.emf.transaction;bundle-version="1.9.1"
 Automatic-Module-Name: org.gemoc.execution.feedbackengine.tests
 

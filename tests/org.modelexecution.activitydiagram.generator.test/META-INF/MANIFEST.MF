@@ -11,6 +11,7 @@ Require-Bundle: org.modelexecution.activitydiagram.generator;bundle-version="1.0
  com.google.guava,
  org.eclipse.xtext.xbase.lib,
  org.eclipse.xtend.lib,
- org.eclipse.xtend.lib.macro
+ org.eclipse.xtend.lib.macro,
+ org.eclipse.gemoc.execution.sequential.javaengine;bundle-version="4.0.0"
 Automatic-Module-Name: org.modelexecution.activitydiagram.generator.test
 

@@ -4,8 +4,10 @@ import java.util.Collection
 import java.util.HashSet
 import org.eclipse.emf.compare.Diff
 import org.eclipse.emf.compare.ReferenceChange
+import org.eclipse.gemoc.trace.commons.EMFCompareUtil
 import org.eclipse.gemoc.trace.commons.model.generictrace.GenericDimension
 import org.eclipse.gemoc.trace.commons.model.generictrace.ManyReferenceValue
+import org.eclipse.gemoc.trace.commons.model.trace.Trace
 import org.gemoc.execution.feedbackengine.tests.AbstractFeedbackEngineTraceComparisonTestSuite
 import org.gemoc.execution.feedbackengine.tests.languages.CompiledActivityDiagram
 import org.gemoc.execution.feedbackengine.tests.languages.InterpretedActivityDiagram
@@ -45,7 +47,7 @@ class FeedbackEngineTraceComparisonTests extends AbstractFeedbackEngineTraceComp
 	 * Removes the diffs due to a mismatch between token elements,
 	 * as long as the amount of "heldTokens" is the same.
 	 */
-	override filterDiffs(Collection<Diff> diffs) {
+	def filterDiffs(Collection<Diff> diffs) {
 		val toRemove = new HashSet<Diff>
 		for (diff : diffs.filter(ReferenceChange)) {
 			if (diff.reference.name.equals("referenceValues")) {
@@ -63,6 +65,14 @@ class FeedbackEngineTraceComparisonTests extends AbstractFeedbackEngineTraceComp
 		}
 		diffs.removeAll(toRemove)
 
+	}
+
+	override analyze(Trace<?, ?, ?> t1, Trace<?, ?, ?> t2) {
+		val diffs = EMFCompareUtil::compare(t1, t2)
+		filterDiffs(diffs)
+		if (!diffs.empty) {
+			throw new RuntimeException
+		}
 	}
 
 // @AfterClass

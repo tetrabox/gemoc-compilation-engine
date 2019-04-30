@@ -39,7 +39,7 @@ abstract class AbstractFeedbackEngineTestSuite {
 	protected static def Optional<String> findScenario(String model, String plugin, String folder, int scenarioID) {
 		if (scenarioID != -1) {
 			val path = model.replace(".xmi", "_scenarios.txt")
-			val scenarioStream = TestUtil::openFileFromPlugin(plugin, folder + "/" + path)
+			val scenarioStream = Util::openFileFromPlugin(plugin, folder + "/" + path)
 
 			val List<String> allScenarios = new BufferedReader(new InputStreamReader(scenarioStream)).lines().collect(
 				Collectors.toList());

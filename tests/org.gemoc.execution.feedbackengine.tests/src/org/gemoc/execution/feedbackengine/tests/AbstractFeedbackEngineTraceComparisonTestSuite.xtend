@@ -1,15 +1,12 @@
 package org.gemoc.execution.feedbackengine.tests
 
-import java.util.Collection
-import org.eclipse.emf.compare.Diff
 import org.eclipse.gemoc.execution.sequential.javaengine.tests.wrapper.JavaEngineWrapper
 import org.eclipse.gemoc.executionframework.test.lib.ILanguageWrapper
 import org.eclipse.gemoc.executionframework.test.lib.impl.TestHelper
 import org.eclipse.gemoc.executionframework.test.lib.impl.TestModel
-import org.eclipse.gemoc.trace.commons.EMFCompareUtil
+import org.eclipse.gemoc.trace.commons.model.trace.Trace
 import org.gemoc.execution.feedbackengine.tests.util.DynToStaticTrace
 import org.gemoc.execution.feedbackengine.tests.wrapper.FeedbackEngineWrapper
-import org.junit.Assert
 
 abstract class AbstractFeedbackEngineTraceComparisonTestSuite extends AbstractFeedbackEngineTestSuite {
 
@@ -18,9 +15,9 @@ abstract class AbstractFeedbackEngineTraceComparisonTestSuite extends AbstractFe
 	}
 
 	abstract def String getSemanticsPlugin()
-	
-	
+
 	abstract def ILanguageWrapper getCompiledDSL()
+
 	abstract def ILanguageWrapper getInterpretedDSL()
 
 	override genericInternalTest(String plugin, String folder, String model, int scenarioID) {
@@ -34,22 +31,13 @@ abstract class AbstractFeedbackEngineTraceComparisonTestSuite extends AbstractFe
 		DynToStaticTrace::execute(engine1.realEngine, testResult1.trace)
 		DynToStaticTrace::execute(engine2.realEngine, testResult2.trace)
 
-		val diffs = EMFCompareUtil::compare(testResult1.trace, testResult2.trace)
-		filterDiffs(diffs)
+		// Will throw runtime exceptions if differences are found, and make the test fail
+		analyze(testResult1.trace, testResult2.trace)
 
-		Assert::assertTrue(diffs.empty)
-		TestHelper::cleanWorkspace()
+		Util::cleanWorkspace()
 		Util::cleanup(getSemanticsPlugin())
 	}
 
-	/**
-	 * Removes the diffs due to a mismatch between token elements,
-	 * as long as the amount of "heldTokens" is the same.
-	 */
-	abstract def void filterDiffs(Collection<Diff> diffs)
+	def void analyze(Trace<?, ?, ?> t1, Trace<?, ?, ?> t2)
 
-// @AfterClass
-//	static def void pause() {
-//		TestUtil::waitForJobsThenWindowClosed
-//	}
 }

@@ -1,20 +1,30 @@
 package org.gemoc.execution.feedbackengine.tests
 
+import java.io.InputStream
 import java.net.URL
 import java.util.Collection
 import java.util.HashSet
 import java.util.List
 import java.util.Map
 import java.util.Set
+import org.eclipse.core.resources.IFile
+import org.eclipse.core.resources.ResourcesPlugin
+import org.eclipse.core.runtime.FileLocator
+import org.eclipse.core.runtime.IProgressMonitor
+import org.eclipse.core.runtime.Path
 import org.eclipse.core.runtime.Platform
+import org.eclipse.core.runtime.Status
+import org.eclipse.core.runtime.jobs.Job
 import org.eclipse.e4.core.internal.contexts.EclipseContext
 import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.gemoc.executionframework.engine.Activator
+import org.eclipse.gemoc.executionframework.test.lib.impl.TestUtil
 import org.eclipse.gemoc.xdsmlframework.api.core.EngineStatus
 import org.eclipse.ui.PlatformUI
 import org.eclipse.ui.internal.Workbench
 import org.eclipse.xtext.util.SimpleAttributeResolver
 import org.eclipse.xtext.util.SimpleCache
+import org.osgi.framework.Bundle
 
 class Util {
 	public static def Long mean(Collection<Long> values) {
@@ -106,6 +116,32 @@ class Util {
 		val workbench = (PlatformUI::workbench as Workbench)
 		val context = workbench.getContext() as EclipseContext
 		context.cleanup
+	}
+
+	def static cleanWorkspace() {
+		val job = new Job("cleanup workspace") {
+			override protected run(IProgressMonitor m) {
+				for (p : ResourcesPlugin.getWorkspace().getRoot().projects) {
+					p.delete(true, m)
+				}
+				return Status.OK_STATUS
+			}
+		}
+		job.schedule
+		TestUtil::waitForJobs
+	}
+
+	def static InputStream openFileFromPlugin(String pluginName, String pathInPlugin) {
+		val Bundle bundle = Platform::getBundle(pluginName);
+		val path = new Path(pathInPlugin)
+		val InputStream stream = FileLocator::openStream(bundle, path, false);
+		return stream
+	}
+
+	def static copyFileFromPlugin(String pluginName, String pathInPlugin, IFile targetFile, IProgressMonitor m) {
+		val stream = openFileFromPlugin(pluginName, pathInPlugin)
+		targetFile.create(stream, true, m);
+		stream.close
 	}
 
 }
