@@ -15,10 +15,10 @@ import org.eclipse.gemoc.executionframework.test.lib.IExecutableModel
 import org.eclipse.gemoc.execution.sequential.javaengine.IK3RunConfiguration
 
 class FeedbackTestRunConfiguration implements IK3RunConfiguration {
-	private val ILanguageWrapper language
-	private val IExecutableModel model
-	private val Set<String> addonsToLoad
-	private val URI modelURI
+	val ILanguageWrapper language
+	val IExecutableModel model
+	val Set<String> addonsToLoad
+	val URI modelURI
 
 	new(IExecutableModel model, URI modelURI, ILanguageWrapper language, Set<String> addonsToLoad) {
 		this.language = language
@@ -68,7 +68,7 @@ class FeedbackTestRunConfiguration implements IK3RunConfiguration {
 	override getMelangeQuery() {
 		if (model.melangeQuery == null)
 			"?lang=" + languageName
-		 else
+		else
 			model.melangeQuery
 	}
 
