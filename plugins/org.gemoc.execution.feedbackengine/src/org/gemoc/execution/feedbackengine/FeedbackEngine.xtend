@@ -3,6 +3,7 @@ package org.gemoc.execution.feedbackengine
 import fr.inria.diverse.melange.resource.MelangeResource
 import gemoctraceability.GemoctraceabilityFactory
 import gemoctraceability.TraceabilityModel
+import java.util.List
 import java.util.Map
 import org.eclipse.core.runtime.Platform
 import org.eclipse.emf.common.util.URI
@@ -13,11 +14,10 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.emf.edit.command.AddCommand
 import org.eclipse.emf.transaction.util.TransactionUtil
 import org.eclipse.gemoc.dsl.Dsl
+import org.eclipse.gemoc.execution.sequential.javaengine.IK3RunConfiguration
 import org.eclipse.gemoc.executionframework.engine.core.AbstractExecutionEngine
 import org.eclipse.gemoc.executionframework.engine.core.AbstractSequentialExecutionEngine
 import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionContext
-import java.util.List
-import org.eclipse.gemoc.execution.sequential.javaengine.K3RunConfiguration
 
 class FeedbackEngine extends AbstractSequentialExecutionEngine {
 
@@ -81,7 +81,7 @@ class FeedbackEngine extends AbstractSequentialExecutionEngine {
 
 		// Creating the target engine
 		val exeContext = new TargetExecutionContext(targetResource, feedbackConfiguration,
-			(executionContext.getRunConfiguration() as K3RunConfiguration).getModelInitializationArguments())
+			(executionContext.getRunConfiguration() as IK3RunConfiguration).getModelInitializationArguments())
 		targetEngine = feedbackConfiguration.createTargetEngine() as AbstractExecutionEngine
 		targetEngine.initialize(exeContext);
 		targetEngine.stopOnAddonError = true;
