@@ -50,13 +50,13 @@ import org.tetrabox.minijava.xminijava.miniJava.SymbolBinding
  */
 class StateMachinesFeedbackManager implements FeedbackManager {
 
-	private val TraceabilityModel mapping
-	private val FeedbackEngine feedbackEngine
-	private val BatchModelChangeListener listener
-	private val Map<EObject, Set<AnnotatedElement>> efficientAnnotatedMapping = new HashMap
+	val TraceabilityModel mapping
+	val FeedbackEngine feedbackEngine
+	val BatchModelChangeListener listener
+	val Map<EObject, Set<AnnotatedElement>> efficientAnnotatedMapping = new HashMap
 
-	private var State targetModelState
-	private var CustomSystem sourceModel
+	var State targetModelState
+	var CustomSystem sourceModel
 
 	new(TraceabilityModel traceabilityModel, FeedbackEngine feedbackEngine) {
 		this.mapping = traceabilityModel
@@ -109,7 +109,7 @@ class StateMachinesFeedbackManager implements FeedbackManager {
 		return annotatedElement.map[it.link].map[it.targetElements].flatten.toSet
 	}
 
-	var Step<?> currentExecuteStep
+	var Transition firedTransition
 
 	override processTargetStepStart(Step<?> targetStep) {
 		if (targetStep.match("initialize")) {
@@ -121,6 +121,7 @@ class StateMachinesFeedbackManager implements FeedbackManager {
 				val candidateTransition = targetStatement.expression.sourceElements.head
 				if (candidateTransition !== null) {
 					if (candidateTransition instanceof Transition) {
+						firedTransition = candidateTransition
 						feedbackEngine.feedbackStartStep(candidateTransition, "fire")
 					}
 				}
@@ -142,7 +143,6 @@ class StateMachinesFeedbackManager implements FeedbackManager {
 				val sourceEvent = annotatedTargetMethod.get.element.sourceElements.get(0) as CustomEvent
 				val sourceState = targetType.sourceElements.
 					head as org.tetrabox.examples.statemachines.compiledstatemachines.statemachines.almostuml.State
-				currentExecuteStep = targetStep
 				feedbackEngine.feedbackStartStep(sourceState, "handle", #[sourceEvent])
 			}
 		}
@@ -150,6 +150,7 @@ class StateMachinesFeedbackManager implements FeedbackManager {
 
 	override processTargetStepEnd(Step<?> targetStep) {
 		if (targetStep.match("main")) {
+			// End of run
 			feedbackEngine.feedbackEndStep
 		} else if (targetStep.match("call")) {
 			val targetMethod = targetStep.caller as Method
@@ -157,9 +158,15 @@ class StateMachinesFeedbackManager implements FeedbackManager {
 				it.annotation == "method"
 			])
 			if (annotatedStateMachineTargetMethod.isPresent) {
-				feedbackEngine.feedbackEndStep
+				if (firedTransition !== null) {
+					// End of fire
+					feedbackEngine.feedbackEndStep
+					firedTransition = null
+				}
+				// End of handle
 				feedbackEngine.feedbackEndStep
 			}
+
 		}
 	}
 
